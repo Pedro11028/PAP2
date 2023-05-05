@@ -5,7 +5,7 @@
       var password= $('#password').val();
       
       if (email=="" || email.indexOf('@') < 0 || email.indexOf('.') < 0) {
-
+          alert('Por favor digite os dados corretamente!');
       }else{
 
       $.ajax({
@@ -19,14 +19,15 @@
           cache: false,
           dataType: 'json',
           success: function(resposta) {
-            if (resposta== false) {
+            if (resposta[0]== "false") {
               alert("Email ou password incorretos!");
             }else{
                 criarCookie(resposta);
-                window.location.href="index.php";
+                location.href="index.php";
             }
           }
       });
+      return false;
       }
   });
 });

@@ -1,5 +1,5 @@
 <?php
-require 'Domain/utilizadorLogin.php';
+require 'Domain/utilizador.php';
 
 switch ($_POST['accao'])
 {
@@ -16,7 +16,7 @@ function login($email,$password){
     try {
         // Do your stuff  
         $utilizador = new Utilizador();
-        $obterUtilizador = $utilizador->UtilizadorEValido($email,$password);      
+        $obterUtilizador = $utilizador->EValido($email,$password);      
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok', true, 200);
         echo json_encode($obterUtilizador);
         return;

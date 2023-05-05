@@ -28,7 +28,7 @@
 
     		<li id="dropUtilizador" class="direita"><a id="nomeUtilizador"></a>
     			<ul id="dropUtilizador" class="dropar">
-    				<li><a id="dropUtilizador" class="dropContent" href="perfil.html"> <i class="fa-solid fa-user"></i> Perfil</a></li>
+    				<li><a id="dropUtilizador" class="dropContent" href="perfil.php"> <i class="fa-solid fa-user"></i> Perfil</a></li>
     				<li><a id="dropUtilizador" class="dropContent" href="Logout.html"> <i class="fa-solid fa-arrow-right-from-bracket"></i> Sair </a></li>
     			</ul>
     		</li>

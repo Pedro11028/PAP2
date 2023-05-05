@@ -15,11 +15,17 @@ input:-webkit-autofill:active{
 form {
     height: 380px;
     width: 400px;
-    margin: 60px auto;
     color: #A4B2B8;
     border-radius: 8px;
-    background: #1E272B
-;
+    background: #1E272B;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
 }
 
 h2{
@@ -64,7 +70,9 @@ input[type="text"]{
 
 
 
-.log-sign{text-align: center;}
+.log-sign{
+    text-align: center;
+}
 .signup,
 .login{
     padding: 10px;

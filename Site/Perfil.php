@@ -113,7 +113,7 @@ include "menuFooter/menu.php";
 
 <div class='Informações'>
     <div class="borderFront">
-        <img id='imgPerfil' <?php echo("src='$data[imagemPerfil]'") ?>>
+        <img id='imgPerfil' src=''></img>
         <button class='changeImg' onclick="openForm()">Alterar Imagem</button>
     </div>
     <div>
@@ -123,15 +123,15 @@ include "menuFooter/menu.php";
         <form action="" method="POST">
             <div class="input-info">
                 <label class="form-label">Nome Utilizador</label> <p>
-                <input type="text" required="required" name="nome" <?php echo("value='$data[nomeCompleto]'") ?>>
-                <button class="button" name="alterarNome">Mudar Nome</button>
+                <input type="text" required="required" name="nome" value=''>
+                <button id="mudarNome" class="button" name="alterarNome">Mudar Nome</button>
             </div>
         </form>
     </div>
     <div>
             <div class="input-info">
-                <label class="form-label">Password Utilizador</label><p>
-                <input type="password" name="password" <?php echo("value='$data[password]'") ?> readonly>&nbsp
+                <label class="form-label">Email</label><p>
+                <input type="password" name="password" value='' readonly>&nbsp
                 <a href="renamePass.php" > <button class="button">Mudar password</button> </a>
             </div>
     </div>
@@ -145,7 +145,7 @@ include "menuFooter/menu.php";
                 </tr>
                 <tr>
                   <td>
-                     <label> <?php echo("$data[quizzCriados]") ?>&nbsp </label>
+                     <label> </label>
                   </td>
                 </tr>
             </table>
@@ -161,7 +161,7 @@ include "menuFooter/menu.php";
                 </tr>
                 <tr>
                   <td>
-                     <label> <?php echo("$data[quizzesRealizados]") ?>&nbsp </label>
+                     <label>  </label>
                   </td>
                 </tr>
             </table>
@@ -177,7 +177,7 @@ include "menuFooter/menu.php";
                 </tr>
                 <tr>
                   <td>
-                     <label> <?php echo("$data[num_avaliações]") ?>&nbsp </label>
+                     <label>  </label>
                   </td>
                 </tr>
             </table>
@@ -203,7 +203,7 @@ include "menuFooter/menu.php";
 <div class="outCloseForm" id="showBackground">
     <div class='imagensPopUp' id="showForm">
         <div class="borderFront">
-            <img id='imgPerfil' <?php echo("src='$data[imagemPerfil]'") ?>>
+            <img id='imgPerfil'>
             &nbsp&nbsp&nbsp
             <span  style="vertical-align: top;">Imagem Atual</span>
         </div>
@@ -213,33 +213,8 @@ include "menuFooter/menu.php";
         <br>
 
         <form action="" method="POST">
-        <div class="borderFront">
-
-            <?php if($nivel>='1'):?>
-                <input class="radio" type="radio" id="imgRoblox" name="groupOfimages" value="0"> 
-
-                <label for="imgRoblox">
-                    <img id='imgPerfil' src='img/Roblox.jpg'>
-                </label>
-                &nbsp&nbsp&nbsp
-            <?php else: ?>
-                <img id='imgPerfil' src='img/Cadeado.png'>
-                &nbsp&nbsp&nbsp
-            <?php endif; ?>
-                
-            <?php if($nivel>='2'):?>
-                <input class="radio" type="radio" id="imgLOL" name="groupOfimages" value="0"> 
-
-                <label for="imgLOL">
-                    <img id='imgPerfil' src='img/LOL.jpg'>
-                </label>
-                &nbsp&nbsp&nbsp
-            <?php else: ?>
-                <img id='imgPerfil' src='img/Cadeado.png'>
-                &nbsp&nbsp&nbsp
-            <?php endif; ?>
-
-        </div>
+        
+    
         </form>
         <div class="borderFront">
             <button class='changeImg' onclick="closeForm()">Cancelar</button>

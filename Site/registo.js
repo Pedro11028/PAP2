@@ -24,23 +24,28 @@ $(document).ready(function() {
                     dataType: 'json',
                     success: function(resposta) {
                         console.log("../API/registoApi.php resposta=",resposta);
-                        if (resposta== 1) {
-                            criarCookie(nomeUnico);
+                        if (resposta['confirmarExiste']== "true") {
+                            criarCookie(resposta);
                             location.href="index.php";
                         }else{
                             alert("Email ou password incorretos!");
                         }
+                        
                     }
             });
+            
+      return false;
      });
  });
 
 
- function criarCookie(nomeUnico) { 
+ function criarCookie(resposta) { 
     var hoje = new Date();
-    var tempo = hoje.getTime()+ 1000*36000;
-    hoje.setTime(tempo);
-
-    document.cookie = "nomeCookie= "+nomeUnico+';expires='+hoje.toUTCString()+"; secure"+';path=/';
-
+    var tempo = hoje.getTime();
+    var expirarCookie = tempo + 1000*36000;       
+    hoje.setTime(expirarCookie);
+  
+    document.cookie = "idCookie= "+resposta['Id_utilizador']+';expires='+hoje.toUTCString()+"; secure=true"+';path=/';
+    document.cookie = "permissaoCookie= "+resposta['permissao']+';expires='+hoje.toUTCString()+"; secure"+';path=/';
+    document.cookie = "nomeCookie= "+resposta['nomeUnico']+';expires='+hoje.toUTCString()+"; secure"+';path=/';
   }

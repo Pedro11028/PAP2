@@ -1,117 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
-* {
-    margin: 0 auto;
-    box-sizing: border-box;
-    font-family: 'Open Sans', sans-serif;
-  }
-
-nav {
-    margin: 0 auto;
-    background: black;
-    box-shadow:0 3px 15px rgba(0,0,0,.15);
-}
-
-nav::after {
-    display: block;
-    content: '';
-    clear: both;
-}
-
-nav ul {
-    padding: 0;
+*{
     margin: 0;
-    list-style: none;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-nav ul li {
-    float: left;
-    position: relative;
+body{
+    font-family: 'Poppins', sans-serif;
+    background-color: aliceblue;
 }
 
-nav ul li a {
+.wrapper{
+    padding: 30px 50px;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    margin: 10px auto;
+    max-width: 600px;
+}
+h4{
+    letter-spacing: -1px;
+    font-weight: 400;
+}
+.img{
+    width: 70px;
+    height: 70px;
+    border-radius: 6px;
+    object-fit: cover;
+}
+#img-section p,#deactivate p{
+    font-size: 12px;
+    color: #777;
+    margin-bottom: 10px;
+    text-align: justify;
+}
+#img-section b,#img-section button,#deactivate b{
+    font-size: 14px; 
+}
+
+label{
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #777;
+    padding-left: 3px;
+}
+
+.form-control{
+    border-radius: 10px;
+}
+
+input[placeholder]{
+    font-weight: 500;
+}
+.form-control:focus{
+    box-shadow: none;
+    border: 1.5px solid #0779e4;
+}
+select{
     display: block;
-    color: blue;
-    text-decoration: none;
-    padding: 1rem 2rem;
-    color:white;
-    border-radius: 24px;
-    transition: 0.5s;
-    text-align: right;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    height: 40px;
+    padding: 5px 10px;
+    /* -webkit-appearance: none; */
 }
 
-nav li:hover ul, .menu li.over ul{
-    display:block;
+select:focus{
+    outline: none;
 }
-
-nav ul li a:hover {
-    color: rgb(24, 139, 233);
+.button{
+    background-color: #fff;
+    color: #0779e4;
 }
-
-nav li ul li{
-    background-color: black;
-    display:block;
-    width:123px;
-    color:white;
-    align: right;
+.button:hover{
+    background-color: #0779e4;
+    color: #fff;
 }
-
-
-.dropar {
-    display: none;
-    position: absolute;
-    background: #fff;
+.btn-primary{
+    background-color: #0779e4;
 }
-
-.direita{
-    float: right;
-    width:123px;
+.danger{
+    background-color: #fff;
+    color: #e20404;
+    border: 1px solid #ddd;
 }
-
-
-.dropar {
-    display: none;
-    position: absolute;
-    background: #fff;
-    text-align: center;
+.danger:hover{
+    background-color: #e20404;
+    color: #fff;
 }
-.colorBlack{
-    color: black;
-}
-
-.direita{
-    float: right;
-    margin-right: 0px;
-    width:123px;
-}
-
-#imgPerfil{
-    border: #CCF solid 4px;
-    padding: 1px;
-    border-radius: 70%;
-    border-top-color: #0000FF;
-    border-left-color: #0000FF;
-    width: 100px;
-    height: 100px;
-
-}
-
-.divPosition{
-    border-style: solid;
-    border-color: coral;
-    position: left;
-    width: 30%;
-    height: 110px;
-}
-
-.Informações{
-    width: 560px;
-    padding: 1rem;
-    background-color: white;
-    border-radius: 5%;
-}
-
-.borderFront{
-    position:relative;
+@media(max-width:576px){
+    .wrapper{
+        padding: 25px 20px;
+    }
+    #deactivate{
+        line-height: 18px;
+    }
 }
 
 .changeImg{
@@ -210,6 +195,9 @@ th{
     border: 1px solid #435688;
     outline: none;
     background: white;
+    position: relative;
+    top:2px;
+    left: 10%;
 }
 
 .button:hover{
@@ -272,3 +260,4 @@ body{
   width: 25px;
   cursor:pointer;
 }
+

@@ -6,6 +6,8 @@
     text-align: center;
     font: normal 16px sans-serif;
     padding: 45px 50px;
+    position:absolute;
+    top:100%;
  }
  
  .footer-distributed .footer-center p {

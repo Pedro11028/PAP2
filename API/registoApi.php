@@ -1,5 +1,5 @@
 <?php
-require 'Domain/utilizadorRegisto.php';
+require 'Domain/Utilizador.php';
 
 switch ($_POST['accao'])
 {
@@ -16,9 +16,16 @@ function registo($nomeCompleto,$nomeUnico,$email,$password){
     try {
         // Do your stuff  
         $utilizador = new Utilizador();
-        $obterUtilizador = $utilizador->UtilizadorGuardarConfirmar($nomeCompleto, $nomeUnico, $email, $password);     
+        $guardarUtilizador = $utilizador->Guardar($nomeCompleto, $nomeUnico, $email, $password);     
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok', true, 200);
-        echo $obterUtilizador;
+
+        if ($guardarUtilizador[0] == "true"){
+            $obterUtilizador = $utilizador->EValido($email, $password);     
+            header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok', true, 200);
+            echo json_encode($obterUtilizador);
+        }else{
+            echo json_encode($guardarUtilizador);
+        }
         return;
     } catch (Exception $e) {
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Internal Server Error', true, 500);
