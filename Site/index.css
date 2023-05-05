@@ -1,0 +1,50 @@
+
+input[type="text"] {
+   position: relative;
+   top: 10px;
+   left: 30px;
+   border: 1px solid #828999;
+   padding: 6px;
+   border-radius: 5px;
+   width: 80%;
+   outline: none;
+   text-indent: 10px;
+}
+
+.barraPesquisa{
+   position: relative;
+   top: 10px;
+   left: 30px;
+   border: 1px solid #828999;
+   padding: 6px;
+   border-radius: 5px;
+   width: 80%;
+   outline: none;
+   text-indent: 10px;
+}
+
+.search{
+   position: relative;
+   top: 13px;
+   width: 200%;
+   height: 25%;
+   transition: 0.5s;
+   outline: none;
+   background: none;
+   border:none;
+   color:white;
+   cursor: pointer;
+}
+
+.search:hover{
+   font-size: 120%;
+   top: 13px;
+   left: -4px;
+}
+
+.criarQuizz{
+   position: relative;
+   left:30px;
+}
+
+

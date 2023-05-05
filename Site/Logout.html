@@ -1,0 +1,22 @@
+<script>
+
+  var hoje = new Date();
+  hoje.setMonth( hoje.getMonth() - 1 );
+  
+  document.cookie = "idCookie= "+document.cookie.indexOf('idCookie')
+                   +';expires='+hoje.toUTCString()
+                   +"; secure=true"
+                   +';path=/';
+
+  document.cookie = "permissaoCookie= "+document.cookie.indexOf('permissaoCookie')
+                   +';expires='+hoje.toUTCString()
+                   +"; secure"
+                   +';path=/';
+
+  document.cookie = "nomeCookie= "+document.cookie.indexOf('nomeCookie')
+                   +';expires='+hoje.toUTCString()
+                   +"; secure"
+                   +';path=/';
+
+  window.location.href="index.php";
+</script>

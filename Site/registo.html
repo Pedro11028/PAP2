@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Language Quizz- registro</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>"></script>
+    <link rel="stylesheet" type="text/css" href="registo.css">
+
+</head>
+<body>
+    <script>
+        if (document.cookie.indexOf('idCookie') > -1 ) {
+            window.history.go(-1)
+        }
+    </script>
+<form> 
+    <br><br>
+    <center>
+        <h2>Criar uma Conta</h2>
+    </center>
+
+    <div class="input-info">
+
+        <br>
+            <input class="nomeInteiro" type="text" required="required" placeholder="Primeiro Nome" id="primeiroNome">
+            <input class="nomeInteiro" type="text" required="required" placeholder="Sobrenome" id="sobrenome">
+        <br>
+        <br>
+            <input type="text" required="required" placeholder="Nome Único" id="nomeUnico">
+        <br>
+        <br>
+            <input type="email" placeholder="E-mail" required autocomplete="off" validate id="email">
+        <br>
+        <br>
+            <input type="password" placeholder="Password" id="password" autocomplete="on" required="required">
+        <div class="log-sign">
+        <br>
+        <div class="log-sign">
+            <button id="submit" class="login" type="button" name="submit">
+                 Registar
+            </button>
+            
+            <a href="index.php">
+                <button class="voltar" style="align-content: center;" form="voltarform">
+                    Cancelar
+                </button>
+            </a>
+    
+        </div>
+        </div>
+            
+    </div>
+    <a href="login.html">Já tem uma conta?</a>
+   
+    </form>
+        
+
+</form>
+<script src="registo.js"></script>
+</body>
+</html>
