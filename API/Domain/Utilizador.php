@@ -59,4 +59,45 @@ class Utilizador {
             return $false;
         }
     }
+
+    function Eliminar($password,$confirmarPass,$Id_utilizador){
+
+        $conexao = new Conexao();
+        
+        $stmt = $conexao->runQuery('SELECT * FROM utilizadores WHERE Id_utilizador = :Id_utilizador');
+        $stmt->execute(array(':Id_utilizador' => $Id_utilizador));
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($data === false) {
+            return "nulo";
+        }else{
+
+            if($password == $confirmarPass){
+
+                if ($data['password'] == $password) {
+
+                    try{
+                        
+                        $sql = 'DELETE FROM utilizadores WHERE Id_utilizador = :Id_utilizador';
+                        $stmt= $conexao->runQuery($sql);
+                        $stmt->bindParam(':Id_utilizador', $Id_utilizador);
+                        $stmt->execute();
+
+                        return "true";
+                    }catch(PDOExtrueception $e){
+                        return "erroSemResposta";
+                    }
+        
+                    
+                }else{
+                    return "passwordNaoExiste";
+                }
+            }else{
+                return "passwordsNaoCorrespondem";
+            }
+        }
+
+
+    }
+
   }

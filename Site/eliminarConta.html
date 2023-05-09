@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Language Quizz- Login</title>
+      <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <link rel="stylesheet" href="login.css">
+
+</head>
+<body>
+<script>
+    if (document.cookie.indexOf('idCookie') > -1 ) {
+        
+    }else{
+      window.history.go(-1)
+    }
+</script>
+
+<form>
+    <br>
+    <br>
+    <br>
+    <center>
+        <h2>Eliminar Conta</h2>
+    </center>
+    
+    <div class="input-info">
+
+        <p id="erroValidar"></p>
+        <input type="password" placeholder="Password" id="password" autocomplete="on" required="required">
+        <br>
+        <br>
+            <input type="password" placeholder="Confirmar Password" id="confirmarPass" autocomplete="on" required="required">
+        <div class="log-sign">
+          <br>
+          <br>
+      
+    <div class="log-sign">
+        <button id="submit" class="login" name="submit">
+             Eliminar
+        </button>
+        
+        <a href="perfil.php">
+            <button class="voltar" style="align-content: center;" form="voltarform">
+                Cancelar
+            </button>
+        </a>
+
+    </div>
+    </div>
+
+    <br><br>
+
+
+</form>
+
+<script src="eliminarConta.js"></script>
+
+</body>
+</html>

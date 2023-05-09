@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 20-Abr-2023 às 17:52
+-- Tempo de geração: 08-Maio-2023 às 17:46
 -- Versão do servidor: 10.4.21-MariaDB
 -- versão do PHP: 8.0.11
 
@@ -24,34 +24,57 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `avaliacoes`
+-- Estrutura da tabela `avaliacao`
 --
 
-CREATE TABLE `avaliacoes` (
+CREATE TABLE `avaliacao` (
   `Id_avaliacao` int(11) NOT NULL,
-  `Id_utilizador` int(11) DEFAULT NULL,
-  `Id_quizz` int(11) DEFAULT NULL,
-  `pontuacao` int(11) DEFAULT NULL,
-  `texto` varchar(250) DEFAULT NULL,
-  `num_likes` int(11) DEFAULT NULL,
-  `num_deslikes` int(11) DEFAULT NULL
+  `Id_utilizador` int(11) NOT NULL,
+  `Id_quizz` int(11) NOT NULL,
+  `textoAvaliacao` varchar(250) DEFAULT NULL,
+  `nota` int(1) DEFAULT NULL,
+  `gosto` int(11) DEFAULT NULL,
+  `naoGosto` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `perguntasquizz`
+-- Estrutura da tabela `imagem_questao`
 --
 
-CREATE TABLE `perguntasquizz` (
-  `Id_pergunta` int(11) NOT NULL,
+CREATE TABLE `imagem_questao` (
+  `Id_imagemQuestao` int(11) NOT NULL,
+  `Id_questao` int(11) NOT NULL,
+  `imagemQuestao` varchar(250) DEFAULT NULL,
+  `larguraImagem` varchar(5) DEFAULT NULL,
+  `alturaImagem` varchar(5) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `noficacoes`
+--
+
+CREATE TABLE `noficacoes` (
+  `Id_notificacao` int(11) NOT NULL,
+  `Id_utilizador` int(11) NOT NULL,
+  `texto` varchar(250) DEFAULT NULL,
+  `tipo` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `questoes`
+--
+
+CREATE TABLE `questoes` (
+  `Id_questao` int(11) NOT NULL,
   `Id_quizz` int(11) NOT NULL,
-  `questao` varchar(250) DEFAULT NULL,
-  `respostaCorreta` varchar(250) DEFAULT NULL,
-  `resErrada_1` varchar(250) DEFAULT NULL,
-  `resErrada_2` varchar(250) DEFAULT NULL,
-  `resErrada_3` varchar(250) DEFAULT NULL,
-  `imagem` varchar(250) DEFAULT NULL
+  `nomeQuestao` varchar(20) DEFAULT NULL,
+  `textoQuestao` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -63,11 +86,36 @@ CREATE TABLE `perguntasquizz` (
 CREATE TABLE `quizzes` (
   `Id_quizz` int(11) NOT NULL,
   `Id_utilizador` int(11) NOT NULL,
-  `nome` varchar(60) DEFAULT NULL,
-  `tipo` varchar(40) DEFAULT NULL,
-  `Data_criação` date DEFAULT NULL,
-  `qualificação` int(11) DEFAULT NULL,
-  `quant_avaliacoes` int(11) DEFAULT NULL
+  `nomeQuizz` varchar(40) DEFAULT NULL,
+  `categoria` varchar(40) DEFAULT NULL,
+  `escolaridade` varchar(20) DEFAULT NULL,
+  `tema` varchar(250) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `quizzes_respondidos`
+--
+
+CREATE TABLE `quizzes_respondidos` (
+  `Id_quizzRespondido` int(11) NOT NULL,
+  `Id_utilizador` int(11) NOT NULL,
+  `Id_quizz` int(11) NOT NULL,
+  `valorAdquirido` int(3) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `respostas`
+--
+
+CREATE TABLE `respostas` (
+  `Id_resposta` int(11) NOT NULL,
+  `Id_questao` int(11) NOT NULL,
+  `respostaQuizz` varchar(250) DEFAULT NULL,
+  `valorResposta` int(3) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -78,45 +126,56 @@ CREATE TABLE `quizzes` (
 
 CREATE TABLE `utilizadores` (
   `Id_utilizador` int(11) NOT NULL,
-  `nome` varchar(60) DEFAULT NULL,
-  `email` varchar(60) DEFAULT NULL,
-  `password` varchar(60) DEFAULT NULL,
-  `quizzCriados` int(6) DEFAULT 0,
+  `nomeCompleto` varchar(60) DEFAULT NULL,
+  `nomeUnico` varchar(60) DEFAULT NULL,
+  `email` varchar(250) DEFAULT NULL,
+  `password` varchar(120) DEFAULT NULL,
+  `imagemPerfil` varchar(250) DEFAULT NULL,
+  `dataBan` date DEFAULT NULL,
   `pontuacao` int(11) DEFAULT 0,
-  `quizzesRealizados` int(6) DEFAULT 0,
-  `num_avaliações` int(11) DEFAULT 0,
-  `imagemPerfil` varchar(250) NOT NULL,
-  `nomeUnico` varchar(20) NOT NULL,
-  `Permissao` int(1) NOT NULL DEFAULT 0
+  `permissao` varchar(12) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Extraindo dados da tabela `utilizadores`
 --
 
-INSERT INTO `utilizadores` (`Id_utilizador`, `nome`, `email`, `password`, `quizzCriados`, `pontuacao`, `quizzesRealizados`, `num_avaliações`, `imagemPerfil`, `nomeUnico`, `Permissao`) VALUES
-(1, 'Pedro Oliveira', 'pedro@gmail.com', '12345678', 0, 200, 0, 0, 'img/testes.jpg', 'pedr0siris', 1),
-(22, 'bbb bbb', 'aaa@aaa.com', 'qwas1234', 0, 200, 0, 0, 'img/perfilPadrao.png', 'aaa', 0),
-(23, 'aaa', 'aaa@bbb.com', '12345678', 0, 0, 0, 0, 'img/perfilPadrao.png', 'bbb aaa', 0),
-(25, 'Pedro Oliveira', 'pedro@aaa.com', '12345678', 0, 200, 0, 0, 'img/perfilPadrao.png', 'Pedraaa', 0);
+INSERT INTO `utilizadores` (`Id_utilizador`, `nomeCompleto`, `nomeUnico`, `email`, `password`, `imagemPerfil`, `dataBan`, `pontuacao`, `permissao`) VALUES
+(338, 'Pedro Oliveira', 'Pedr0siris', 'pedro@gmail.com', 'qaws1234', 'img/perfilPadrao.png', NULL, 0, 'utilizador'),
+(341, 'aaa aaa', 'aaa', 'aaa@aaa.com', 'aaaaaaaa', 'img/perfilPadrao.png', NULL, 0, 'utilizador'),
+(342, 'aaa aaa', 'aaabbb', 'aaa@bbb.com', 'aaabbbsa', 'img/perfilPadrao.png', NULL, 0, 'utilizador');
 
 --
 -- Índices para tabelas despejadas
 --
 
 --
--- Índices para tabela `avaliacoes`
+-- Índices para tabela `avaliacao`
 --
-ALTER TABLE `avaliacoes`
-  ADD PRIMARY KEY (`Id_avaliacao`),
+ALTER TABLE `avaliacao`
+  ADD PRIMARY KEY (`Id_avaliacao`,`Id_utilizador`,`Id_quizz`),
   ADD KEY `Id_utilizador` (`Id_utilizador`),
   ADD KEY `Id_quizz` (`Id_quizz`);
 
 --
--- Índices para tabela `perguntasquizz`
+-- Índices para tabela `imagem_questao`
 --
-ALTER TABLE `perguntasquizz`
-  ADD PRIMARY KEY (`Id_pergunta`,`Id_quizz`),
+ALTER TABLE `imagem_questao`
+  ADD PRIMARY KEY (`Id_imagemQuestao`,`Id_questao`),
+  ADD KEY `Id_questao` (`Id_questao`);
+
+--
+-- Índices para tabela `noficacoes`
+--
+ALTER TABLE `noficacoes`
+  ADD PRIMARY KEY (`Id_notificacao`,`Id_utilizador`),
+  ADD KEY `Id_utilizador` (`Id_utilizador`);
+
+--
+-- Índices para tabela `questoes`
+--
+ALTER TABLE `questoes`
+  ADD PRIMARY KEY (`Id_questao`,`Id_quizz`),
   ADD KEY `Id_quizz` (`Id_quizz`);
 
 --
@@ -125,6 +184,21 @@ ALTER TABLE `perguntasquizz`
 ALTER TABLE `quizzes`
   ADD PRIMARY KEY (`Id_quizz`,`Id_utilizador`),
   ADD KEY `Id_utilizador` (`Id_utilizador`);
+
+--
+-- Índices para tabela `quizzes_respondidos`
+--
+ALTER TABLE `quizzes_respondidos`
+  ADD PRIMARY KEY (`Id_quizzRespondido`,`Id_utilizador`,`Id_quizz`),
+  ADD KEY `Id_utilizador` (`Id_utilizador`),
+  ADD KEY `Id_quizz` (`Id_quizz`);
+
+--
+-- Índices para tabela `respostas`
+--
+ALTER TABLE `respostas`
+  ADD PRIMARY KEY (`Id_resposta`,`Id_questao`),
+  ADD KEY `Id_questao` (`Id_questao`);
 
 --
 -- Índices para tabela `utilizadores`
@@ -137,16 +211,28 @@ ALTER TABLE `utilizadores`
 --
 
 --
--- AUTO_INCREMENT de tabela `avaliacoes`
+-- AUTO_INCREMENT de tabela `avaliacao`
 --
-ALTER TABLE `avaliacoes`
+ALTER TABLE `avaliacao`
   MODIFY `Id_avaliacao` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `perguntasquizz`
+-- AUTO_INCREMENT de tabela `imagem_questao`
 --
-ALTER TABLE `perguntasquizz`
-  MODIFY `Id_pergunta` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `imagem_questao`
+  MODIFY `Id_imagemQuestao` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `noficacoes`
+--
+ALTER TABLE `noficacoes`
+  MODIFY `Id_notificacao` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `questoes`
+--
+ALTER TABLE `questoes`
+  MODIFY `Id_questao` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `quizzes`
@@ -155,33 +241,70 @@ ALTER TABLE `quizzes`
   MODIFY `Id_quizz` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de tabela `quizzes_respondidos`
+--
+ALTER TABLE `quizzes_respondidos`
+  MODIFY `Id_quizzRespondido` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `respostas`
+--
+ALTER TABLE `respostas`
+  MODIFY `Id_resposta` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de tabela `utilizadores`
 --
 ALTER TABLE `utilizadores`
-  MODIFY `Id_utilizador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `Id_utilizador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=343;
 
 --
 -- Restrições para despejos de tabelas
 --
 
 --
--- Limitadores para a tabela `avaliacoes`
+-- Limitadores para a tabela `avaliacao`
 --
-ALTER TABLE `avaliacoes`
-  ADD CONSTRAINT `avaliacoes_ibfk_1` FOREIGN KEY (`Id_utilizador`) REFERENCES `utilizadores` (`Id_utilizador`),
-  ADD CONSTRAINT `avaliacoes_ibfk_2` FOREIGN KEY (`Id_quizz`) REFERENCES `quizzes` (`Id_quizz`);
+ALTER TABLE `avaliacao`
+  ADD CONSTRAINT `avaliacao_ibfk_1` FOREIGN KEY (`Id_utilizador`) REFERENCES `utilizadores` (`Id_utilizador`),
+  ADD CONSTRAINT `avaliacao_ibfk_2` FOREIGN KEY (`Id_quizz`) REFERENCES `quizzes` (`Id_quizz`);
 
 --
--- Limitadores para a tabela `perguntasquizz`
+-- Limitadores para a tabela `imagem_questao`
 --
-ALTER TABLE `perguntasquizz`
-  ADD CONSTRAINT `perguntasquizz_ibfk_1` FOREIGN KEY (`Id_quizz`) REFERENCES `quizzes` (`Id_quizz`);
+ALTER TABLE `imagem_questao`
+  ADD CONSTRAINT `imagem_questao_ibfk_1` FOREIGN KEY (`Id_questao`) REFERENCES `questoes` (`Id_questao`);
+
+--
+-- Limitadores para a tabela `noficacoes`
+--
+ALTER TABLE `noficacoes`
+  ADD CONSTRAINT `noficacoes_ibfk_1` FOREIGN KEY (`Id_utilizador`) REFERENCES `utilizadores` (`Id_utilizador`);
+
+--
+-- Limitadores para a tabela `questoes`
+--
+ALTER TABLE `questoes`
+  ADD CONSTRAINT `questoes_ibfk_1` FOREIGN KEY (`Id_quizz`) REFERENCES `quizzes` (`Id_quizz`);
 
 --
 -- Limitadores para a tabela `quizzes`
 --
 ALTER TABLE `quizzes`
   ADD CONSTRAINT `quizzes_ibfk_1` FOREIGN KEY (`Id_utilizador`) REFERENCES `utilizadores` (`Id_utilizador`);
+
+--
+-- Limitadores para a tabela `quizzes_respondidos`
+--
+ALTER TABLE `quizzes_respondidos`
+  ADD CONSTRAINT `quizzes_respondidos_ibfk_1` FOREIGN KEY (`Id_utilizador`) REFERENCES `utilizadores` (`Id_utilizador`),
+  ADD CONSTRAINT `quizzes_respondidos_ibfk_2` FOREIGN KEY (`Id_quizz`) REFERENCES `quizzes` (`Id_quizz`);
+
+--
+-- Limitadores para a tabela `respostas`
+--
+ALTER TABLE `respostas`
+  ADD CONSTRAINT `respostas_ibfk_1` FOREIGN KEY (`Id_questao`) REFERENCES `questoes` (`Id_questao`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

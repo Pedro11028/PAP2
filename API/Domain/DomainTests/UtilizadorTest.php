@@ -8,9 +8,17 @@ EValido_TestUtilizadorNaoExiste();
 echo "<br>";
 EValido_TestUtilizadorExiste();
 echo "<br>";
+echo "<hr>";
 Guardar_InserirUtilizadorInvalido();
 echo "<br>";
 Guardar_InserirUtilizadorValido();
+echo "<br>";
+echo "<hr>";
+Eliminar_EliminarUtilizadorPasswordInvalida();
+echo "<br>";
+Eliminar_EliminarUtilizadorPasswordNaoCorresponde();
+echo "<br>";
+Eliminar_EliminarUtilizadorValido();
 
 
 function EValido_TestVazio(){
@@ -42,6 +50,25 @@ function Guardar_InserirUtilizadorValido(){
     $result = $utilizador->Guardar("aaa aaa", "aaa", "aaa@aaa.com", "aaaaaaaa");
     echo "Guardar_InserirUtilizadorValido - expected:"."true"." VS real:".json_encode($result);
     echo "<br>";
+    echo "<br>";
     $result = $utilizador->EValido("aaa@aaa.com", "aaaaaaaa");
     echo "Guardar_InserirUtilizadorValido - expected:"."aaa@aaa.com"."aaaaaaaa"." VS real:".json_encode($result);
+}
+
+function Eliminar_EliminarUtilizadorPasswordInvalida(){
+    $utilizador = new Utilizador();
+    $result = $utilizador->Eliminar("sdasdasdas","sdasdasdas","344");
+    echo "Eliminar_EliminarUtilizadorPasswordInvalida - expected:"." passwordNaoExiste "." VS real:".json_encode($result);
+}
+
+function Eliminar_EliminarUtilizadorPasswordNaoCorresponde(){
+    $utilizador = new Utilizador();
+    $result = $utilizador->Eliminar("sdasdasdas","asdfsdfsdf","344");
+    echo "Eliminar_EliminarUtilizadorPasswordNaoCorresponde - expected:"." passwordsNaoCorrespondem "." VS real:".json_encode($result);
+}
+
+function Eliminar_EliminarUtilizadorValido(){
+    $utilizador = new Utilizador();
+    $result = $utilizador->Eliminar("aaaaaaaa","aaaaaaaa","347");
+    echo "Eliminar_EliminarUtilizadorValido - expected:"." true "." VS real:".json_encode($result);
 }

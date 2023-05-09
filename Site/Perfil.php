@@ -9,7 +9,6 @@
 <body>
 <?php
 
-include "menuFooter/menu.php";
 
 //     require 'conexao.php';
 
@@ -101,126 +100,95 @@ include "menuFooter/menu.php";
 //         echo $error->getMessage();
 //     }
 // }
+
+
+
+include "menuFooter/menu.php";
 ?>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">  
+    <link rel="stylesheet" type="text/css" href="Perfil.css">
+    <script src="http://netdna.bootstrapcdn.com/font-awesome/6.0.0/css/font-awesome.min.css" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="jsPerfil.js" crossorigin="anonymous"></script>
 
-
-<link rel="stylesheet" type="text/css" href="Perfil.css">
-
-<script src="https://kit.fontawesome.com/410e89720f.js" crossorigin="anonymous"></script>
-<script type="text/javascript" src="jsPerfil.js" crossorigin="anonymous"></script>
-
-<br>
-
-<div class='Informações'>
-    <div class="borderFront">
-        <img id='imgPerfil' src=''></img>
-        <button class='changeImg' onclick="openForm()">Alterar Imagem</button>
-    </div>
-    <div>
-        <p class="textInsertImg">Permitido JPG e PNG. </p>
-    </div>
-    <div class="showLines">
-        <form action="" method="POST">
-            <div class="input-info">
-                <label class="form-label">Nome Utilizador</label> <p>
-                <input type="text" required="required" name="nome" value=''>
-                <button id="mudarNome" class="button" name="alterarNome">Mudar Nome</button>
-            </div>
-        </form>
-    </div>
-    <div>
-            <div class="input-info">
-                <label class="form-label">Email</label><p>
-                <input type="password" name="password" value='' readonly>&nbsp
-                <a href="renamePass.php" > <button class="button">Mudar password</button> </a>
-            </div>
-    </div>
-    <div>
-        <div class="input-info">
-            <table style="width:100%">
-                <tr>
-                  <th>
-                     <label class="form-label" align="left">Quizzes Criados</label>
-                  </th>
-                </tr>
-                <tr>
-                  <td>
-                     <label> </label>
-                  </td>
-                </tr>
-            </table>
+  <div class="wrapper bg-white mt-sm-5">
+    <div class="d-flex align-items-start py-3 border-bottom">
+        <img src="" id="imgPerfil" alt="">
+        <div class="pl-sm-4 pl-2" id="img-section">
+            <b>Foto de perfil</b>
+            <p>Ficheiros .png ou jpg</p>
+            <button class="btn button border"><b>Alterar</b></button>
         </div>
     </div>
-    <div>
-        <div class="input-info">
-            <table style="width:100%">
-                <tr>
-                  <th>
-                     <label class="form-label" align="left">Quizzes Realizados</label>
-                  </th>
-                </tr>
-                <tr>
-                  <td>
-                     <label>  </label>
-                  </td>
-                </tr>
-            </table>
-        </div>
-    </div>
-    <div>
-        <div class="input-info">
-            <table style="width:100%">
-                <tr>
-                  <th>
-                     <label class="form-label" align="left">Número de avaliações feitas</label>
-                  </th>
-                </tr>
-                <tr>
-                  <td>
-                     <label>  </label>
-                  </td>
-                </tr>
-            </table>
-        </div>
-    </div>
-    <div>
-        <form action="" method="POST">
-            <div class="input-info">
-                <a class="alterarFuncoes" href="elimin_conta.php">Excluir Conta</button>
+    <div class="py-2">
+        <div class="row py-2">
+            <div class="container">
+                <label>Nome Completo</label>
+                <div class="d-flex">
+                    <input class="form-control mr-2 inputDados">
+                    <button class="btn btn-primary">Mudar Nome</button>
+                </div>
             </div>
-        </form>
-    </div>
-    <div>
-        <form action="" method="POST">
-            <div class="input-info">
-                <a class="alterarFuncoes" href="logout.php">Sair</button></a>
+        </div>
+        <div class="row py-2">
+            <div class="container">
+                <label>Email</label>
+                <div class="d-flex">
+                    <input class="form-control mr-2 inputDados">
+                    <button class="btn btn-primary">Mudar Password</button>
+                </div>
             </div>
-        </form>
-    </div>
-</div>
-<br>
-
-<div class="outCloseForm" id="showBackground">
-    <div class='imagensPopUp' id="showForm">
-        <div class="borderFront">
-            <img id='imgPerfil'>
-            &nbsp&nbsp&nbsp
-            <span  style="vertical-align: top;">Imagem Atual</span>
         </div>
 
-        <br>
-        <hr class="separarImagens">
-        <br>
-
-        <form action="" method="POST">
-        
+        <div class="row py-2">
+            <div class="container">
+                <span class="label label-info">Quizzes Criados</span>
+                <br>
+                <label id="quizzesCriados"></label>
+            </div>
+        </div> 
+        <div class="row py-2">
+            <div class="container">
+                <span class="label label-info">Quizzes Realizados</span>
+                <br>
+                <label id="quizzesRealizados"></label>
+            </div>
+        </div>
+        <div class="row py-2 border-bottom">
+            <div class="container">
+                <span class="label label-info">Número de avaliações realizadas</span>
+                <br>
+                <label id="avaliacoesFeitas"></label>
+            </div>
+        </div> 
+        <p></p>
+            <div class="py-1">
+                <a class="outUtilizador" href="Logout.html"> <i class="fa-solid fa-arrow-right-from-bracket"></i> Sair </a>
+            </div>
+            <div class="py-1">
+                <a class="outUtilizador" href="eliminarConta.html"> <i class="fa-solid fa-trash"></i> Excluir conta </a>
+            </div>
+  
+  <div class="outCloseForm" id="showBackground">
+      <div class='imagensPopUp' id="showForm">
+          <div class="borderFront">
+              <img id='imgPerfil'>
+              &nbsp&nbsp&nbsp
+              <span  style="vertical-align: top;">Imagem Atual</span>
+          </div>
+  
+          <br>
+          <hr class="separarImagens">
+          <br>
+  
+          <form action="" method="POST">
+          
+      
+          </form>
+          <div class="borderFront">
+              <button class='changeImg' onclick="closeForm()">Cancelar</button>
+          </div>
+      </div>
+  </div>
     
-        </form>
-        <div class="borderFront">
-            <button class='changeImg' onclick="closeForm()">Cancelar</button>
-        </div>
-    </div>
-</div>
-
 </body>
 </html>

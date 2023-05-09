@@ -1,16 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Language Quizz- Página Inicial</title>
-	<meta charset="utf-8">
-	<script src="https://kit.fontawesome.com/410e89720f.js" crossorigin="anonymous"></script>
 
-	<link rel="stylesheet" type="text/css" href="menuFooter/menu.css">
+<script src="https://kit.fontawesome.com/410e89720f.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="menuFooter/menu.css">
 
-</head>
-<body>
-
-<nav class="nav">
+<div class="estiloMenu">
+<nav>
 	<ul>
 		<li>
 			<a href="index.php">Início</a>
@@ -39,6 +32,6 @@
     	<?php ?> 
     </ul>
 </nav>
-
+<div>
 
 <script src="menuFooter/menu.js"></script>

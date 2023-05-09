@@ -3,8 +3,9 @@
 <head>
     <title>Teste Language Quizz- Perfil</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">  
-  <link rel="stylesheet" type="text/css" href="../Site/Perfil.css">
+    <link rel="stylesheet" type="text/css" href="Perfil.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">  
+
 
 </style>
 
@@ -15,13 +16,11 @@
 include "../Site/menuFooter/menu.php";
 ?>
 
-  <link rel="stylesheet" type="text/css" href="Perfil.css">
 
   <script src="https://kit.fontawesome.com/410e89720f.js" crossorigin="anonymous"></script>
   <script type="text/javascript" src="jsPerfil.js" crossorigin="anonymous"></script>
-  
+
   <div class="wrapper bg-white mt-sm-5">
-    <h4 class="pb-4 border-bottom">Account settings</h4>
     <div class="d-flex align-items-start py-3 border-bottom">
         <img src="https://images.pexels.com/photos/1037995/pexels-photo-1037995.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
             class="img" alt="">
@@ -33,13 +32,9 @@ include "../Site/menuFooter/menu.php";
     </div>
     <div class="py-2">
         <div class="row py-2">
-            <div class="col-md-6">
+            <div class="col-md-9">
                 <label for="firstname">First Name</label>
                 <input type="text" class="bg-light form-control" placeholder="Steve">
-            </div>
-            <div class="col-md-6 pt-md-0 pt-3">
-                <label for="lastname">Last Name</label>
-                <input type="text" class="bg-light form-control" placeholder="Smith">
             </div>
         </div>
         <div class="row py-2">
@@ -47,10 +42,9 @@ include "../Site/menuFooter/menu.php";
                 <label for="email">Email Address</label>
                 <input type="text" class="bg-light form-control" placeholder="steve_@email.com">
             </div>
-            <div class="col-md-6 pt-md-0 pt-3">
-                <label for="phone">Phone Number</label>
-                <input type="tel" class="bg-light form-control" placeholder="+1 213-548-6015">
-            </div>
+            <div class="py-4">
+            <button class="btn btn-primary">Save Changes</button>
+        </div>
         </div>
         <div class="row py-2">
             <div class="col-md-6">
