@@ -77,7 +77,7 @@ class Utilizador {
                 if ($data['password'] == $password) {
 
                     try{
-                        
+
                         $sql = 'DELETE FROM utilizadores WHERE Id_utilizador = :Id_utilizador';
                         $stmt= $conexao->runQuery($sql);
                         $stmt->bindParam(':Id_utilizador', $Id_utilizador);
@@ -87,8 +87,8 @@ class Utilizador {
                     }catch(PDOExtrueception $e){
                         return "erroSemResposta";
                     }
-        
-                    
+
+
                 }else{
                     return "passwordNaoExiste";
                 }
@@ -100,4 +100,79 @@ class Utilizador {
 
     }
 
-  }
+    function Alterar($passwordAtual,$passwordNova,$confirmarPass,$Id_utilizador){
+
+        $conexao = new Conexao();
+
+        $stmt = $conexao->runQuery('SELECT * FROM utilizadores WHERE Id_utilizador = :Id_utilizador');
+        $stmt->execute(array(':Id_utilizador' => $Id_utilizador));
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($data === false) {
+            return "nulo";
+        }else{
+            if($passwordAtual== $passwordNova){
+                return "PasswordIgualAnterior";
+            }else{
+                if($data['password'] != $passwordAtual){
+                    return "PassworAtualErrada";
+                }else{
+                    if($passwordNova != $confirmarPass){
+                        return "PasswordConfirmarDiferente";
+                    }else{
+                        try{
+                            $sql = 'UPDATE utilizadores SET password = :passwordNova WHERE Id_utilizador = :Id_utilizador';
+                            $stmt = $conexao->runQuery($sql);
+                            $stmt->bindParam(':Id_utilizador', $Id_utilizador, PDO::PARAM_INT);
+                            $stmt->bindParam(':passwordNova', $passwordNova);
+                            $execute = $stmt->execute();
+            
+                            return "true";
+                        }catch(PDOExtrueception $e){
+                            return "erroSemResposta";
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    function Carregar($Id_utilizador){
+        $false = array(0 => "false");
+
+        $conexao = new Conexao();
+
+        $stmt = $conexao->runQuery('SELECT * FROM utilizadores WHERE Id_utilizador = :Id_utilizador');
+        $stmt->execute(array(':Id_utilizador' => $Id_utilizador));
+        $dataUtilizador = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($dataUtilizador === false) {
+            return $false;
+        }else{
+
+            $stmt = $conexao->runQuery('SELECT COUNT(Id_utilizador) as numAvaliacoes FROM avaliacao WHERE Id_utilizador = :Id_utilizador');
+            $stmt->execute(array(':Id_utilizador' => $Id_utilizador));
+            $dataAvaliacao = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            $stmt = $conexao->runQuery('SELECT COUNT(Id_utilizador) as numQuizzesCriados FROM quizzes WHERE Id_utilizador = :Id_utilizador');
+            $stmt->execute(array(':Id_utilizador' => $Id_utilizador));
+            $dataQuizzesCriados = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            $stmt = $conexao->runQuery('SELECT COUNT(Id_utilizador) as numQuizzesFeitos FROM quizzes_respondidos WHERE Id_utilizador = :Id_utilizador');
+            $stmt->execute(array(':Id_utilizador' => $Id_utilizador));
+            $dataQuizzesFeitos = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            $filtrarDados = array(   'nomeCompleto'=> $dataUtilizador["nomeCompleto"], 
+                                     'email' => $dataUtilizador["email"],
+                                     'imagemPerfil' => $dataUtilizador["imagemPerfil"],
+                                     'pontuacao' => $dataUtilizador["pontuacao"],
+                                     'numAvaliacoes' => $dataAvaliacao["numAvaliacoes"],
+                                     'numQuizzesCriados' => $dataQuizzesCriados["numQuizzesCriados"],
+                                     'numQuizzesFeitos' => $dataQuizzesFeitos["numQuizzesFeitos"]
+                                 );
+
+            return $filtrarDados;
+        }
+    }
+
+}

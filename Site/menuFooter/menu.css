@@ -88,6 +88,7 @@
 	padding: 6px;
 	border-radius: 5px;
 	width: 80%;
+	height: 30PX;
 	outline: none;
 	text-indent: 10px;
  }
@@ -117,14 +118,3 @@
  }
 
  
- .estiloMenu input[type="text"] {
-	position: relative;
-	top: 10px;
-	left: 30px;
-	border: 1px solid #828999;
-	padding: 6px;
-	border-radius: 5px;
-	width: 80%;
-	outline: none;
-	text-indent: 10px;
- }

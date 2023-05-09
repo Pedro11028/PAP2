@@ -86,7 +86,10 @@ input[type="text"].nomeInteiro{
 
 
 
-.log-sign .signup>a{color: #fff;text-decoration: none;}
+.log-sign .signup>a{
+    color: #fff;
+    text-decoration: none;
+}
 
 .log-sign button:hover{
     background:none;

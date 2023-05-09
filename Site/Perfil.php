@@ -3,6 +3,9 @@
 <head>
     <title>Language Quizz- Perfil</title>
     <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+	<script src="https://kit.fontawesome.com/410e89720f.js" crossorigin="anonymous"></script>
+
 </style>
 
 </head>
@@ -107,16 +110,15 @@ include "menuFooter/menu.php";
 ?>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">  
     <link rel="stylesheet" type="text/css" href="Perfil.css">
-    <script src="http://netdna.bootstrapcdn.com/font-awesome/6.0.0/css/font-awesome.min.css" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="jsPerfil.js" crossorigin="anonymous"></script>
+
 
   <div class="wrapper bg-white mt-sm-5">
     <div class="d-flex align-items-start py-3 border-bottom">
         <img src="" id="imgPerfil" alt="">
         <div class="pl-sm-4 pl-2" id="img-section">
             <b>Foto de perfil</b>
-            <p>Ficheiros .png ou jpg</p>
-            <button class="btn button border"><b>Alterar</b></button>
+            <p>Ficheiros .png ou .jpg</p>
+            <button class="btn button border" onclick="openForm()"><b>Alterar</b></button>
         </div>
     </div>
     <div class="py-2">
@@ -124,7 +126,7 @@ include "menuFooter/menu.php";
             <div class="container">
                 <label>Nome Completo</label>
                 <div class="d-flex">
-                    <input class="form-control mr-2 inputDados">
+                    <input class="form-control mr-2 inputDados" id="nomeCompleto">
                     <button class="btn btn-primary">Mudar Nome</button>
                 </div>
             </div>
@@ -133,8 +135,10 @@ include "menuFooter/menu.php";
             <div class="container">
                 <label>Email</label>
                 <div class="d-flex">
-                    <input class="form-control mr-2 inputDados">
-                    <button class="btn btn-primary">Mudar Password</button>
+                    <input class="form-control mr-2 inputDados" id="email" readonly>
+                    <a href="alterarPassword.html">
+                        <button class="btn btn-primary" >Mudar Password</button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -190,5 +194,7 @@ include "menuFooter/menu.php";
       </div>
   </div>
     
+  <script  src="perfil.js"></script>
+
 </body>
 </html>

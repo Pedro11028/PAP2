@@ -9,16 +9,42 @@ echo "<br>";
 EValido_TestUtilizadorExiste();
 echo "<br>";
 echo "<hr>";
+
+
 Guardar_InserirUtilizadorInvalido();
 echo "<br>";
 Guardar_InserirUtilizadorValido();
 echo "<br>";
 echo "<hr>";
+
+
 Eliminar_EliminarUtilizadorPasswordInvalida();
 echo "<br>";
 Eliminar_EliminarUtilizadorPasswordNaoCorresponde();
 echo "<br>";
 Eliminar_EliminarUtilizadorValido();
+echo "<br>";
+echo "<hr>";
+
+
+Alterar_AlterarPasswordAtualInvalida();
+echo "<br>";
+Alterar_AlterarPasswordConfirmarInvalida();
+echo "<br>";
+Alterar_AlterarPasswordNovaInvalida();
+echo "<br>";
+Alterar_AlterarPasswordValido();
+echo "<br>";
+echo "<hr>";
+
+
+Carregar_CarregarDadosInvalidos();
+echo "<br>";
+Carregar_CarregarDadosValidos();
+echo "<br>";
+
+// ----------------------------------------------------------------------------------------------------------------
+
 
 
 function EValido_TestVazio(){
@@ -39,6 +65,10 @@ function EValido_TestUtilizadorExiste(){
     echo "EValido_TestUtilizadorExiste - expected:"."pedro@gmail.com"." qaws1234"." VS real:".json_encode($result);
 }
 
+// ----------------------------------------------------------------------------------------------------------------
+
+
+
 function Guardar_InserirUtilizadorInvalido(){
     $utilizador = new Utilizador();
     $result = $utilizador->Guardar("Pedro Oliveira", "Pedr0siris", "pedro@gmail.com", "qaws1234");
@@ -54,6 +84,10 @@ function Guardar_InserirUtilizadorValido(){
     $result = $utilizador->EValido("aaa@aaa.com", "aaaaaaaa");
     echo "Guardar_InserirUtilizadorValido - expected:"."aaa@aaa.com"."aaaaaaaa"." VS real:".json_encode($result);
 }
+
+// ----------------------------------------------------------------------------------------------------------------
+
+
 
 function Eliminar_EliminarUtilizadorPasswordInvalida(){
     $utilizador = new Utilizador();
@@ -71,4 +105,46 @@ function Eliminar_EliminarUtilizadorValido(){
     $utilizador = new Utilizador();
     $result = $utilizador->Eliminar("aaaaaaaa","aaaaaaaa","347");
     echo "Eliminar_EliminarUtilizadorValido - expected:"." true "." VS real:".json_encode($result);
+}
+
+// ----------------------------------------------------------------------------------------------------------------
+
+
+function Alterar_AlterarPasswordAtualInvalida(){
+    $utilizador = new Utilizador();
+    $result = $utilizador->Alterar("asasasas", "sdasdasdas","asdfsdfsdf","351");
+    echo "Alterar_AlterarPasswordAtualInvalida - expected:"." PassworAtualErrada "." VS real:".json_encode($result);
+}
+
+function Alterar_AlterarPasswordConfirmarInvalida(){
+    $utilizador = new Utilizador();
+    $result = $utilizador->Alterar("aaaaaaaa", "sdasdasdas","asdfsdfsdf","351");
+    echo "Alterar_AlterarPasswordConfirmarInvalida - expected:"." PasswordConfirmarDiferente "." VS real:".json_encode($result);
+}
+
+function Alterar_AlterarPasswordNovaInvalida(){
+    $utilizador = new Utilizador();
+    $result = $utilizador->Alterar("aaaaaaaa", "aaaaaaaa","aaaaaaaa","351");
+    echo "Alterar_AlterarPasswordNovaInvalida - expected:"." PasswordIgualAnterior "." VS real:".json_encode($result);
+}
+
+function Alterar_AlterarPasswordValido(){
+    $utilizador = new Utilizador();
+    $result = $utilizador->Alterar("asasasas","aaaaaaaa","aaaaaaaa","351");
+    echo "Alterar_AlterarPasswordValida - expected:"." true "." VS real:".json_encode($result);
+}
+
+// ----------------------------------------------------------------------------------------------------------------
+
+
+function Carregar_CarregarDadosInvalidos(){
+    $utilizador = new Utilizador();
+    $result = $utilizador->Carregar("350");
+    echo "Carregar_CarregarDadosInvalidos - expected:"." false "." VS real:".json_encode($result);
+}
+
+function Carregar_CarregarDadosValidos(){
+    $utilizador = new Utilizador();
+    $result = $utilizador->Carregar("351");
+    echo "Carregar_CarregarDadosValidos - expected:"." Dados do Utilizador "." VS real:".json_encode($result);
 }

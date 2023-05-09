@@ -20,12 +20,18 @@ $(document).ready(function() {
                 success: function(resposta) {
                 if (resposta == "passwordsNaoCorrespondem") {
                     alert("Passwords não correspondem.");
+                    document.getElementById('password').value = "";
+                    document.getElementById('confirmarPass').value = "";
                 }
                 if (resposta == "passwordNaoExiste") {
-                    alert("Password errada.");
+                    alert("Password incorreta.");
+                    document.getElementById('password').value = "";
+                    document.getElementById('confirmarPass').value = "";
                 }
                 if (resposta == "erroSemResposta") {
                     alert("Woops! parece estar a ocorrer um erro com a ligação á base de dados");
+                    document.getElementById('password').value = "";
+                    document.getElementById('confirmarPass').value = "";
                 }
 
                 if (resposta == "true") {
@@ -49,4 +55,31 @@ $(document).ready(function() {
         return cookie['idCookie'];
     }
   });
-  
+
+    // $('#showhide1').click(function() {
+    //     $(this).toggleClass('fa-solid fa-eye hide');
+    //     $(this).toggleClass('fa-solid fa-eye-slash show');
+    // });
+    
+    // $('#showhide2').click(function() {
+    //     $(this).toggleClass('fa-solid fa-eye hide');
+    //     $(this).toggleClass('fa-solid fa-eye-slash show');
+    // });
+
+    // const togglePassword1 = document.querySelector('#showhide1');
+    // const password1 = document.querySelector('.password1');
+
+    // togglePassword1.addEventListener('click', () => {
+    //     // altera o typo da classe ao usar o método getAttribure() 
+    //     const type = password1.getAttribute('type') === 'password' ? 'text' : 'password';
+    //     password1.setAttribute('type', type);
+    // });
+
+    // const togglePassword2 = document.querySelector('#showhide2');
+    // const password2 = document.querySelector('.password2');
+
+    // togglePassword2.addEventListener('click', () => {
+    //     // altera o typo da classe ao usar o método getAttribure() 
+    //     const type = password2.getAttribute('type') === 'password' ? 'text' : 'password';
+    //     password2.setAttribute('type', type);
+    // });

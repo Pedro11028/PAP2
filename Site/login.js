@@ -42,3 +42,17 @@ function criarCookie(resposta) {
   document.cookie = "permissaoCookie= "+resposta['permissao']+';expires='+hoje.toUTCString()+"; secure"+';path=/';
   document.cookie = "nomeCookie= "+resposta['nomeUnico']+';expires='+hoje.toUTCString()+"; secure"+';path=/';
 }
+
+$('#showhide1').click(function() {
+  $(this).toggleClass('fa-solid fa-eye hide');
+  $(this).toggleClass('fa-solid fa-eye-slash show');
+});
+
+const togglePassword1 = document.querySelector('#showhide1');
+    const password1 = document.querySelector('.password1');
+
+    togglePassword1.addEventListener('click', () => {
+        // altera o typo da classe ao usar o método getAttribure() 
+        const type = password1.getAttribute('type') === 'password' ? 'text' : 'password';
+        password1.setAttribute('type', type);
+    });
