@@ -77,11 +77,11 @@ function Guardar_InserirUtilizadorInvalido(){
 
 function Guardar_InserirUtilizadorValido(){
     $utilizador = new Utilizador();
-    $result = $utilizador->Guardar("aaa aaa", "aaa", "aaa@aaa.com", "aaaaaaaa");
+    $result = $utilizador->Guardar("bbb bbb", "bbb", "bbb@bbb.com", "bbbbbbbb");
     echo "Guardar_InserirUtilizadorValido - expected:"."true"." VS real:".json_encode($result);
     echo "<br>";
     echo "<br>";
-    $result = $utilizador->EValido("aaa@aaa.com", "aaaaaaaa");
+    $result = $utilizador->EValido("bbb@bbb.com", "bbbbbbbb");
     echo "Guardar_InserirUtilizadorValido - expected:"."aaa@aaa.com"."aaaaaaaa"." VS real:".json_encode($result);
 }
 
