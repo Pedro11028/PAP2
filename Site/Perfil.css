@@ -18,12 +18,13 @@ body{
     margin: 10px auto;
     max-width: 600px;
 }
+
 h4{
     letter-spacing: -1px;
     font-weight: 400;
 }
 
-#imgPerfil{
+.selectImage, #imgPerfil, #changeImgPerfil{
     border: #CCF solid 4px;
     padding: 1px;
     border-radius: 70%;
@@ -31,7 +32,38 @@ h4{
     border-left-color: #0000FF;
     width: 100px;
     height: 100px;
+}
 
+.labelImage{
+    margin:18px;
+}
+
+.radio{
+    position:relative;
+    top:-40px;
+    font-weight: bold;
+}
+
+.divImage{
+    border: #CCF solid 4px;
+}
+
+#nivel{  
+    border: rgb(148, 148, 209) solid px;
+    padding: 1px;
+    border-radius: 80%;
+    width: 60px;
+    height: 60px;
+    position:relative;
+    left:60%;
+    top: -20px;
+}
+
+.pontuacao{
+    position:relative;
+    left:47%;
+    top: 40px;
+    font-weight: bold;
 }
 
 label{
@@ -52,7 +84,10 @@ label{
     border: 1.5px solid #0779e4;
 }
 
-
+#img-section{
+    position: relative;
+    left:-25%;
+}
 
 select{
     display: block;

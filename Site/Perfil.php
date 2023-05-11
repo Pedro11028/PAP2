@@ -114,9 +114,11 @@ include "menuFooter/menu.php";
 
   <div class="wrapper bg-white mt-sm-5">
     <div class="d-flex align-items-start py-3 border-bottom">
-        <img src="" id="imgPerfil" alt="">
+        <img src="" id="imgPerfil">     
+        <img src="" id="nivel">
+        <label Id="pontuacao" class="pontuacao" ></label>
         <div class="pl-sm-4 pl-2" id="img-section">
-            <b>Foto de perfil</b>
+            <b>Avatar</b>
             <p>Ficheiros .png ou .jpg</p>
             <button class="btn button border" onclick="openForm()"><b>Alterar</b></button>
         </div>
@@ -174,19 +176,49 @@ include "menuFooter/menu.php";
   
   <div class="outCloseForm" id="showBackground">
       <div class='imagensPopUp' id="showForm">
-          <div class="borderFront">
-              <img id='imgPerfil'>
+      <div class="borderFront">
+          <img src="" id="changeImgPerfil" alt="">
               &nbsp&nbsp&nbsp
               <span  style="vertical-align: top;">Imagem Atual</span>
           </div>
-  
           <br>
           <hr class="separarImagens">
           <br>
-  
-          <form action="" method="POST">
+
+            <label class="labelImage">
+                <input class="radio" type="radio" id="imgLOL" name="groupOfimages" value="0"> 
+                <img src="" id="selectImage1" class="selectImage" alt="">
+            </label>       
+
+
+          <label class="labelImage">
+            <input class="radio" type="radio" id="imgLOL" name="groupOfimages" value="0"> 
+            <img src="" id="selectImage2" class="selectImage" alt="">
+          </label>
+
+          <label class="labelImage">
+            <input class="radio" type="radio" id="imgLOL" name="groupOfimages" value="0"> 
+            <img src="" id="selectImage3" class="selectImage" alt="">
+          </label>
+
+          <label class="labelImage">
+            <input class="radio" type="radio" id="imgLOL" name="groupOfimages" value="0"> 
+            <img src="" id="selectImage4" class="selectImage" alt="">
+          </label>
+
+          <label class="labelImage">
+            <input class="radio" type="radio" id="imgLOL" name="groupOfimages" value="0"> 
+            <img src="" id="selectImage5" class="selectImage" alt="">
+          </label>
+
+          <label class="labelImage">
+            <input class="radio" type="radio" id="imgLOL" name="groupOfimages" value="0"> 
+            <img src="" id="selectImage6" class="selectImage" alt="">
+          </label>
+
           
-      
+          <form action="" method="POST">
+          <button class="btn button border"><b>Alterar</b></button>
           </form>
           <div class="borderFront">
               <button class='changeImg' onclick="closeForm()">Cancelar</button>
