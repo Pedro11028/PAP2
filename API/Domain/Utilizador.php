@@ -48,7 +48,7 @@ class Utilizador {
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
         //Se não existir então verifica-se o nome único
-        if ($data === false) {
+        if ($data == false) {
             try{
                 $stmt = $conexao->runQuery('INSERT INTO utilizadores (nomeCompleto, nomeUnico, password, email, imagemPerfil, permissao) VALUES (:nomeCompleto, :nomeUnico,:pass_utiliz, :email_utiliz, :imagemPerfil, :permissao)');
                 $stmt->execute(array(':nomeCompleto' => $nomeCompleto, ':nomeUnico' => $nomeUnico,':pass_utiliz' => $password, ':email_utiliz' => $email, ':imagemPerfil' => $imagemPerfil, ':permissao' => "utilizador"));
@@ -72,7 +72,7 @@ class Utilizador {
         $stmt->execute(array(':Id_utilizador' => $Id_utilizador));
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($data === false) {
+        if ($data == false) {
             return "nulo";
         }else{
 
@@ -112,7 +112,7 @@ class Utilizador {
         $stmt->execute(array(':Id_utilizador' => $Id_utilizador));
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($data === false) {
+        if ($data == false) {
             return "nulo";
         }else{
             if($passwordAtual== $passwordNova){
@@ -150,7 +150,7 @@ class Utilizador {
         $stmt->execute(array(':Id_utilizador' => $Id_utilizador));
         $dataUtilizador = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($dataUtilizador === false) {
+        if ($dataUtilizador == false) {
             return $false;
         }else{
 
@@ -166,7 +166,8 @@ class Utilizador {
             $stmt->execute(array(':Id_utilizador' => $Id_utilizador));
             $dataQuizzesFeitos = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $filtrarDados = array(   'nomeCompleto'=> $dataUtilizador["nomeCompleto"], 
+            $filtrarDados = array(   'nomeCompleto'=> $dataUtilizador["nomeCompleto"],
+                                     'nomeUnico'=> $dataUtilizador["nomeUnico"], 
                                      'email' => $dataUtilizador["email"],
                                      'imagemPerfil' => $dataUtilizador["imagemPerfil"],
                                      'pontuacao' => $dataUtilizador["pontuacao"],
@@ -188,7 +189,7 @@ class Utilizador {
         $stmt->execute(array(':Id_utilizador' => $Id_utilizador));
         $dataUtilizador = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($dataUtilizador === false) {
+        if ($dataUtilizador == false) {
             return "erroBaseDados";
         }else{
 
@@ -199,6 +200,97 @@ class Utilizador {
             $execute = $stmt->execute();
 
             return "true";
+        }
+    }
+
+
+    function UploadImage($Id_utilizador,$ficheiro){
+        $conexao = new Conexao();
+
+        $caminhoAGuardar= '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/';
+        $nomeImagem = $ficheiro['file']['name'];
+        $caminhoTemporario=$ficheiro["file"]["tmp_name"];
+
+        //php basename for files
+        $basename = basename($nomeImagem);
+        $caminhoOriginal = $caminhoAGuardar.$basename;
+
+        $stmt = $conexao->runQuery('SELECT * FROM utilizadores WHERE Id_utilizador = :Id_utilizador');
+        $stmt->execute(array(':Id_utilizador' => $Id_utilizador));
+        $dataUtilizador = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($dataUtilizador == false) {
+            return "erroBaseDados";
+        }else{
+            
+            if (!file_exists($caminhoOriginal)) {
+                move_uploaded_file($caminhoTemporario,$caminhoOriginal);
+            }else{
+                return "imagemJaExiste";
+            }
+
+            $sql = 'UPDATE utilizadores SET imagemPerfil = :caminhoOriginal WHERE Id_utilizador = :Id_utilizador';
+            $stmt = $conexao->runQuery($sql);
+            $stmt->bindParam(':Id_utilizador', $Id_utilizador, PDO::PARAM_INT);
+            $stmt->bindParam(':caminhoOriginal', $caminhoOriginal);
+            $execute = $stmt->execute();
+
+
+
+            return $ficheiro['file']['name'];
+        }
+    }
+
+
+    function AlterarNome($Id_utilizador,$nomeCompleto){
+        $conexao = new Conexao();
+
+        $stmt = $conexao->runQuery('SELECT * FROM utilizadores WHERE Id_utilizador = :Id_utilizador');
+        $stmt->execute(array(':Id_utilizador' => $Id_utilizador));
+        $dataUtilizador = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($dataUtilizador == false) {
+            return "erroBaseDados";
+        }else{
+
+            $sql = 'UPDATE utilizadores SET nomeCompleto = :nomeCompleto WHERE Id_utilizador = :Id_utilizador';
+            $stmt = $conexao->runQuery($sql);
+            $stmt->bindParam(':Id_utilizador', $Id_utilizador, PDO::PARAM_INT);
+            $stmt->bindParam(':nomeCompleto', $nomeCompleto);
+            $execute = $stmt->execute();
+
+            
+            return "true";
+        }
+    }
+
+
+    function AlterarNomeUnico($Id_utilizador,$nomeUnico){
+        $conexao = new Conexao();
+
+        $stmt = $conexao->runQuery('SELECT * FROM utilizadores WHERE Id_utilizador = :Id_utilizador');
+        $stmt->execute(array(':Id_utilizador' => $Id_utilizador));
+        $dataUtilizador = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($dataUtilizador == false) {
+            return "erroBaseDados";
+        }else{
+            $stmt = $conexao->runQuery('SELECT * FROM utilizadores WHERE nomeUnico = :nomeUnico');
+            $stmt->execute(array(':nomeUnico' => $nomeUnico));
+            $dataUtilizador = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+            if ($dataUtilizador == true) {
+                return "nomeUnicoJaExiste";
+            }else{
+
+                $sql = 'UPDATE utilizadores SET nomeUnico = :nomeUnico WHERE Id_utilizador = :Id_utilizador';
+                $stmt = $conexao->runQuery($sql);
+                $stmt->bindParam(':Id_utilizador', $Id_utilizador, PDO::PARAM_INT);
+                $stmt->bindParam(':nomeUnico', $nomeUnico);
+                $execute = $stmt->execute();
+
+                return $nomeUnico;
+            }
         }
     }
 }

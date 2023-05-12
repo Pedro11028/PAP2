@@ -104,10 +104,15 @@ include "menuFooter/menu.php";
   <div class="outCloseForm" id="showBackground">
       <div class='imagensPopUp wrapper bg-white mt-sm-5' id="showForm">
         <div>
-          <img src="" id="changeImgPerfil" alt="">
-          <input id="escolherImagem" type="file" class="custom" onchange="displayClick()">
-        <br>
-        </div> 
+        <form  method="post" enctype="multipart/form-data" id="guardarImgForm">
+            <img src="" id="changeImgPerfil" >
+            <input id="escolherImagem" type="file" name="file" class="custom newButton selecionarImg" accept="image/png, image/jpeg" onchange="displayClick()">
+            <input id="mostrarFicheiro" type="text"  class="mostrarFicheiro selecionarImg" readonly>
+            <button id="guardarImg" type="submit" style="float: right;" class='btn button border selecionarImgBtn'>Guardar</button>
+          
+        </form>
+        
+        </div>
           <hr class="separarImagens">
           <br>
 

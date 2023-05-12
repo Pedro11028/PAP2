@@ -233,14 +233,12 @@ body{
 
 .custom {
   width: 150px;
-  position: relative;
-  top:35px;
 }
 .custom::-webkit-file-upload-button {
   visibility: hidden;
 }
-.custom::before {
-  content: 'Selecionar Ficheiros';
+.newButton::before {
+  content: 'Selecionar Imagem';
   color: black;
   display: inline-block;
   background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
@@ -254,6 +252,33 @@ body{
   font-weight: 700;
   font-size: 10pt;
 }
-.custom:hover::before {
+.newButton:hover::before {
   border-color: black;
+}
+
+.mostrarFicheiro{
+    border:0;
+    width: 150px;
+    cursor:default;
+    outline: none;
+}
+
+.mostrarFicheiro:hover:focus{
+    border:0;
+    outline: none;
+}
+.mostrarFicheiro:active{
+    border:0;
+    outline: none;
+}
+
+.selecionarImg{
+    position: relative;
+    top:35px;
+}
+
+.selecionarImgBtn{
+    position: relative;
+    top:65px;
+    display:none;
 }
