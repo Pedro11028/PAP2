@@ -39,20 +39,15 @@
     transition: ease .25s;
 }
 
-/*  */
+/* Cria pontos antes de cada link e coloca-os a uma certa distância dos mesmos */
 .footer-distributed .footer-links a:before {
     content: "·";
-    font-size: 20px;
-    left: 0;
     color: #fff;
-    display: inline-block;
     padding-right: 5px;
 }
 
+/* Tira o ponto antes do primeiro link que neste caso é o Inicio */
 .footer-distributed .footer-links .link-1:before {
     content: none;
 }
 
-.footer-distributed .footer-links a:hover{
-    text-decoration:underline;
-}

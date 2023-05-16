@@ -1,3 +1,4 @@
+/* Impede de ter uma distância que desformate o form */
 * {
     margin: 0 auto;
     padding: 0;
@@ -5,13 +6,7 @@
     font-family: 'Open Sans', sans-serif;
 }
 
-input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active{
-    -webkit-box-shadow: 0 0 0 30px blue inset !important;
-}
-
+/* Formato e posição do form */
 form {
     height: 380px;
     width: 400px;
@@ -27,22 +22,25 @@ form {
     transform: translate(-50%, -50%);
 }
 
+/* cor e posição do título */
 h2{
     color: white;
     position: center;
 }
 
+/* Sombra dos botões */
 button{
     box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.58);
 }
 
-
+/* Posições dos inputs  */
 .input-info {
     margin-top: 30px;
     margin-bottom: 15px;
 }
 
-input,input[type="email"],input[type="confirmarpass"]  {
+/* Formato do input do tipo email e caon*/
+input,input[type="email"]  {
     border: 1px solid #828999;
     padding: 10px;
     border-radius: 5px;
@@ -56,7 +54,8 @@ input,input[type="email"],input[type="confirmarpass"]  {
     color: white;
 }
 
-.password1, .password2{
+/* Formato do input para a password */
+.password1{
     border: 1px solid #828999;
     padding: 10px;
     border-radius: 5px;
@@ -70,26 +69,17 @@ input,input[type="email"],input[type="confirmarpass"]  {
     color: white;
 }
 
+/* formato do ponteiro quando está em cima do icon para mostrar e esconder password */
 .show,.hide{
     cursor: pointer;
 }
 
-#inputText{
-    width: 242px;
-    background: none;
-    margin: 5px 5px 5px 17px;
-    outline: none;
-    transition: 0.3s;
-    text-indent: 15px;
-    overflow: hidden;
-    color: white;
-}
-
-
-
+/* Centralizar os botões */
 .log-sign{
     text-align: center;
 }
+
+/* Formato do botão Login */
 .signup,
 .login{
     padding: 10px;
@@ -104,30 +94,7 @@ input,input[type="email"],input[type="confirmarpass"]  {
     outline: none;
 }
 
-
-
-.log-sign .signup>a{color: #fff;text-decoration: none;}
-
-.log-sign button:hover{
-    background:none;
-    border:1px solid #828999;
-    color: #828999;
-}
-
-.send{
-    padding: 10px;
-    margin: 5px 5px 5px 17px;
-    background: #435688;
-    color: #fff;
-    width: 103px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: 0.5s;
-    border: 1px solid #435688;
-    outline: none;
-    margin-left: 32%
-}
-
+/* Formato do botão Cancelar */
 .voltar{
     padding: 10px;
     margin: 5px 5px 5px 17px;
@@ -142,12 +109,14 @@ input,input[type="email"],input[type="confirmarpass"]  {
     text-align: center;
 }
 
-#erroValidar{
-    color: red;
-    font-size: 12px;
-    margin: 5px 5px 5px 17px;
+/* Altera botão quando o ponteiro passa por cima */
+.log-sign button:hover{
+    background:none;
+    border:1px solid #828999;
+    color: #828999;
 }
 
+/* Formato de  link para ir para o registrar*/
 p{
     font-size: 12px;
     margin: 5px 5px 5px 17px;
@@ -166,4 +135,4 @@ a:hover{
 body {
   background-image: url('img/background.jpg') ;
 }
-       
+

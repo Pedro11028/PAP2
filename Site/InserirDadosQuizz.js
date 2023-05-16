@@ -5,13 +5,18 @@ $(document).ready(function(){
     document.getElementById("menuSearch").remove();
     document.getElementById("linkCriarQuizz").innerHTML = "Guardar";
     document.getElementById("menuCriarQuizz").style.float= "right";
-    document.getElementById("menuCriarQuizz").style.left="0px";
+    document.getElementById("menuCriarQuizz").style.left= "0px";
     document.getElementById("dropUtilizador").remove();
 
-    if(document.getElementById("imagemQuestao").display === "none"){
 
-    }else{
-        document.getElementById("digitarQuestao").style.left="35%";
-    }
+
 });
 
+//Funções referentes à visualização do form de atualização da imagem de perfil
+function carregarImagemQuizz(){
+    document.getElementById("imagemQuestao").style.display= "inline";
+    document.getElementById("selecionarImagemQuizz").style.display= "none";
+    
+    document.getElementById("imagemQuestao").src = "img/2.png";
+    alert(document.getElementById("imagemQuestao").src);
+}

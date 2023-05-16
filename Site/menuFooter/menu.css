@@ -1,3 +1,4 @@
+/* css para garantir que o footer fique devidamente formatado */
 * {
     margin: 0 auto;
     padding: 0;
@@ -5,29 +6,33 @@
     font-family: 'Open Sans', sans-serif;
   }
 
+/* Estilo geral do menu */
 .estiloMenu nav {
 	margin: 0 auto;
 	background: black;
 	box-shadow:0 3px 15px rgba(0,0,0,.15);
 }
 
+/* Garante que o menu fique fixo */
 .estiloMenu nav::after {
 	display: block;
 	content: '';
 	clear: both;
 }
 
+/* Garante a distância entre os elementos do menu */
 .estiloMenu nav ul {
 	padding: 0;
 	margin: 0;
 	list-style: none;
 }
 
+/* Faz com que os elementos do menu fiquem na esquerda assim impedindo que fiquem todos espalhados */
 .estiloMenu nav ul li {
 	float: left;
-	position: relative;
 }
 
+/* Centraliza os elementos no menu e define o seu formato */
 .estiloMenu nav ul li a {
 	display: block;
 	color: blue;
@@ -39,23 +44,22 @@
     text-align: right;
 }
 
+/* Coloca o dropdown do menu abaixo do nome do Utilizador */
 .estiloMenu nav li:hover ul, .menu li.over ul{
     display:block;
 }
+
+/* Este css para este Id foi feito tendo em conta que no perfil tirava a cor do nome do utilizador */
 #nomeUtilizador{
-	display: block;
-	color: blue;
-	text-decoration: none;
-	padding: 1rem 2rem;
     color:white;
-    border-radius: 24px;
-    transition: 0.5s;
-    text-align: right;
 }
+
+/* Mudar de cor quando for colocado o rato por cima do texto */
 .estiloMenu nav ul li a:hover {
     color: rgb(24, 139, 233);
 }
 
+/* Estilo do background do dropdown */
 .estiloMenu nav li ul li{
     background-color: black;
     display:block;
@@ -63,29 +67,25 @@
     color:white;
 }
 
-
-
+/* Esconder dropdown e limitar seu tamanho com o position*/
 .estiloMenu .dropar {
 	display: none;
 	position: absolute;
 	background: #fff;
 }
 
+/* Coloca o elemento com esta classe á direita, utilizado para o nome de utilizador e o dropdown */
 .estiloMenu .direita{
     float: right;
 	width:123px;
 }
 
-.estiloMenu #utilizador{
-	text-align: center;
-}
-
+/* Estilo da barra de pesquisa */
 .estiloMenu .barraPesquisa{
 	position: relative;
 	top: 10px;
 	left: 30px;
 	border: 1px solid #828999;
-	padding: 6px;
 	border-radius: 5px;
 	width: 80%;
 	height: 30PX;
@@ -93,6 +93,7 @@
 	text-indent: 10px;
  }
  
+ /* estilo do icon da barra de pesquisa */
  .estiloMenu .search{
 	position: relative;
 	top: 13px;
@@ -106,15 +107,13 @@
 	cursor: pointer;
  }
  
+ /* Efeito quando o rato é colocado sobre o icon da pesquisa */
  .estiloMenu  .search:hover{
-	font-size: 120%;
+	font-size: 110%;
 	top: 13px;
 	left: -4px;
+	color:rgb(24, 139, 233);
  }
- 
- .estiloMenu  .criarQuizz{
-	position: relative;
-	left:30px;
- }
+
 
  
