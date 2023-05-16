@@ -1,52 +1,58 @@
+/* Este css serve para colocar o footer na parte de baixo com o fundo a preto e o conteúdo centralizado.*/
 .footer-distributed {
     background-color: #292c2f;
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
     box-sizing: border-box;
     width: 100%;
     text-align: center;
+    /* Altera o tipo e o tamanho da letra */
     font: normal 16px sans-serif;
     padding: 45px 50px;
     position:absolute;
     top:100%;
- }
- 
- .footer-distributed .footer-center p {
+}
+
+/* Altera o texto que fica no centro do footer */
+ .footer-distributed .footer-center p{
     color: #8f9296;
     font-size: 14px;
     margin: 0;
     position: center;
- }
- 
- .footer-distributed p.footer-links {
+}
+
+/* Altera uma vez mais o texto do footer definindo a sua cor para branco e aumentando o seu tamanho */
+.footer-distributed p.footer-links {
     font-size: 18px;
     font-weight: bold;
     color: #ffffff;
     margin: 0 0 10px;
     padding: 0;
     transition: ease .25s;
- }
- 
- .footer-distributed p.footer-links a {
+}
+
+/* Esta parte do código serve para esconder a mudança de cor do link quando clica-mos no mesmo */
+.footer-distributed p.footer-links a {
     display: inline-block;
     line-height: 1.8;
     text-decoration: none;
     color: inherit;
     transition: ease .25s;
- }
- 
- .footer-distributed .footer-links a:before {
+}
+
+/*  */
+.footer-distributed .footer-links a:before {
     content: "·";
     font-size: 20px;
     left: 0;
     color: #fff;
     display: inline-block;
     padding-right: 5px;
- }
- 
- .footer-distributed .footer-links .link-1:before {
+}
+
+.footer-distributed .footer-links .link-1:before {
     content: none;
- }
- 
- .footer-distributed .footer-links a:hover{
+}
+
+.footer-distributed .footer-links a:hover{
     text-decoration:underline;
- }
+}
