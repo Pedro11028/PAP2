@@ -224,6 +224,7 @@ class Utilizador {
         }else{
             
             if (!file_exists($caminhoOriginal)) {
+                unlink($dataUtilizador['imagemPerfil']);
                 move_uploaded_file($caminhoTemporario,$caminhoOriginal);
             }else{
                 return "imagemJaExiste";

@@ -1,0 +1,78 @@
+body{
+    background-color: rgb(77, 172, 164);
+}
+
+.containerQuestao {
+    position: absolute;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%);
+    border-radius: 2px;
+    width:70%;
+    height:300px;
+    background-color: white;
+    margin-top: 1em;
+  }
+
+.alinharQuestao{
+    display: inline-block;
+}
+
+.digitarQuestao{
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    text-align: center;
+    max-height: 100px;
+    overflow-y: scroll;
+    border:1px solid black;
+}
+
+.digitarQuestao:active, .digitarResposta:active{
+    border:none;
+}
+
+[contenteditable]:focus {
+    outline: 0px;
+}
+
+[placeholder]:empty::before {
+    content: attr(placeholder);
+    color: #555; 
+}
+
+#footer {
+    position: absolute;
+    width: 100%;
+    padding: 20px;
+    box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.1);
+    margin-top:22em;
+  }
+
+  .containerResposta {
+    position: relative;
+    border-radius: 2px;
+    width:200px;
+    height: 300px;
+    background-color: white;
+    display: inline-block;
+  }
+  
+.digitarResposta{
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: white;
+    text-align: center;
+    max-height: 300px;
+    overflow-y: scroll;
+}
+
+.imagemQuestao{
+    width:35%;
+    height:300px;
+    border:1px outset silver;
+    display:none;
+}

@@ -49,7 +49,7 @@ $(document).ready(function(){
                 dataType: 'json',
                 success: function(resposta) {
                   if(resposta == 'true'){
-                    location.reload()
+                    location.reload();
                   }
                   if(resposta == 'erroBaseDados'){
                     alert('Woops! Parece estar a ocorrer um erro com a ligação á base de dados!');
@@ -80,7 +80,7 @@ $(document).ready(function(){
                 dataType: 'json',
                 success: function(resposta) {
                   if(resposta == 'true'){
-                    location.reload()
+                    location.reload();
                   }
                   if(resposta == 'erroBaseDados'){
                     alert('Woops! Parece estar a ocorrer um erro com a ligação á base de dados!');
@@ -121,7 +121,7 @@ $(document).ready(function(){
                 dataType: 'json',
                 success: function(resposta) {
                   if(resposta == 'true'){
-                    location.reload()
+                    location.reload();
                   }
                   if(resposta == 'erroBaseDados'){
                     alert('Woops! Parece estar a ocorrer um erro com a ligação á base de dados!');
@@ -151,7 +151,7 @@ $(document).ready(function(){
            beforeSend:function(){
            },
            success: function(resposta){
-               alert(resposta);
+            location.reload();
            }
           
            });

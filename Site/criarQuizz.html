@@ -2,16 +2,18 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Language Quizz- Login</title>
+    <title>Language Quizz- Criar Quizz</title>
       <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-	  <script src="https://kit.fontawesome.com/410e89720f.js" crossorigin="anonymous"></script>
       <link rel="stylesheet" href="login.css">
+
 
 </head>
 <body>
 <script>
     if (document.cookie.indexOf('idCookie') > -1 ) {
-        window.history.go(-1);
+        
+    }else{
+      window.history.go(-1)
     }
 </script>
 
@@ -20,26 +22,27 @@
     <br>
     <br>
     <center>
-        <h2>Bem vindo de volta</h2>
+        <h2>Eliminar Conta</h2>
     </center>
     
     <div class="input-info">
 
         <p id="erroValidar"></p>
-            <input type="email" placeholder="E-mail" required autocomplete="off" validate id="email">
+        <input type="password" placeholder="Password" id="password" autocomplete="on" required="required">
+        <i class="fa-solid fa-eye-slash show" id="showhide1"></i>
         <br>
         <br>
-            <input class="password1" type="password" placeholder="Password" id="password" autocomplete="on" required="required">
-            <i class="fa-solid fa-eye-slash show" id="showhide1"></i>
+            <input type="password" placeholder="Confirmar Password" id="confirmarPass" autocomplete="on" required="required">
         <div class="log-sign">
-        <br>
+          <br>
+          <br>
       
     <div class="log-sign">
         <button id="submit" class="login" name="submit">
-             Login
+             Eliminar
         </button>
         
-        <a href="index.php">
+        <a href="perfil.php">
             <button class="voltar" style="align-content: center;" form="voltarform">
                 Cancelar
             </button>
@@ -50,11 +53,10 @@
 
     <br><br>
 
-    <p>Ainda não tem uma conta? <a href="registo.html">registre-se</a> </p>
 
 </form>
 
-<script src="login.js"></script>
+<script src="criarQuizz.js"></script>
 
 </body>
 </html>

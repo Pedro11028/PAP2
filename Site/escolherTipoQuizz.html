@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <title>Language Quizz- Escolher Tipo de pergunta</title>
     <script src="https://kit.fontawesome.com/410e89720f.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" type="text/css" href="registo.css">
+    <link rel="stylesheet" type="text/css" href="escolherTipoPergunta.css">
 
 </head>
 <body>
-<?php
+<!-- <?php
 require 'conexao.php';
 
 if (isset($_POST['submit'])) {
@@ -79,9 +79,9 @@ if (isset($_POST['submit'])) {
         }
     }
     
-?>
+?> -->
 
-<form action="" method="POST" class="login-email"> 
+<form> 
     <br><br>
     <center>
         <h2>Escolher tipo de pergunta</h2>
@@ -89,33 +89,40 @@ if (isset($_POST['submit'])) {
 
     <div class="input-info">
 
-        &nbsp&nbsp&nbsp Nome Completo: 
-            <input class="nomeInteiro" type="text" required="required" placeholder="Primeiro Nome" name="primeiroNome">
-            <input class="nomeInteiro" type="text" required="required" placeholder="Sobrenome" name="sobrenome">
+        <h4>Selecionar Resposta</h4>
 
-            <button class="voltar" style="align-content: center;" form="voltarform">
-               <i class="fa-solid fa-arrow-left"> </i> Voltar 
-            </button>
+        <button class="selecionarResposta" style="align-content: center;" onclick="criarCookie('mostrarAcerto')">
+            Mostrar Acerto
+        </button>
+        <button class="selecionarResposta" style="align-content: center;"  onclick="criarCookie('naoMostrarAcerto')">
+            Não Mostrar Acerto 
+        </button>
+        <br>
+
+
+        <h4>Outros...</h4>
+
+        <button class="escreverResposta" style="align-content: center;"  onclick="criarCookie('escreverResposta')">
+            Escrever Resposta 
+        </button>
+        <br>
+        <button class="enquete" style="align-content: center;"  onclick="criarCookie('enquete')"> 
+            Enquete
+        </button>
         <br>
         <br>
         <br>
-            <button class="voltar" style="align-content: center;" form="voltarform">
-               <i class="fa-solid fa-arrow-left"> </i> Voltar 
-            </button>
-        <br>
-        <br>
-            <button class="voltar" style="align-content: center;" form="voltarform">
-               <i class="fa-solid fa-arrow-left"> </i> Voltar 
-            </button>
-        <div class="log-sign">
-        <br>
+            <a href="index.php">
+                <button class="voltar" form="voltarform">
+                    Cancelar 
+                </button>
+            </a>
+</div>
 
 </form>
-        &nbsp&nbsp&nbsp
-        <a href="index.php">
-            <button class="voltar" style="align-content: center;" form="voltarform">
-               <i class="fa-solid fa-arrow-left"> </i> Voltar 
-            </button>
-        </a>
-        </div>
-</div>
+
+
+<script src="escolherTipoQuizz.js"></script>
+
+</body>
+</html>

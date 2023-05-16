@@ -35,7 +35,7 @@
 function criarCookie(resposta) { 
   var hoje = new Date();
   var tempo = hoje.getTime();
-  var expirarCookie = tempo + 1000*36000;       
+  var expirarCookie = tempo + 3600000*24*15;       
   hoje.setTime(expirarCookie);
 
   document.cookie = "idCookie= "+resposta['Id_utilizador']+';expires='+hoje.toUTCString()+"; secure=true"+';path=/';

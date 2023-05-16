@@ -6,23 +6,23 @@
 <nav>
 	<ul>
 		<li>
-			<a href="index.php">Início</a>
+			<a id="linkInicio" href="index.php">Início</a>
 		</li> 
         <form>
           <li>
-            <input type="text" class="barraPesquisa">
+            <input id="menuBarraPesquisa" type="text" class="barraPesquisa">
           </li>
           <li>
-            <button class="search"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <button id="menuSearch" class="search"><i class="fa-solid fa-magnifying-glass"></i></button>
           </li>
         </form>
-          <li class="criarQuizz"><a href="escolherTipoQuizz.html">Criar um Quizz</a></li>
+          <li id="menuCriarQuizz" class="criarQuizz"><a id="linkCriarQuizz" href="escolherTipoQuizz.html">Criar um Quizz</a></li>
 
 
     		<li id="dropUtilizador" class="direita"><a id="nomeUtilizador"></a>
-    			<ul id="dropUtilizador" class="dropar">
-    				<li><a id="dropUtilizador" class="dropContent" href="perfil.php"> <i class="fa-solid fa-user"></i> Perfil</a></li>
-    				<li><a id="dropUtilizador" class="dropContent" href="Logout.html"> <i class="fa-solid fa-arrow-right-from-bracket"></i> Sair </a></li>
+    			<ul  class="dropar">
+    				<li><a  class="dropContent" href="perfil.php"> <i class="fa-solid fa-user"></i> Perfil</a></li>
+    				<li><a  class="dropContent" href="Logout.html"> <i class="fa-solid fa-arrow-right-from-bracket"></i> Sair </a></li>
     			</ul>
     		</li>
     	    <?php ?>
