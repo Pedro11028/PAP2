@@ -26,16 +26,19 @@ include "menuFooter/menu.php";
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">  
     <link rel="stylesheet" type="text/css" href="Perfil.css">
 
-
-  <div class="wrapper bg-white mt-sm-5">
-    <div class="d-flex align-items-start py-3 border-bottom">
-        <img src="" id="imgPerfil">     
-        <img src="" id="nivel">
-        <label Id="pontuacao" class="pontuacao" ></label>
-        <div class="pl-sm-4 pl-2" id="img-section">
-            <b>Avatar</b>
-            <p>Permitido Jpg e Png</p>
-            <button class="btn button border" onclick="openForm()"><b>Alterar imagem</b></button>
+<div class="wrapper bg-white mt-sm-5">
+    <div class="container">
+        <div class="d-flex border-bottom">
+            <img src="" id="imgPerfil">   
+            <div class="col-xs-3 pl-2" id="img-section">
+                <b>Avatar</b>
+                <p>Permitido Jpg e Png</p>
+                <button class="btn button border" onclick="openForm()"><b>Alterar imagem</b></button>
+            </div>
+            <div class="col-xs-3 col-md-3">    
+                <img src="" id="nivel">
+                <label Id="pontuacao" class="pontuacao" ></label>
+            </div>
         </div>
     </div>
     <div class="py-2">

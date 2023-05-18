@@ -1,7 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
 *{
-    margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
@@ -55,16 +53,14 @@ h4{
     width: 60px;
     height: 60px;
     position:relative;
-    left:60%;
-    top: -20px;
 }
 
-.pontuacao{
+/* .pontuacao{
     position:relative;
     left:47%;
     top: 40px;
     font-weight: bold;
-}
+} */
 
 label{
     margin-bottom: 0;
@@ -85,8 +81,7 @@ label{
 }
 
 #img-section{
-    position: relative;
-    left:-25%;
+    margin-bottom: 5px;
 }
 
 select{
@@ -127,12 +122,36 @@ select:focus{
     color: #fff;
 }
 
-@media(max-width:576px){
+@media only screen and (width: 900px) {
+
     .wrapper{
-        padding: 25px 20px;
+        padding: 30px 50px;
+        border: 1px solid #ddd;
+        border-radius: 15px;
+        margin: 10px auto;
+        min-width: 90%;
+        height: 100%;
+        font-size: 25px;
     }
-    #deactivate{
-        line-height: 18px;
+    #img-section{
+        left:-10%;
+    }
+
+    .inputDados{
+        height: 3rem;
+    }
+    .row{
+        padding-bottom: 3rem!important;
+    }
+    .py-1{
+        padding-bottom: 2rem!important;
+    }
+    .inputDados{
+        min-width: 90%;
+        font-size: 20px;
+    }
+    .labelImage{
+        margin:18px;
     }
 }
 

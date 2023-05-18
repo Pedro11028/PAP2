@@ -17,6 +17,6 @@ function carregarImagemQuizz(){
     document.getElementById("imagemQuestao").style.display= "inline";
     document.getElementById("selecionarImagemQuizz").style.display= "none";
     
-    document.getElementById("imagemQuestao").src = "img/2.png";
-    alert(document.getElementById("imagemQuestao").src);
+    document.getElementById("imagemQuestao").src = document.getElementById("escolherImagem").value;
+    alert(document.getElementById("escolherImagem").value);
 }

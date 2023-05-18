@@ -192,6 +192,8 @@ class Utilizador {
         if ($dataUtilizador == false) {
             return "erroBaseDados";
         }else{
+            
+            unlink($dataUtilizador['imagemPerfil']);
 
             $sql = 'UPDATE utilizadores SET imagemPerfil = :imagemPerfil WHERE Id_utilizador = :Id_utilizador';
             $stmt = $conexao->runQuery($sql);
@@ -226,19 +228,18 @@ class Utilizador {
             if (!file_exists($caminhoOriginal)) {
                 unlink($dataUtilizador['imagemPerfil']);
                 move_uploaded_file($caminhoTemporario,$caminhoOriginal);
+
+                $sql = 'UPDATE utilizadores SET imagemPerfil = :caminhoOriginal WHERE Id_utilizador = :Id_utilizador';
+                $stmt = $conexao->runQuery($sql);
+                $stmt->bindParam(':Id_utilizador', $Id_utilizador, PDO::PARAM_INT);
+                $stmt->bindParam(':caminhoOriginal', $caminhoOriginal);
+                $execute = $stmt->execute();
+    
+                return $ficheiro['file']['name'];
             }else{
                 return "imagemJaExiste";
             }
 
-            $sql = 'UPDATE utilizadores SET imagemPerfil = :caminhoOriginal WHERE Id_utilizador = :Id_utilizador';
-            $stmt = $conexao->runQuery($sql);
-            $stmt->bindParam(':Id_utilizador', $Id_utilizador, PDO::PARAM_INT);
-            $stmt->bindParam(':caminhoOriginal', $caminhoOriginal);
-            $execute = $stmt->execute();
-
-
-
-            return $ficheiro['file']['name'];
         }
     }
 
