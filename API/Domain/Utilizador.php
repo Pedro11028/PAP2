@@ -22,8 +22,10 @@ class Utilizador {
                                      'confirmarExiste' => "true"
                                     );
 
-                if (!file_exists('../../../BaseDados/Utilizadores/Utilizador_'.$data['Id_utilizador'])) {
-                    mkdir('../../../BaseDados/Utilizadores/Utilizador_'.$data['Id_utilizador'], 0770, true);
+                if (!file_exists('../BaseDados/Utilizadores/Utilizador_'.$data['Id_utilizador'])) {
+                    mkdir('../BaseDados/Utilizadores/Utilizador_'.$data['Id_utilizador'], 0777, true);
+                    mkdir('../BaseDados/Utilizadores/Utilizador_'.$data['Id_utilizador'].'/Quizzes', 0777, true);
+                    mkdir('../BaseDados/Utilizadores/Utilizador_'.$data['Id_utilizador'].'/QuizzTemporario', 0777, true);
                 }
 
                 return $filtrarDados;
@@ -193,7 +195,10 @@ class Utilizador {
             return "erroBaseDados";
         }else{
             
-            unlink($dataUtilizador['imagemPerfil']);
+            if (file_exists('../BaseDados/Utilizadores/Utilizador_'.$data['Id_utilizador'].'/'.$dataUtilizador['imagemPerfil'])) {
+                unlink($dataUtilizador['imagemPerfil']);
+            }
+
 
             $sql = 'UPDATE utilizadores SET imagemPerfil = :imagemPerfil WHERE Id_utilizador = :Id_utilizador';
             $stmt = $conexao->runQuery($sql);

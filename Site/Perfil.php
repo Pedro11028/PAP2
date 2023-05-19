@@ -27,8 +27,8 @@ include "menuFooter/menu.php";
     <link rel="stylesheet" type="text/css" href="Perfil.css">
 
 <div class="wrapper bg-white mt-sm-5">
-    <div class="container">
-        <div class="d-flex border-bottom">
+    <div class="container-fluid">
+        <div id="separarAvatarENivel" class="d-flex border-bottom">
             <img src="" id="imgPerfil">   
             <div class="col-xs-3 pl-2" id="img-section">
                 <b>Avatar</b>
@@ -44,7 +44,7 @@ include "menuFooter/menu.php";
     <div class="py-2">
         <div class="row py-2">
             <div class="container">
-            <label>Nome de Utilizador</label>
+            <label class="informacoesUtilizador">Nome de Utilizador</label>
                 <div class="d-flex">
                     <input class="form-control mr-2 inputDados" id="nomeUnico">
                         <button id="alterarNomeUnico" class="btn btn-primary" >Alterar</button>
@@ -53,7 +53,7 @@ include "menuFooter/menu.php";
         </div>
         <div class="row py-2">
             <div class="container">
-                <label>Nome</label>
+                <label class="informacoesUtilizador">Nome</label>
                     <div class="d-flex">
                         <input class="form-control mr-2 inputDados" id="nomeCompleto">
                         <button id="alterarNome" class="btn btn-primary">Alterar</button>
@@ -62,7 +62,7 @@ include "menuFooter/menu.php";
         </div>
         <div class="row py-2">
             <div class="container">
-                <label>Email</label>
+                <label class="informacoesUtilizador">Email</label>
                 <div class="d-flex">
                     <input class="form-control mr-2 inputDados" id="email" readonly>
                 </div>
@@ -82,14 +82,13 @@ include "menuFooter/menu.php";
                 <label id="quizzesRealizados"></label>
             </div>
         </div>
-        <div class="row py-2 border-bottom">
+        <div id="separarInformacoesUtilizadorDeLinks" class="row py-2 border-bottom">
             <div class="container">
                 <span class="label label-info">Número de avaliações realizadas</span>
                 <br>
                 <label id="avaliacoesFeitas"></label>
             </div>
-        </div> 
-        <p></p>
+        </div>
             <div class="py-1">
                 <a class="outUtilizador" href="alterarPassword.html"> <i class="fa-solid fa-shield-halved"></i> Alterar password </a>
             </div>

@@ -122,38 +122,7 @@ select:focus{
     color: #fff;
 }
 
-@media only screen and (width: 900px) {
 
-    .wrapper{
-        padding: 30px 50px;
-        border: 1px solid #ddd;
-        border-radius: 15px;
-        margin: 10px auto;
-        min-width: 90%;
-        height: 100%;
-        font-size: 25px;
-    }
-    #img-section{
-        left:-10%;
-    }
-
-    .inputDados{
-        height: 3rem;
-    }
-    .row{
-        padding-bottom: 3rem!important;
-    }
-    .py-1{
-        padding-bottom: 2rem!important;
-    }
-    .inputDados{
-        min-width: 90%;
-        font-size: 20px;
-    }
-    .labelImage{
-        margin:18px;
-    }
-}
 
 .changeImg{
     position:absolute;
@@ -300,4 +269,76 @@ body{
     position: relative;
     top:65px;
     display:none;
+}
+
+@media (max-width: 1000px) {
+    
+    .wrapper{
+        padding: 30px 0px;
+        border: 1px solid #ddd;
+        border-radius: 15px;
+        margin: 10px auto;
+        min-width: 97%;
+        height: 100%;
+        font-size: 25px;
+    }
+
+    .selectImage, #imgPerfil, #changeImgPerfil{
+        border: #CCF solid 4px;
+        padding: 1px;
+        border-radius: 70%;
+        border-top-color: #0000FF;
+        border-left-color: #0000FF;
+        width: 150px;
+        height: 150px;
+    }
+
+    .label-info{
+        font-size: 30px;
+    }
+
+    #quizzesRealizados, #avaliacoesFeitas, #quizzesCriados{
+        font-size: 30px;
+    }
+
+    #nivel{  
+        border: rgb(148, 148, 209) solid px;
+        padding: 1px;
+        border-radius: 80%;
+        width: 100px;
+        height: 100px;
+        position:relative;
+    }
+
+    #img-section{
+        left:-10%;
+    }
+    
+    #separarInformacoesUtilizadorDeLinks, #separarAvatarENivel{
+        margin: 20px;
+    }
+
+    .inputDados{
+        height: 5rem;
+    }
+    
+    .row{
+        padding-bottom: 3rem!important;
+    }
+
+    .outUtilizador{
+        margin-left:120px;
+    }
+
+    .py-1{
+        padding-bottom: 3rem!important;
+    }
+    
+    .outUtilizador, .informacoesUtilizador,.inputDados,.label-infom,#quizzesRealizados, #avaliacoesFeitas, #quizzesCriados{
+        min-width: 100%;
+        font-size: 30px;
+    }
+    .labelImage{
+        margin:1px;
+    }
 }
