@@ -144,18 +144,17 @@ $(document).ready(function(){
            formData.append('Id_utilizador', Id_utilizador);
 
            $.ajax({
-           method:"POST",
-           url: "../API/uploadImgApi.php",
-           data:formData,
-           cache:false,
-           contentType: false,
-           processData: false,
-           beforeSend:function(){
-           },
-           success: function(resposta){
-            location.reload();
-           }
-          
+              method:"POST",
+              url: "../API/uploadImgApi.php",
+              data:formData,
+              cache:false,
+              contentType: false,
+              processData: false,
+              beforeSend:function(){
+              },
+              success: function(resposta){
+                location.reload();
+              }
            });
       });
 

@@ -31,7 +31,6 @@ body {
     text-align: center;
     max-height: 300px;
     overflow-y: scroll;
-    border: 1px solid black;
     cursor: text;
     
 }
@@ -63,18 +62,11 @@ body {
     background-color: #0779e4;
 }
 
-
-#limparImagem{
-    position: relative;
-    left: 0;
-    top: -102px;
-    display: none;
-}
-
 .footer {
     position: relative;
     height: 40vh;
 }
+
 
 #adicionarResposta{
     position: relative;
@@ -87,6 +79,9 @@ body {
     display: none;
 }
 
+#guardarTempImg{
+    visibility:hidden;
+}
 
 .form-check-input{
     left:34px;
@@ -130,14 +125,13 @@ body {
 .imagemQuestao{
     position: relative;
     width: 35%;
-    top: 48px;
-    height: 253px;
+    top: -50px;
+    height: 300px;
     border: 1px outset silver;
-    left: -55px;
     display: none;
 }
 
-#limparImagem, #selecionarImagemQuizz{
+#guardarTempImg, #selecionarImagemQuizz{
     width:50px;
     height:50px;
     cursor:pointer;

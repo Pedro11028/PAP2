@@ -1,4 +1,6 @@
 $(document).ready(function(){
+
+
     document.getElementById('linkInicio').innerHTML = "Cancelar";
     document.getElementById('linkInicio').href = "CancelarInserirDados.php";
     document.getElementById("menuBarraPesquisa").remove();
@@ -8,36 +10,30 @@ $(document).ready(function(){
     document.getElementById("menuCriarQuizz").style.left= "0px";
     document.getElementById("dropUtilizador").remove();
 
+
     var Id_utilizador = getIdCookie();
+    $(document).on('submit','#MostrarImgPergunta',function(e){
 
-    $("#escolherImagem").on('change', function() {
-        var verificarNome = /^[a-zA-Z]+ [a-zA-Z]+$/;
-        var nomeCompleto = document.getElementById('nomeCompleto').value;
+        e.preventDefault();
+        var Id_utilizador = getIdCookie();
+        var formData = new FormData(this);
+        formData.append('accao', "MostrarImgPergunta");
+        formData.append('Id_utilizador', Id_utilizador);
 
-        if(!verificarNome.test(nomeCompleto)){
-            alert('Por favor digite um nome válido (primeiro & último nome).');
-            document.getElementById('nomeCompleto').focus();
-        }else{
-            $.ajax({
-                type:"POST",
-                url: "../API/alterarNomeApi.php",
-                data:{
-                    accao:"alterarNome",
-                    Id_utilizador:Id_utilizador,
-                    nomeCompleto:nomeCompleto
-                },
-                cache: false,
-                dataType: 'json',
-                success: function(resposta) {
-                  if(resposta == 'true'){
-                    location.reload();
-                  }
-                  if(resposta == 'erroBaseDados'){
-                    alert('Woops! Parece estar a ocorrer um erro com a ligação á base de dados!');
-                  }
-                }
-            });
-        }
+        $.ajax({
+            method:"POST",
+            url: "../API/MostrarImgPerguntaApi.php",
+            data:formData,
+            cache:false,
+            contentType: false,
+            processData: false,
+            beforeSend:function(){
+            },
+            success: function(resposta){
+                carregarImagemQuizz(resposta);
+            }
+        });
+
         return false;
     });
 
@@ -50,31 +46,31 @@ $(document).ready(function(){
         })
         return cookie['idCookie'];
     }
+
+    function carregarImagemQuizz(imagem){
+
+        document.getElementById("imagemQuestao").style.display= "inline";
+        document.getElementById("selecionarImagemQuizz").style.display= "none";
+        
+        document.getElementById("imagemQuestao").src = imagem;
+    
+        document.getElementById("digitarQuestao").style.left= "35%";
+    }
 });
 
 //Funções referentes à visualização do form de atualização da imagem de perfil
-function carregarImagemQuizz(){
-    document.getElementById("imagemQuestao").style.display= "inline";
-    document.getElementById("selecionarImagemQuizz").style.display= "none";
-    
-    document.getElementById("imagemQuestao").src = document.getElementById("escolherImagem").value;
-
-
-    document.getElementById("digitarQuestao").style.left= "35%";
-    document.getElementById("limparImagem").style.visibility = 'visible';
-}
 
 function limparImagemQuestao(){
     document.getElementById("imagemQuestao").style.display= "none";
     document.getElementById("selecionarImagemQuizz").style.display= "inline";
     
+    document.getElementById("escolherImagem").value = "";
 
     document.getElementById("digitarQuestao").style.left= "55px";
-    document.getElementById("limparImagem").style.visibility = 'hidden';
     
 }
 
-function fecharContainerResposta(questao){
+function fecharContainerResposta(numeroContainer){
     
     var NumeroQuestoesExistentes= 0;
 
@@ -90,14 +86,16 @@ function fecharContainerResposta(questao){
         }
     }
 
-    console.log(NumeroQuestoesExistentes);
-    document.getElementById(questao).style.display= "none";
+    document.getElementById("questao"+numeroContainer).style.display = "none";
+    document.getElementById("checkBox"+numeroContainer).checked = false;
+    document.getElementById("digitarResposta"+numeroContainer).innerHTML = "";
 
     document.getElementById("adicionarResposta").style.display = "inline";
 }
 
 function adicionarCampoResposta(){
-
+    
+    var numRespostasInexistentes = 0;
     for (let i = 1; i <= 4; i++) {
         if(document.getElementById("questao"+i).style.display == "none"){
             document.getElementById("questao"+i).style.display = "inline";
@@ -107,6 +105,13 @@ function adicionarCampoResposta(){
 
     for (let i = 1; i <= 4; i++) {
         document.getElementById("fecharResposta"+i).style.visibility = 'visible';
+        
+        if(document.getElementById("questao"+i).style.display == "none"){
+            numRespostasInexistentes += 1;
+        }
     }
     
+    if(numRespostasInexistentes == 0){
+        document.getElementById("adicionarResposta").style.display = "none";
+    }
 }

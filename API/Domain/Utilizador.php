@@ -25,7 +25,7 @@ class Utilizador {
                 if (!file_exists('../BaseDados/Utilizadores/Utilizador_'.$data['Id_utilizador'])) {
                     mkdir('../BaseDados/Utilizadores/Utilizador_'.$data['Id_utilizador'], 0777, true);
                     mkdir('../BaseDados/Utilizadores/Utilizador_'.$data['Id_utilizador'].'/Quizzes', 0777, true);
-                    mkdir('../BaseDados/Utilizadores/Utilizador_'.$data['Id_utilizador'].'/QuizzTemporario', 0777, true);
+                    mkdir('../BaseDados/Utilizadores/Utilizador_'.$data['Id_utilizador'].'/ImagemTemporaria', 0777, true);
                 }
 
                 return $filtrarDados;

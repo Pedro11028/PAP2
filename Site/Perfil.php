@@ -111,7 +111,6 @@ include "menuFooter/menu.php";
             <input id="escolherImagem" type="file" name="file" class="custom newButton selecionarImg" accept="image/png, image/jpeg" onchange="displayClick()">
             <input id="mostrarFicheiro" type="text"  class="mostrarFicheiro selecionarImg" readonly>
             <button id="guardarImg" type="submit" style="float: right;" class='btn button border selecionarImgBtn'>Guardar</button>
-          
         </form>
         
         </div>
