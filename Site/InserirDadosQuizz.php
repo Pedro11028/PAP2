@@ -16,18 +16,10 @@
 
 </head>
 <body>
-<script>
-
-
-</script>
 
 <?php
 include "menuFooter/menu.php";
 ?>
-
-
-       
-
     <div>
         <br>
         <div class="containerQuestao alinharQuestao">
@@ -39,44 +31,46 @@ include "menuFooter/menu.php";
                 <form  method="post" enctype="multipart/form-data" id="MostrarImgPergunta">
                     <input id="escolherImagem" type="file" name="file" accept="image/png, image/jpeg" onchange="document.getElementById('guardarTempImg').click();">
                     <button id="guardarTempImg" type="submit" class="btn button border"><i class="fa-solid fa-floppy-disk"></i></button>
-                
                 </form>
 
             <img id="imagemQuestao" src="" class="imagemQuestao" onclick="limparImagemQuestao()">
             <div id="digitarQuestao" class="digitarQuestao" placeholder="Digitar Questão..." contentEditable="plaintext-only"></div>
         </div>
     </div>
-    <div id="footer" class="footer container">
+
+    <!-- O que aparece quando o Tipo da questão é; mostrar resposta, não mostrar resposta ou enquete -->
+
+      <div id="selecionarResposta" class="selecionarResposta container">
             <div class="row h-100">
                 <div id="questao1" class="col-sm containerOpcoesResposta text-right">
-                    <input id="checkBox1" class="form-check-input" type="checkBox" id="radio1"> 
+                    <input id="checkBox1" class="form-check-input" type="checkBox"> 
                     <i id="fecharResposta1" class="fa-solid fa-trash fecharResposta" onclick="fecharContainerResposta('1')"></i>   
                     <div class="col-sm containerResposta">
-                        <div id="digitarResposta1" class="digitarResposta" placeholder="Resposta..." data-max-length="50" contentEditable="plaintext-only" onchange="Display(1)"></div>
+                        <div id="digitarResposta1" class="digitarResposta" placeholder="Resposta..." data-max-length="50" contentEditable="plaintext-only"></div>
                     </div>
                 </div>
                 
                 <div id="questao2" class="col-sm containerOpcoesResposta text-right">
-                    <input id="checkBox2" class="form-check-input" type="checkBox" id="radio1"> 
+                    <input id="checkBox2" class="form-check-input" type="checkBox"> 
                     <i id="fecharResposta2" class="fa-solid fa-trash fecharResposta" onclick="fecharContainerResposta('2')"></i>    
                     <div class="col-sm containerResposta">
-                        <div id="digitarResposta2" class="digitarResposta" placeholder="Resposta..." data-max-length="50" contentEditable="plaintext-only" onfocusout="Display(2)"></div>
+                        <div id="digitarResposta2" class="digitarResposta" placeholder="Resposta..." data-max-length="50" contentEditable="plaintext-only"></div>
                     </div>
                 </div>
 
                 <div id="questao3" class="col-sm containerOpcoesResposta text-right">
-                    <input id="checkBox3" class="form-check-input" type="checkBox" id="radio1"> 
+                    <input id="checkBox3" class="form-check-input" type="checkBox"> 
                     <i id="fecharResposta3" class="fa-solid fa-trash fecharResposta" onclick="fecharContainerResposta('3')"></i>    
                     <div class="col-sm containerResposta">
-                        <div id="digitarResposta3" class="digitarResposta" placeholder="Resposta..." data-max-length="50" contentEditable="plaintext-only" onfocusout="Display(3)"></div>
+                        <div id="digitarResposta3" class="digitarResposta" placeholder="Resposta..." data-max-length="50" contentEditable="plaintext-only"></div>
                     </div>
                 </div>
 
                 <div id="questao4" class="col-sm containerOpcoesResposta text-right">
-                    <input id="checkBox4" class="form-check-input" type="checkBox" id="radio1"> 
+                    <input id="checkBox4" class="form-check-input" type="checkBox"> 
                     <i id="fecharResposta4" class="fa-solid fa-trash fecharResposta" onclick="fecharContainerResposta('4')"></i>    
                     <div class="col-sm containerResposta">
-                        <div id="digitarResposta4" class="digitarResposta" placeholder="Resposta..." data-max-length="50" contentEditable="plaintext-only" onfocusout="Display(4)"></div>
+                        <div id="digitarResposta4" class="digitarResposta" placeholder="Resposta..." data-max-length="50" contentEditable="plaintext-only"></div>
                     </div>
                 </div>
                 <div id="containerAdicionarResposta">
@@ -84,6 +78,22 @@ include "menuFooter/menu.php";
                 </div>
             </div>
     </div>
+
+    <!-- O que aparece quando o Tipo da questão é;  escrever resposta -->
+
+    <div id="escreverResposta">
+        <div id="containerEscreverResposta" class="containerEscreverResposta container">
+                <div id="escreverResposta1" class="row">
+                    <input id="digitarResposta1" class="digitarEscreverResposta" placeholder="Resposta..." data-max-length="50" contentEditable="plaintext-only"></input>
+                    <button class="eliminarEscreverResposta" onclick="EliminarCampoEscreverResposta(1)"><i class="fa-solid fa-trash iconDelete"></i></button>
+                </div>
+        </div>
+
+        <div id="containerAdicionarResposta">
+            <button id="adicionarEscreverResposta" class="btn button border" onclick="criarCampoEscreverResposta()"><i class="fa-solid fa-plus"></i></button>
+        </div>   
+    <div>
+
 
 
 <script  src="InserirDadosQuizz.js"></script>

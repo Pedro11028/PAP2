@@ -7,7 +7,9 @@ class Utilizador {
     function EValido($email,$password){
         $false = array(0 => "false");
 
+        //faz a conexão
         $conexao = new Conexao();
+
         $stmt = $conexao->runQuery('SELECT * FROM utilizadores WHERE email = :email');
         $stmt-> execute(array(':email' => $email));
         $data = $stmt->fetch(PDO::FETCH_ASSOC);

@@ -62,7 +62,7 @@ body {
     background-color: #0779e4;
 }
 
-.footer {
+.selecionarResposta{
     position: relative;
     height: 40vh;
 }
@@ -140,4 +140,60 @@ body {
 .alturaLinha{
     position: relative;
     height:100%;
+}
+
+
+
+/* --- */
+/* ------ */
+/* --------- */
+/*      Css para quando o tipo é "escrever resposta" */
+/* --------- */
+/* ------ */
+/* --- */
+
+.containerEscreverResposta{
+    position: relative;
+    margin-top:6%;
+    border-radius: 12px;
+    background-color: #A155BD;
+    min-height: 200px;
+    min-width: 400px;
+    max-width: 450px;
+}
+
+
+.digitarEscreverResposta{
+    position: relative;
+    width: 85%;
+    top: 5%;
+    left: 20px;
+    border-radius: 5px;
+    cursor: text;
+    margin: 5px;
+}
+
+.eliminarEscreverResposta{
+    position: relative;
+    width: 30px;
+    height: 28px;
+    top: 5px;
+    left: 4px;
+}
+
+.iconDelete{
+    position: relative;
+    width: 30px;
+    top:2px;
+    left: -13.5px;
+}
+
+#adicionarEscreverResposta{
+    position: relative;
+    left:50%;
+    transform: translate(-29px);
+    border-radius: 80%;
+    width: 50px;
+    height: 50px;
+    margin: 5px;
 }
