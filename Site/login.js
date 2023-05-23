@@ -5,7 +5,7 @@
       var password= $('#password').val();
       
       if (email=="" || email.indexOf('@') < 0 || email.indexOf('.') < 0) {
-          alert('Por favor digite os dados corretamente!');
+        toastr.warning('Por favor digite os dados corretamente!', 'Woops!!!');
       }else{
 
       $.ajax({
@@ -20,7 +20,7 @@
           dataType: 'json',
           success: function(resposta) {
             if (resposta[0]== "false") {
-              alert("Email ou password incorretos!");
+              toastr.warning('Email ou password incorretos!', 'Woops!!!');
             }else{
                 criarCookie(resposta);
                 location.href="index.php";
@@ -49,10 +49,10 @@ $('#showhide1').click(function() {
 });
 
 const togglePassword1 = document.querySelector('#showhide1');
-    const password1 = document.querySelector('.password1');
+const password1 = document.querySelector('.password1');
 
-    togglePassword1.addEventListener('click', () => {
-        // altera o typo da classe ao usar o método getAttribure() 
-        const type = password1.getAttribute('type') === 'password' ? 'text' : 'password';
-        password1.setAttribute('type', type);
-    });
+togglePassword1.addEventListener('click', () => {
+    // altera o tipo da classe ao usar o método getAttribure() 
+    const type = password1.getAttribute('type') === 'password' ? 'text' : 'password';
+    password1.setAttribute('type', type);
+});

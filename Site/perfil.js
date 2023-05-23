@@ -123,7 +123,6 @@ $(document).ready(function(){
                 success: function(resposta) {
                   if(resposta == 'true'){
                     location.reload();
-                    console.log("asdasd");
                   }
                   if(resposta == 'erroBaseDados'){
                     alert('Woops! Parece estar a ocorrer um erro com a ligação á base de dados!');

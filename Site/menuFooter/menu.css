@@ -33,7 +33,7 @@
 }
 
 /* Centraliza os elementos no menu e define o seu formato */
-.estiloMenu nav ul li a, .estiloMenu nav ul li button {
+.estiloMenu nav ul li a, #botaoGuardar {
 	display: block;
 	color: blue;
 	text-decoration: none;
@@ -47,7 +47,9 @@
 	border: none;
 	
 }
-
+#botaoGuardar:hover{
+	color: rgb(24, 139, 233);
+}
 #menuGuardarInfoQuizz{
 	display: none;
 }

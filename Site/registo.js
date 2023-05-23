@@ -1,6 +1,8 @@
 $(document).ready(function() {
+
+
     $("#submit").click(function() {
-            console.log("scsudc");
+
             var primeiroNome= $('#primeiroNome').val();
             var sobrenome= $('#sobrenome').val();
             var nomeUnico= $('#nomeUnico').val();
@@ -9,32 +11,35 @@ $(document).ready(function() {
 
             var nomeCompleto = primeiroNome + " " + sobrenome;
 
-            $.ajax({
-                    url: "../API/registoApi.php",
-                    type:"POST",
-                    method: "POST",
-                    data:{
-                        nomeCompleto:nomeCompleto,
-                        nomeUnico:nomeUnico,
-                        email:email,
-                        password:password,
-                        accao:'registo'
-                    },
-                    cache: false,
-                    dataType: 'json',
-                    success: function(resposta) {
-                        console.log("../API/registoApi.php resposta=",resposta);
-                        if (resposta['confirmarExiste']== "true") {
-                            criarCookie(resposta);
-                            location.href="index.php";
-                        }else{
-                            alert("Email ou password incorretos!");
+            if((email=="" || email.indexOf('@') < 0 || email.indexOf('.') < 0) || !primeiroNome || !sobrenome || !nomeUnico || !password){
+                toastr.warning('Por favor preencha todos os campos corretamente!', 'Woops!!!');
+            }else{
+                $.ajax({
+                        url: "../API/registoApi.php",
+                        type:"POST",
+                        method: "POST",
+                        data:{
+                            nomeCompleto:nomeCompleto,
+                            nomeUnico:nomeUnico,
+                            email:email,
+                            password:password,
+                            accao:'registo'
+                        },
+                        cache: false,
+                        dataType: 'json',
+                        success: function(resposta) {
+                            console.log("../API/registoApi.php resposta=",resposta);
+                            if (resposta['confirmarExiste']== "true") {
+                                criarCookie(resposta);
+                                location.href="index.php";
+                            }else{
+                                alert("Email ou password incorretos!");
+                            }
+                            
                         }
-                        
-                    }
-            });
-            
-      return false;
+                });
+                return false;
+            }
      });
  });
 

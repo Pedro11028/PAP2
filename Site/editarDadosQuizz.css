@@ -1,0 +1,106 @@
+
+
+.organizarDadosQuestao{
+    position: relative;
+    margin-bottom: 40px;
+    min-height: 70px;
+}
+
+.numeroDaQuestao{
+    position: relative;
+    margin-top: 40px;
+}
+
+.dadosQuizz{
+    position: relative;
+    min-height: 70px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.nomeQuestao{
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 90%;
+    min-width: 160px;
+    
+    border-radius: 12px;
+    background: #f4f5fa;
+    padding: 0.5rem 1rem 0.5rem;
+    border: 0.1rem solid #d6ccff;
+}
+
+
+.contemImagem, .numeroRespostas{
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.mostrarNumeroRespostas{
+    position: relative;
+    bottom: 3px;
+}
+
+
+.button{
+    background-color: #fff;
+    color: #0779e4;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.button:hover{
+    background-color: #0779e4;
+    color: #fff;
+}
+
+@media (max-width: 991px) {
+     .numeroRespostas{
+        position: relative;
+        top:0;
+        transform: translateY(0);
+    }
+    .contemImagem{
+        position: relative;
+        top:19%;
+        transform: translateY(0);
+    }
+
+    .nomeQuestao{
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 90%;
+        min-width: 145px;
+    }
+}
+
+@media (max-width: 767px) {
+   .contemImagem{
+        position: relative;
+        top:0;
+        transform: translateY(0);
+   }
+}
+
+@media (max-width: 575px) {
+    .organizarDadosQuestao{
+        width: 80%;
+    }
+    .contemImagem, .numeroRespostas{
+        position: relative;
+        top:50%;
+        transform: translateY(-50%);
+    }
+
+    .dadosQuizz{
+        position: relative;
+        min-height: 70px;
+        font-weight: bold;
+        WIDTH: 80%;
+    }
+    
+}

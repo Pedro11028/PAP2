@@ -5,9 +5,12 @@
     <title>Language Quizz- Login</title>
     <!-- Scripts para Jquery ajax e para os icons -->
     <!-- Links para css -->
+      <link rel="stylesheet" href="login.css">
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+      
       <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 	  <script src="https://kit.fontawesome.com/410e89720f.js" crossorigin="anonymous"></script>
-      <link rel="stylesheet" href="login.css">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
 
 </head>
 <body>
@@ -15,7 +18,7 @@
     //Verificar se o utilizador fez o Login
     //Se fez então redireciona para a página anterior
     if (document.cookie.indexOf('idCookie') > -1 ) {
-        window.history.go(-1);
+            location.href="index.php";
     }
 </script>
 
@@ -29,7 +32,6 @@
     
     <div class="input-info">
 
-        <p id="erroValidar"></p>
             <input type="email" placeholder="E-mail" required autocomplete="off" validate id="email">
         <br>
         <br>

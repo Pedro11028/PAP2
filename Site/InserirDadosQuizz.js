@@ -1,5 +1,5 @@
 $(document).ready(function(){
-
+    
     document.getElementById('linkInicio').innerHTML = "Cancelar";
     document.getElementById('linkInicio').href = "CancelarInserirDados.php";
 
@@ -19,12 +19,12 @@ $(document).ready(function(){
     const tipoQuestao = getTipoQuestaoCookie();
 
     if(tipoQuestao == 'escreverResposta'){
-        document.getElementById("selecionarResposta").remove('');
+        document.getElementById("selecionarResposta").remove();
     }else{
         if(tipoQuestao == null){
             location.href="escolherTipoQuizz.html";
         }else{
-            document.getElementById("escreverResposta").remove('');
+            document.getElementById("escreverResposta").remove();
         }
     }
 
@@ -101,6 +101,7 @@ $(document).ready(function(){
         if(tipoQuestao == 'escreverResposta'){
             for (let i = 1; i <= 15; i++) {
                 if(document.getElementById("digitarResposta"+i)){
+                    respostasCorretas[ordemGuardarDados]= 'true';
                     dadosRespostas[ordemGuardarDados]= document.getElementById("digitarResposta"+i).value;
                     ordemGuardarDados +=1;
                 }
@@ -137,7 +138,15 @@ $(document).ready(function(){
                 cache: false,
                 dataType: 'json',
                 success: function(resposta) {
-                    console.log(resposta);
+                    if(resposta== 'questaoVazia'){
+                        toastr.warning('Por favor digite uma questão antes de prosseguir!', 'Woops!!!');
+                    }
+                    if(resposta== 'respostaVazia'){
+                        toastr.warning('Por favor preencha todos os campos de resposta ou elimine os não desejáveis', 'Woops!!!');
+                    }
+                    if(resposta== 'dadosGuardadosComSucesso'){
+                        location.href="editarDadosQuizz.php";
+                    }
                 }
             });
         }
@@ -251,8 +260,8 @@ function EliminarCampoEscreverResposta(numero){
     }
     
 
-    if(limite==1){
-        alert('Caso não exista nenhuma resposta não existirão respostas errada para a questão!');
+    if(limite==2){
+        document.getElementById("eliminarResposta1").style.display = "none";
     }
 
     for (let i = numero; i <limite; i++) {

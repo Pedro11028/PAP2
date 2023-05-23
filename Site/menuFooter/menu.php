@@ -19,7 +19,7 @@
         </form>
 
         <li id="menuCriarQuizz" class="criarQuizz"><a id="linkCriarQuizz" href="escolherTipoQuizz.html">Criar um Quizz</a></li>
-		<li id="menuGuardarInfoQuizz" class="criarQuizz"><button id="botaoGuardar" >Criar um Quizz</button></li>
+		<li id="menuGuardarInfoQuizz" class="criarQuizz"><button id="botaoGuardar" ></button></li>
 
 		<li id="dropUtilizador" class="direita"><a id="nomeUtilizador"></a>
 			<ul  class="dropar">

@@ -22,16 +22,16 @@ $(document).ready(function() {
                 dataType: 'json',
                 success: function(resposta) {
                 if (resposta == "PassworAtualErrada") {
-                    alert("Password atual incorreta.");
+                    toastr.warning('Password atual incorreta.', 'Woops!!!');
                 }
                 if (resposta == "PasswordConfirmarDiferente") {
-                    alert("Passwords não correspondem.");
+                    toastr.warning('Passwords não correspondem.', 'Woops!!!');
                 }
                 if (resposta == "PasswordIgualAnterior") {
-                    alert("Password nova igual á anterior.");
+                    toastr.warning('Password nova igual á anterior.', 'Woops!!!');
                 }
                 if (resposta == "erroSemResposta") {
-                    alert("Woops! parece estar a ocorrer um erro com a ligação á base de dados");
+                    toastr.warning('Parece estar a ocorrer um erro com a ligação á base de dados.', 'Woops!!!');
                 }
 
                 if (resposta == "true") {

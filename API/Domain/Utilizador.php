@@ -187,7 +187,7 @@ class Utilizador {
 
     function GuardarImagem($Id_utilizador,$imagemPerfil){
         $conexao = new Conexao();
-        $imagemPerfil=strstr($imagemPerfil,'img');
+        $imagemPerfil = strstr($imagemPerfil,'img');
 
         $stmt = $conexao->runQuery('SELECT * FROM utilizadores WHERE Id_utilizador = :Id_utilizador');
         $stmt->execute(array(':Id_utilizador' => $Id_utilizador));
@@ -197,11 +197,10 @@ class Utilizador {
             return "erroBaseDados";
         }else{
             
-            if (file_exists('../BaseDados/Utilizadores/Utilizador_'.$data['Id_utilizador'].'/'.$dataUtilizador['imagemPerfil'])) {
+            if (file_exists('../BaseDados/Utilizadores/Utilizador_'.$dataUtilizador['Id_utilizador'].'/'.$dataUtilizador['imagemPerfil'])) {
                 unlink($dataUtilizador['imagemPerfil']);
             }
-
-
+            
             $sql = 'UPDATE utilizadores SET imagemPerfil = :imagemPerfil WHERE Id_utilizador = :Id_utilizador';
             $stmt = $conexao->runQuery($sql);
             $stmt->bindParam(':Id_utilizador', $Id_utilizador, PDO::PARAM_INT);

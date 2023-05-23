@@ -3,17 +3,21 @@
 <head>
     <meta charset="utf-8">
     <title>Language Quizz- registro</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>"></script>
+
     <link rel="stylesheet" type="text/css" href="registo.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
 
 </head>
 <body>
-    <script>
-        if (document.cookie.indexOf('idCookie') > -1 ) {
-            window.history.go(-1)
-        }
-    </script>
-<section>
+<script>
+    if (document.cookie.indexOf('idCookie') > -1 ) {
+        location.href="index.php";
+    }
+</script>
+
 <form> 
     <br><br>
     <center>
@@ -37,7 +41,7 @@
         <div class="log-sign">
         <br>
         <div class="log-sign">
-            <button id="submit" class="login" type="button" name="submit">
+            <button id="submit" class="login" name="submit">
                  Registar
             </button>
             
@@ -53,8 +57,7 @@
     </div>
     <a href="login.html">Já tem uma conta?</a>
    
-    </form>
-</section>     
+    </form>  
 
 </form>
 <script src="registo.js"></script>
