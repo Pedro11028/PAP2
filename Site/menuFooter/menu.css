@@ -33,7 +33,7 @@
 }
 
 /* Centraliza os elementos no menu e define o seu formato */
-.estiloMenu nav ul li a, #botaoGuardar {
+.estiloMenu nav ul li a, #botaoGuardar, #botaoadicionarQuizz {
 	display: block;
 	color: blue;
 	text-decoration: none;
@@ -47,11 +47,8 @@
 	border: none;
 	
 }
-#botaoGuardar:hover{
+#botaoGuardar:hover, #botaoadicionarQuizz:hover{
 	color: rgb(24, 139, 233);
-}
-#menuGuardarInfoQuizz{
-	display: none;
 }
 
 /* Coloca o dropdown do menu abaixo do nome do Utilizador */

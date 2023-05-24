@@ -1,5 +1,3 @@
-
-
 .organizarDadosQuestao{
     position: relative;
     margin-bottom: 40px;
@@ -22,7 +20,7 @@
     position: relative;
     top: 50%;
     transform: translateY(-50%);
-    width: 90%;
+    width: 70%;
     min-width: 160px;
     
     border-radius: 12px;
@@ -50,6 +48,7 @@
     position: relative;
     top: 50%;
     transform: translateY(-50%);
+    padding: 0.6rem 1rem 0.5rem;
 }
 
 .button:hover{
@@ -65,25 +64,20 @@
     }
     .contemImagem{
         position: relative;
-        top:19%;
+        top:0;
         transform: translateY(0);
     }
 
-    .nomeQuestao{
-        position: relative;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 90%;
-        min-width: 145px;
-    }
+
 }
 
 @media (max-width: 767px) {
-   .contemImagem{
+    .organizarDadosQuestao{
         position: relative;
-        top:0;
-        transform: translateY(0);
-   }
+        margin-bottom: 40px;
+        min-height: 100px;
+        min-width: 90%;
+    }
 }
 
 @media (max-width: 575px) {

@@ -19,17 +19,17 @@ $(document).ready(function() {
                 dataType: 'json',
                 success: function(resposta) {
                 if (resposta == "passwordsNaoCorrespondem") {
-                    alert("Passwords não correspondem.");
+                    toastr.warning('Passwords não correspondem.', 'Woops!!!');
                     document.getElementById('password').value = "";
                     document.getElementById('confirmarPass').value = "";
                 }
                 if (resposta == "passwordNaoExiste") {
-                    alert("Password incorreta.");
+                    toastr.warning('Password incorreta!', 'Woops!!!');
                     document.getElementById('password').value = "";
                     document.getElementById('confirmarPass').value = "";
                 }
                 if (resposta == "erroSemResposta") {
-                    alert("Woops! parece estar a ocorrer um erro com a ligação á base de dados");
+                    toastr.warning('Parece estar a ocorrer um erro com a ligação á base de dados.', 'Woops!!!');
                     document.getElementById('password').value = "";
                     document.getElementById('confirmarPass').value = "";
                 }

@@ -21,11 +21,14 @@ $(document).ready(function() {
                 cache: false,
                 dataType: 'json',
                 success: function(resposta) {
+                if (resposta == "passwordsVazias") {
+                    toastr.warning('Passwords não devem estar vazias.', 'Woops!!!');
+                }
                 if (resposta == "PassworAtualErrada") {
                     toastr.warning('Password atual incorreta.', 'Woops!!!');
                 }
                 if (resposta == "PasswordConfirmarDiferente") {
-                    toastr.warning('Passwords não correspondem.', 'Woops!!!');
+                    toastr.warning('Password nova não confirmada corretamente.', 'Woops!!!');
                 }
                 if (resposta == "PasswordIgualAnterior") {
                     toastr.warning('Password nova igual á anterior.', 'Woops!!!');

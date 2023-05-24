@@ -13,7 +13,7 @@ $(document).ready(function(){
           dataType: 'json',
           success: function(resposta) {
             if(resposta[0]== false){
-              alert("Woops! parece estar a acontecer um erro de conexão com a base de dados!")
+              toastr.warning('Parece estar a acontecer um erro de conexão com a base de dados!', 'Woops!!!');
             }else{
               document.getElementById('nomeCompleto').value = resposta['nomeCompleto'];
               document.getElementById('email').value = resposta['email'];
@@ -35,7 +35,7 @@ $(document).ready(function(){
         var verificarNome = /^[a-zA-Z]+ [a-zA-Z]+$/;
         var nomeCompleto = document.getElementById('nomeCompleto').value;
         if(!verificarNome.test(nomeCompleto)){
-            alert('Por favor digite um nome válido (primeiro & último nome).');
+            toastr.warning('Por favor digite um nome válido (primeiro & último nome).', 'Woops!!!');
             document.getElementById('nomeCompleto').focus();
         }else{
             $.ajax({
@@ -53,7 +53,7 @@ $(document).ready(function(){
                     location.reload();
                   }
                   if(resposta == 'erroBaseDados'){
-                    alert('Woops! Parece estar a ocorrer um erro com a ligação á base de dados!');
+                    toastr.warning('Parece estar a ocorrer um erro com a ligação á base de dados!', 'Woops!!!');
                   }
                 }
             });
@@ -66,7 +66,7 @@ $(document).ready(function(){
         var verificarNome = /^[A-Za-z0-9]*$/;
         var nomeUnico = document.getElementById('nomeUnico').value;
         if(!verificarNome.test(nomeUnico)){
-            alert('Por favor digite um nome de utilizador válido (sem espaços & mais de 8 caracteres)');
+            toastr.warning('Por favor digite um nome de utilizador válido (sem espaços & mais de 8 caracteres).', 'Woops!!!');
             document.getElementById('nomeUnico').focus();
         }else{
             $.ajax({
@@ -84,12 +84,11 @@ $(document).ready(function(){
                     location.reload();
                   }
                   if(resposta == 'erroBaseDados'){
-                    alert('Woops! Parece estar a ocorrer um erro com a ligação á base de dados!');
+                    toastr.warning('Parece estar a ocorrer um erro com a ligação á base de dados!', 'Woops!!!');
                   }
                   if(resposta == "nomeUnicoJaExiste"){
-                    alert('Esse nome de utilizador já existe!');
+                    toastr.warning('Esse nome de utilizador já existe!', 'Woops!!!');
                   }
-                  console.log(resposta);
                 }
             });
         }
@@ -125,7 +124,7 @@ $(document).ready(function(){
                     location.reload();
                   }
                   if(resposta == 'erroBaseDados'){
-                    alert('Woops! Parece estar a ocorrer um erro com a ligação á base de dados!');
+                    toastr.warning('Parece estar a ocorrer um erro com a ligação á base de dados!', 'Woops!!!');
                   }
                 }
             });

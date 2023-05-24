@@ -79,13 +79,9 @@ class Utilizador {
         if ($data == false) {
             return "nulo";
         }else{
-
             if($password == $confirmarPass){
-
                 if ($data['password'] == $password) {
-
                     try{
-
                         $sql = 'DELETE FROM utilizadores WHERE Id_utilizador = :Id_utilizador';
                         $stmt= $conexao->runQuery($sql);
                         $stmt->bindParam(':Id_utilizador', $Id_utilizador);
@@ -119,26 +115,30 @@ class Utilizador {
         if ($data == false) {
             return "nulo";
         }else{
-            if($passwordAtual== $passwordNova){
-                return "PasswordIgualAnterior";
+            if(empty($passwordAtual) || empty($passwordNova)){
+                return("passwordsVazias");
             }else{
                 if($data['password'] != $passwordAtual){
                     return "PassworAtualErrada";
                 }else{
-                    if($passwordNova != $confirmarPass){
-                        return "PasswordConfirmarDiferente";
+                    if($passwordAtual== $passwordNova){
+                        return "PasswordIgualAnterior";
                     }else{
-                        try{
-                            $sql = 'UPDATE utilizadores SET password = :passwordNova WHERE Id_utilizador = :Id_utilizador';
-                            $stmt = $conexao->runQuery($sql);
-                            $stmt->bindParam(':Id_utilizador', $Id_utilizador, PDO::PARAM_INT);
-                            $stmt->bindParam(':passwordNova', $passwordNova);
-                            $execute = $stmt->execute();
+                            if($passwordNova != $confirmarPass){
+                                return "PasswordConfirmarDiferente";
+                            }else{
+                                try{
+                                    $sql = 'UPDATE utilizadores SET password = :passwordNova WHERE Id_utilizador = :Id_utilizador';
+                                    $stmt = $conexao->runQuery($sql);
+                                    $stmt->bindParam(':Id_utilizador', $Id_utilizador, PDO::PARAM_INT);
+                                    $stmt->bindParam(':passwordNova', $passwordNova);
+                                    $execute = $stmt->execute();
 
-                            return "true";
-                        }catch(PDOExtrueception $e){
-                            return "erroSemResposta";
-                        }
+                                    return "true";
+                                }catch(PDOExtrueception $e){
+                                    return "erroSemResposta";
+                                }
+                            }
                     }
                 }
             }

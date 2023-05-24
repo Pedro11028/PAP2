@@ -4,9 +4,9 @@ function criarCookie(valorCookie) {
     var expirarCookie = tempo + 9000*1000; // 9000*1000= duas horas e meia
     hoje.setTime(expirarCookie);
   
-    document.cookie = "escolherTipoQuizz= "+valorCookie+';expires='+hoje.toUTCString()+"; secure=true"+';path=/';
+    document.cookie = "escolherTipoQuestao= "+valorCookie+';expires='+hoje.toUTCString()+"; secure=true"+';path=/';
 }
 
-if (document.cookie.indexOf('escolherTipoQuizz') > -1 ) {
+if (document.cookie.indexOf('escolherTipoQuestao') > -1 ) {
     location.href="InserirDadosQuizz.php";
 }

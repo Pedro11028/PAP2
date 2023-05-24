@@ -6,7 +6,10 @@
     }else{
         document.getElementById("dropUtilizador").remove();
     }
-
+    
+    document.getElementById("menuGuardarInfoQuizz").style.display= "none";
+    document.getElementById("menuAdicionarQuestao").style.display= "none";
+    
     function getCookie() {
         let cookie = {};
         document.cookie.split(';').forEach(function(separar) {

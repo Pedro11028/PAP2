@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Language Quizz- Inserir Dados</title>
+    <title>Language Quizz- Inserir Dados Quizz</title>
     <meta charset="utf-8" http-equiv="pt-pt" >
     
    

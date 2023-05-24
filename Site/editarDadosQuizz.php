@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Language Quizz- Inserir Dados</title>
+    <title>Language Quizz- Editar Dados Quizz</title>
     <meta charset="utf-8" http-equiv="pt-pt" >
     
    
@@ -23,46 +23,29 @@
 include "menuFooter/menu.php";
 ?>
 
-<div class="numeroDaQuestao container">Questao nº3</div>
-<div id="" class="organizarDadosQuestao container " style="border: 3px outset black;">
-        <div class="row h-100" >
-            <div id="" class="col-sm-3 dadosQuizz">
-                <input id="" type="text" class="nomeQuestao" placeholder="Nome: (Opcional)"> 
+<div id="carregarDadosNaPagina">
+    <div class="numeroDaQuestao container">Questao nº1</div>
+    <div id="" class="organizarDadosQuestao container " style="border: 3px outset black;">
+            <div class="row h-100" >
+                <div id="" class="col-sm-6 dadosQuizz">
+                    <input id="" type="text" class="nomeQuestao" placeholder="Nome: (Opcional)">
+                    <button type="text" class="btn button border">Guardar</button> 
+                </div>
+                <div id="" class="col-sm-2 dadosQuizz">
+                    <label  id="" type="text" class="numeroRespostas">Respostas: </label> 
+                    <label  id="" type="text" class="numeroRespostas">7</label> 
+                </div>
+                <div id="" class="col-sm-2 dadosQuizz">
+                <label id="" type="text" class="contemImagem" >Imagem?</label> 
+                    <label id="" type="text" class="contemImagem">sim</label> 
+                </div>
+                <div id="" class="col-sm-2 dadosQuizz">
+                    <button type="text" class="btn button border">Editar</button> 
+                </div>
             </div>
-            <div id="" class="col-sm-3 dadosQuizz">
-                <label  id="" type="text" class="numeroRespostas">Número de respostas: </label> 
-                <label  id="" type="text" class="numeroRespostas">7</label> 
-            </div>
-            <div id="" class="col-sm-3 dadosQuizz">
-            <label id="" type="text" class="contemImagem" >Contém Imagem?</label> 
-                <label id="" type="text" class="contemImagem">sim</label> 
-            </div>
-            <div id="" class="col-sm-2 dadosQuizz">
-                <button type="text" class="btn button border">Editar</button> 
-            </div>
-        </div>
+    </div>
 </div>
 
-
-<div class="numeroDaQuestao container">Questao nº3</div>
-<div id="" class="organizarDadosQuestao container " style="border: 3px outset black;">
-        <div class="row h-100" >
-            <div id="" class="col-sm-3 dadosQuizz">
-                <input id="" type="text" class="nomeQuestao" placeholder="Nome: (Opcional)"> 
-            </div>
-            <div id="" class="col-sm-3 dadosQuizz">
-                <label  id="" type="text" class="numeroRespostas">Número de respostas: </label> 
-                <label  id="" type="text" class="numeroRespostas">7</label> 
-            </div>
-            <div id="" class="col-sm-3 dadosQuizz">
-            <label id="" type="text" class="contemImagem" >Contém Imagem?</label> 
-                <label id="" type="text" class="contemImagem">sim</label> 
-            </div>
-            <div id="" class="col-sm-2 dadosQuizz">
-                <button type="text" class="btn button border">Editar</button> 
-            </div>
-        </div>
-</div>
 
 
 <script src="editarDadosQuizz.js"></script>

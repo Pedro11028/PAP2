@@ -26,9 +26,8 @@ class Quizz {
         move_uploaded_file($caminhoTemporario,$caminhoOriginal);
 
         return $caminhoOriginal;
-
-
     }
+
 
     function InserirDados($Id_utilizador,$questao,$imagem,$tipoQuestao,$dadosRespostas,$respostasCorretas){
         $conexao = new Conexao();
@@ -69,21 +68,21 @@ class Quizz {
             $imagem= "";
         }else{
             //strrchr() serve para obter o último caracter com o mesmo nome e o texto que está á frente deles
-            $imagem= strrchr($imagem,'BaseDados/');
-            $imagem= '../'.$imagem;
-            $nomeficheiro= strrchr($imagem,'/');
+            $imagem= strrchr($imagem,'/');
+            $nomeficheiro= strrchr($imagem,'/'); 
 
             for ($i=1; $i <= 10; $i++) { 
-                if (!file_exists('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/Questao'.$i.'/')) {
-                    mkdir('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/Questao'.$i.'/', 0755, true);
-                    rename($imagem,'../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/Questao'.$i.$nomeficheiro);
+                if (!file_exists('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/QuestaoComImagem'.$i.'/')) {
+                    mkdir('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/QuestaoComImagem'.$i.'/', 0755, true);
+                    rename('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/ImagemTemporaria'.$imagem, 
+                           '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/QuestaoComImagem'.$i.$nomeficheiro);
                     break;
                 }
             }
         }
         
-        $stmt = $conexao->runQuery('INSERT INTO questoes (Id_quizz, textoQuestao, imagem) VALUES (:Id_quizz, :textoQuestao, :imagem)');
-        $stmt->execute(array(':Id_quizz' => $dataQuizzes['Id_quizz'], ':textoQuestao' => $questao, ':imagem' => $imagem));
+        $stmt = $conexao->runQuery('INSERT INTO questoes (Id_quizz, textoQuestao, imagem, tipoQuestao) VALUES (:Id_quizz, :textoQuestao, :imagem, :tipoQuestao)');
+        $stmt->execute(array(':Id_quizz' => $dataQuizzes['Id_quizz'], ':textoQuestao' => $questao, ':imagem' => $imagem, ':tipoQuestao' => $tipoQuestao));
         
         $stmt = $conexao->runQuery('SELECT MAX(`Id_questao`) as Id_questao FROM questoes WHERE Id_quizz = :Id_quizz');
         $stmt->execute(array(':Id_quizz' => $dataQuizzes['Id_quizz']));
@@ -102,8 +101,60 @@ class Quizz {
         }
 
         return "dadosGuardadosComSucesso";
-        
+    }
 
+
+    function ObterDadosQuestoes_Quizzes($Id_utilizador){
+        $conexao = new Conexao();
+
+        $stmt = $conexao->runQuery('SELECT `Id_quizz` FROM quizzes WHERE Id_utilizador = :Id_utilizador AND escolaridade = :escolaridade');
+        $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':escolaridade' => "temporario"));
+        $dataQuizzes = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $stmt = $conexao->runQuery('SELECT Id_questao, nomeQuestao, imagem, tipoQuestao FROM questoes WHERE Id_quizz = :Id_quizz');
+        $stmt->execute(array(':Id_quizz' => $dataQuizzes['Id_quizz']));
+        $dataQuestoes = $stmt->fetchAll(PDO::FETCH_ASSOC); // Guarda um array dentro de um array por exemplo:  0 => Id_questao => 9
+
+        $i=0;
+
+        foreach ($dataQuestoes as $dadosDataQuestoes) {
+            $stmt = $conexao->runQuery('SELECT COUNT(Id_resposta) as numRespostas FROM respostas WHERE Id_questao = :Id_questao');
+            $stmt->execute(array(':Id_questao' => $dadosDataQuestoes['Id_questao']));
+            $dataRespostas[$i] = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            switch ($dadosDataQuestoes['tipoQuestao']) {
+
+                case 'mostrarAcerto':
+                    $dataQuestoes[$i]['tipoQuestao']= 'Mostrar resposta';
+                    break;
+                
+                case 'naoMostrarAcerto':
+                    $dataQuestoes[$i]['tipoQuestao']= 'Não mostrar acerto';
+                    break;
+
+                case 'escreverResposta':
+                    $dataQuestoes[$i]['tipoQuestao']= 'Escrever resposta';
+                    break;
+
+                case 'enquete':
+                    $dataQuestoes[$i]['tipoQuestao']= 'Enquete';
+                    break;
+            }
+
+            if(empty($dadosDataQuestoes['imagem'])){
+                $dataQuestoes[$i]['imagem']= 'não';
+            }else{
+                $dataQuestoes[$i]['imagem']= 'sim';
+            }
+
+            $i +=1;
+        }
+
+        $filtrarDados = array(  'dadosQuestoes'=> $dataQuestoes, 
+                                'numeroRespostas' => $dataRespostas
+                            );
+
+        return $filtrarDados;
     }
     
 }

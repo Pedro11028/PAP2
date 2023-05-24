@@ -28,12 +28,11 @@ $(document).ready(function() {
                         cache: false,
                         dataType: 'json',
                         success: function(resposta) {
-                            console.log("../API/registoApi.php resposta=",resposta);
                             if (resposta['confirmarExiste']== "true") {
                                 criarCookie(resposta);
                                 location.href="index.php";
                             }else{
-                                alert("Email ou password incorretos!");
+                                toastr.warning('Email ou password incorretos!', 'Woops!!!');
                             }
                             
                         }

@@ -18,5 +18,10 @@
                    +"; secure"
                    +';path=/';
 
+  document.cookie = "escolherTipoQuizz= "+document.cookie.indexOf('escolherTipoQuizz')
+                   +';expires='+hoje.toUTCString()
+                   +"; secure=true"
+                   +';path=/';
+                   
   window.location.href="index.php";
 </script>

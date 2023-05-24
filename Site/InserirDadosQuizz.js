@@ -22,7 +22,7 @@ $(document).ready(function(){
         document.getElementById("selecionarResposta").remove();
     }else{
         if(tipoQuestao == null){
-            location.href="escolherTipoQuizz.html";
+            location.href="escolherTipoQuestao.html";
         }else{
             document.getElementById("escreverResposta").remove();
         }
@@ -35,7 +35,7 @@ $(document).ready(function(){
             let [key,value] = separar.split('=');
             cookie[key.trim()] = value;
         })
-        return cookie['escolherTipoQuizz'];
+        return cookie['escolherTipoQuestao'];
     }
 
 
@@ -119,9 +119,10 @@ $(document).ready(function(){
                 }
             }
         }
+        
         var imagem= document.getElementById("imagemQuestao").src;
         var questao= document.getElementById("digitarQuestao").innerHTML;
-                        
+         
         if(guardarDadosValido == true){
             $.ajax({
                 type:"POST",
@@ -170,7 +171,6 @@ function limparImagemQuestao(){
     document.getElementById("escolherImagem").value = "";
 
     document.getElementById("digitarQuestao").style.left= "55px";
-    console.log();
     
 }
 
@@ -228,7 +228,6 @@ function criarCampoEscreverResposta(){
             numeroCamposResposta += 1;
         }
     }
-    console.log(numeroCamposResposta);
 
     if(numeroCamposResposta<15){
         numeroCamposResposta+=1;
@@ -267,7 +266,6 @@ function EliminarCampoEscreverResposta(numero){
     for (let i = numero; i <limite; i++) {
         iPlus1=i+1;
         if(document.getElementById("digitarResposta"+i).value != ""){
-            console.log(iPlus1);
             document.getElementById("digitarResposta"+i).value = document.getElementById("digitarResposta"+i).value = document.getElementById("digitarResposta"+iPlus1).value;
         }
     }
