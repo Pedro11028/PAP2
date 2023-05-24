@@ -46,9 +46,9 @@
     background-color: #fff;
     color: #0779e4;
     position: relative;
-    top: 50%;
+    top: 47%;
     transform: translateY(-50%);
-    padding: 0.6rem 1rem 0.5rem;
+    
 }
 
 .button:hover{
@@ -67,16 +67,36 @@
         top:0;
         transform: translateY(0);
     }
-
-
 }
 
 @media (max-width: 767px) {
     .organizarDadosQuestao{
         position: relative;
         margin-bottom: 40px;
-        min-height: 100px;
+        min-height: 125px;
         min-width: 90%;
+    }
+    .numeroRespostas{
+        left:-10px;
+    }
+    .contemImagem, #botaoEditar{
+        left:-10px;
+    }
+    .numeroRespostas, .contemImagem{
+        top: 20px;
+    }
+    button{
+        margin-top:5px;
+    }
+    .numeroDaQuestao{
+        left:-3%;
+    }
+}
+
+@media (max-width: 750px) {
+
+    .numeroRespostas{
+        left:-30px;
     }
 }
 
@@ -86,15 +106,22 @@
     }
     .contemImagem, .numeroRespostas{
         position: relative;
-        top:50%;
+        top:65%;
         transform: translateY(-50%);
     }
-
+    #botaoGuardarNome{
+        top:43%;
+    }
     .dadosQuizz{
         position: relative;
         min-height: 70px;
         font-weight: bold;
         WIDTH: 80%;
     }
-    
-}
+    .numeroRespostas, .contemImagem, #botaoEditar{
+        left: 0;
+    }
+    .numeroDaQuestao{
+        left:3%;
+    }
+}    
