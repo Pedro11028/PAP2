@@ -1,5 +1,9 @@
 body {
-    background-color: rgb(77, 172, 164);
+    background-color: #848585;
+}
+
+#toast-container > .toast-warning { 
+    background-color: #454545; 
 }
 
 .containerQuestao {
@@ -49,13 +53,12 @@ body {
 }
 
 .button{
-    background-color: #fff;
-    color: #0779e4;
+    background-color: #646464;
+    color: white;
 }
 
 .button:hover{
-    background-color: #0779e4;
-    color: #fff;
+    box-shadow: white;
 }
 
 .btn-primary{
@@ -66,7 +69,6 @@ body {
     position: relative;
     height: 40vh;
 }
-
 
 #adicionarResposta{
     position: relative;
@@ -87,13 +89,21 @@ body {
     left:34px;
 }
 
+.fecharResposta{
+    color:#646464;
+}
+
+input[type="checkbox"]:checked {
+    background-color: #646464;
+}
+  
 .form-check-input:hover, .fecharResposta:hover{
     cursor:pointer;
 }
 
 .containerOpcoesResposta{
     border-radius: 12px;
-    background-color: #A155BD;
+    background-color: #1E1E1E;
     margin: 5px;
     margin-top: 6%;
     height: 85%;
@@ -156,7 +166,7 @@ body {
     position: relative;
     margin-top:6%;
     border-radius: 12px;
-    background-color: #A155BD;
+    background-color: #646464;
     min-height: 200px;
     min-width: 400px;
     max-width: 450px;
@@ -197,3 +207,71 @@ body {
     height: 50px;
     margin: 5px;
 }
+
+
+/* tooltip link:  https://www.w3schools.com/css/css_tooltip.asp*/
+
+/* tooltip de cima */
+  .mostrarToolTipTop {
+    position: relative;
+  }
+  
+  .mostrarToolTipTop .tooltiptextTop {
+    visibility: hidden;
+    width: 140px;
+    background-color: #1E1E1E;
+    color: #fff;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    bottom: 120%;
+    margin-left: -63px;
+  }
+  
+  .mostrarToolTipTop .tooltiptextTop::after {
+    position: absolute;
+    content: "";
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #1E1E1E transparent transparent transparent;
+  }
+  
+  .mostrarToolTipTop:hover .tooltiptextTop {
+    visibility: visible;
+  }
+
+/* tooltip da direita */
+  .adicionarResposta {
+    position: relative;
+  }
+  
+  .adicionarResposta .tooltiptextRight {
+    visibility: hidden;
+    width: 150px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    position: absolute;
+    padding: 5px 5px;
+    top: 5px;
+    left: 55px;
+  }
+
+  .adicionarResposta .tooltiptextRight::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent black transparent transparent;
+  }
+  
+  .adicionarResposta:hover .tooltiptextRight {
+    visibility: visible;
+  }

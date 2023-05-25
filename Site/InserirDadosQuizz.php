@@ -28,7 +28,10 @@ include "menuFooter/menu.php";
 
                 <!-- Direitos autorais da imagem (img/imageIcon_Freepick.png) pertencem a Freepick -->
                 <!-- Link:  https://www.flaticon.com/free-icon/insert-picture-icon_16410?term=image&page=1&position=5&origin=tag&related_id=16410 -->
-                <button id="selecionarImagemQuizz" class="btn button border" onclick="document.getElementById('escolherImagem').click();"><i class="fa-solid fa-image" ></i></button>
+                <button id="selecionarImagemQuizz" class="btn button border mostrarToolTipTop" onclick="document.getElementById('escolherImagem').click();">
+                    <span class="tooltiptextTop">Adicionar Imagem</span>
+                    <i class="fa-solid fa-image"></i>
+                </button>
                 
                 <form  method="post" enctype="multipart/form-data" id="MostrarImgPergunta">
                     <input id="escolherImagem" type="file" name="file" accept="image/png, image/jpeg" onchange="document.getElementById('guardarTempImg').click();">
@@ -45,7 +48,7 @@ include "menuFooter/menu.php";
       <div id="selecionarResposta" class="selecionarResposta container">
             <div class="row h-100">
                 <div id="questao1" class="col-sm containerOpcoesResposta text-right">
-                    <input id="checkBox1" class="form-check-input" type="checkBox"> 
+                    <input id="checkBox1" class="form-check-input" title="test" type="checkBox"> 
                     <i id="fecharResposta1" class="fa-solid fa-trash fecharResposta" onclick="fecharContainerResposta('1')"></i>   
                     <div class="col-sm containerResposta">
                         <div id="digitarResposta1" class="digitarResposta" placeholder="Resposta..." data-max-length="50" contentEditable="plaintext-only"></div>
@@ -76,7 +79,10 @@ include "menuFooter/menu.php";
                     </div>
                 </div>
                 <div id="containerAdicionarResposta">
-                    <button id="adicionarResposta" class="btn button border" onclick="adicionarCampoResposta()"><i class="fa-solid fa-plus"></i></button>
+                    <button id="adicionarResposta" class="btn button border adicionarResposta" onclick="adicionarCampoResposta()">
+                        <span class="tooltiptextRight">Adicionar Resposta</span>
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
                 </div>
             </div>
     </div>

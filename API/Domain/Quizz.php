@@ -157,4 +157,16 @@ class Quizz {
         return $filtrarDados;
     }
     
+
+    function guardarNomeQuestao($nomeQuestao,$Id_questao){
+        $conexao = new Conexao();
+
+            $sql = 'UPDATE questoes SET nomeQuestao = :nomeQuestao WHERE Id_questao = :Id_questao';
+            $stmt = $conexao->runQuery($sql);
+            $stmt->bindParam(':Id_questao', $Id_questao, PDO::PARAM_INT);
+            $stmt->bindParam(':nomeQuestao', $nomeQuestao);
+            $execute = $stmt->execute();
+
+            return "alteradoComSucesso";
+    }
 }

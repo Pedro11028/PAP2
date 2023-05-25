@@ -23,32 +23,11 @@
 include "menuFooter/menu.php";
 ?>
 
+
 <div id="carregarDadosNaPagina">
-    <div class="numeroDaQuestao container">Questao nº1</div>
-    <div id="organizarDadosQuestao" class="organizarDadosQuestao container " style="border: 3px outset black;">
-            <div id="row" class="row h-100" >
-                <div id="organizarNomeQuestao" class="col-sm-6 dadosQuizz">
-                    <input id="nomeQuestao" type="text" class="nomeQuestao" placeholder="Nome: (Opcional)">
-                    <button id="botaoGuardarNome" type="text" class="btn button border">Guardar</button> 
-                </div>
-                <div id="" class="col-sm-2 dadosQuizz">
-                    <label  id="" type="text" class="numeroRespostas">Respostas: </label> 
-                    <label  id="" type="text" class="numeroRespostas">7</label> 
-                </div>
-                <div id="" class="col-sm-2 dadosQuizz">
-                <label id="" type="text" class="contemImagem" >Imagem?</label> 
-                    <label id="" type="text" class="contemImagem">sim</label> 
-                </div>
-                <div id="organizarBotaoEditar" class="col-sm-2 dadosQuizz">
-                    <button id="botaoEditar" type="text" class="btn button border">Editar</button> 
-                </div>
-            </div>
-    </div>
 </div>
 
 
-
 <script src="editarDadosQuizz.js"></script>
-
 </body>
 </html>

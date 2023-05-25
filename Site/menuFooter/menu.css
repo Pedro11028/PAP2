@@ -9,7 +9,7 @@
 /* Estilo geral do menu */
 .estiloMenu nav {
 	margin: 0 auto;
-	background: black;
+	background: #1E1E1E;
 	box-shadow:0 3px 15px rgba(0,0,0,.15);
 }
 
@@ -42,13 +42,14 @@
     border-radius: 24px;
     transition: 0.5s;
     text-align: right;
-	background-color: black;
+	background-color: #1E1E1E;
 	outline: none;
 	border: none;
 	
 }
 #botaoGuardar:hover, #botaoadicionarQuizz:hover{
-	color: rgb(24, 139, 233);
+	color: #646464;
+
 }
 
 /* Coloca o dropdown do menu abaixo do nome do Utilizador */
@@ -63,12 +64,13 @@
 
 /* Mudar de cor quando for colocado o rato por cima do texto */
 .estiloMenu nav ul li a:hover, .estiloMenu nav ul li button:hover {
-    color: rgb(24, 139, 233);
+	color: #646464;
+
 }
 
 /* Estilo do background do dropdown */
 .estiloMenu nav li ul li{
-    background-color: black;
+    background-color: #1E1E1E;
     display:block;
     width:123px;
     color:white;
@@ -119,7 +121,7 @@
 	font-size: 110%;
 	top: 13px;
 	left: -4px;
-	color:rgb(24, 139, 233);
+	color: #646464;
  }
 
 
