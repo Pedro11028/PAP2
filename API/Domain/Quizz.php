@@ -6,8 +6,17 @@ class Quizz {
 
     function MostrarImgPergunta($Id_utilizador,$ficheiro){
         $conexao = new Conexao();
-
-        $caminhoAGuardar= '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/ImagemTemporaria/';
+        $i=0;
+        //Aqui vão ser criados vários diretórios temporários assim permitindo que o utilizador possa criar vários quizzes com imagens diferentes ao mesmo tempo
+        while($i >= 0){
+            $i +=1;
+            if (!file_exists('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/ImagemTemporaria'.$i)) {
+                mkdir('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/ImagemTemporaria'.$i);
+                $caminhoAGuardar= '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/ImagemTemporaria'.$i.'/';
+                break;
+            }
+        }
+        
         $nomeImagem = $ficheiro['file']['name'];
         $caminhoTemporario= $ficheiro["file"]["tmp_name"];
 
@@ -23,13 +32,30 @@ class Quizz {
                 unlink($imagens);
             }
         }
+
+        
+
         move_uploaded_file($caminhoTemporario,$caminhoOriginal);
 
         return $caminhoOriginal;
     }
 
 
-    function InserirDados($Id_utilizador,$questao,$imagem,$tipoQuestao,$dadosRespostas,$respostasCorretas){
+    function VerificarExistenciaQuizz($Id_utilizador){
+        $conexao = new Conexao();
+        
+        $stmt = $conexao->runQuery('SELECT `Id_quizz` FROM quizzes WHERE Id_utilizador = :Id_utilizador AND escolaridade = :escolaridade');
+        $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':escolaridade' => "temporario"));
+        $dataQuizzes = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if($dataQuizzes == true){
+            return 'existe';
+        }else{
+            return 'naoExiste';
+        }
+    }
+
+    function InserirDados($Id_utilizador,$questao,$imagem,$caminhoDiretorio,$tipoQuestao,$dadosRespostas,$respostasCorretas){
         $conexao = new Conexao();
         $limiteRespostas=0;
 
@@ -41,6 +67,18 @@ class Quizz {
                 return 'respostaVazia';
             }
             $limiteRespostas+=1;
+        }
+
+        $verificarExistenciaDeRespostasCorretas= 0;
+
+        for ($i=0; $i< $limiteRespostas; $i++) {
+            if($respostasCorretas[$i] == "true"){
+                $verificarExistenciaDeRespostasCorretas = 1;
+            }
+        }
+
+        if($verificarExistenciaDeRespostasCorretas == 0){
+            return 'nenhumaRespostaCorreta';
         }
 
 
@@ -67,15 +105,18 @@ class Quizz {
         if(empty($imagem) || str_contains($imagem, 'InserirDadosQuizz.php')){
             $imagem= "";
         }else{
-            //strrchr() serve para obter o último caracter com o mesmo nome e o texto que está á frente deles
-            $imagem= strrchr($imagem,'/');
+            //strrchr() serve para obter o último caractere com o mesmo nome e o texto que está á frente deles
+            $caminhoImagem= strstr($imagem, '/BaseDados');
+            $caminhoDiretorio= strstr($caminhoDiretorio, '/BaseDados');
             $nomeficheiro= strrchr($imagem,'/'); 
 
             for ($i=1; $i <= 10; $i++) { 
                 if (!file_exists('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/QuestaoComImagem'.$i.'/')) {
                     mkdir('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/QuestaoComImagem'.$i.'/', 0755, true);
-                    rename('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/ImagemTemporaria'.$imagem, 
+                    rename('..'.$caminhoImagem, 
                            '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/QuestaoComImagem'.$i.$nomeficheiro);
+                    //Elimina o diretorio vazio
+                    rmdir('..'.$caminhoDiretorio);
                     break;
                 }
             }
@@ -88,7 +129,6 @@ class Quizz {
         $stmt->execute(array(':Id_quizz' => $dataQuizzes['Id_quizz']));
         $dataQuizzes = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        
         for ($i=0; $i< $limiteRespostas; $i++) {
             if($respostasCorretas[$i] == "true"){
                 $verdadeiroOuFalso= 'true';
@@ -104,6 +144,19 @@ class Quizz {
     }
 
 
+
+    function eliminarDiretorioTemporario($caminhoImagem, $caminhoDiretorio){
+        $caminhoImagem= strrchr($caminhoImagem,'/');
+        $caminhoDiretorio= strstr($caminhoDiretorio, '/BaseDados');
+
+        unlink('..'.$caminhoDiretorio.$caminhoImagem);
+        rmdir('..'.$caminhoDiretorio);
+
+        return 'sucesso';
+    }
+
+
+
     function ObterDadosQuestoes_Quizzes($Id_utilizador){
         $conexao = new Conexao();
 
@@ -117,6 +170,7 @@ class Quizz {
 
         $i=0;
 
+        
         foreach ($dataQuestoes as $dadosDataQuestoes) {
             $stmt = $conexao->runQuery('SELECT COUNT(Id_resposta) as numRespostas FROM respostas WHERE Id_questao = :Id_questao');
             $stmt->execute(array(':Id_questao' => $dadosDataQuestoes['Id_questao']));
@@ -158,6 +212,8 @@ class Quizz {
     }
     
 
+
+
     function guardarNomeQuestao($nomeQuestao,$Id_questao){
         $conexao = new Conexao();
 
@@ -168,5 +224,46 @@ class Quizz {
             $execute = $stmt->execute();
 
             return "alteradoComSucesso";
+    }
+
+
+
+
+    function ObterDadosQuestao($Id_questao, $Id_utilizador){
+        $conexao = new Conexao();
+        $i=0; //guardar ordem da questao
+
+        $stmt = $conexao->runQuery('SELECT Id_quizz, textoQuestao, tipoQuestao FROM questoes WHERE Id_questao = :Id_questao');
+        $stmt->execute(array(':Id_questao' => $Id_questao));
+        $dataQuestao = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        //Aqui será feita uma contagem para obter o número da ordem dessa questao
+        //Ou seja se ela for a menor será a nº1 se for a segunda menor será a nº2 e por assim adiante
+        $stmt = $conexao->runQuery('SELECT Id_questao, imagem FROM questoes WHERE Id_quizz = :Id_quizz');
+        $stmt->execute(array(':Id_quizz' => $dataQuestao['Id_quizz']));
+        $dataImagemQuestoes = $stmt->fetchAll(PDO::FETCH_ASSOC); 
+
+
+        foreach ($dataImagemQuestoes as $dadosImagemQuestoes_temporario) {
+            if(!empty($dadosImagemQuestoes_temporario['imagem'])){
+                $i +=1;
+            }
+            if($dadosImagemQuestoes_temporario['Id_questao'] == $Id_questao){
+                break;
+            }
+        }
+
+        $imagemQuestao= '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuestao['Id_quizz'].'/QuestaoComImagem'.$i.$dadosImagemQuestoes_temporario['imagem'];
+
+        $stmt = $conexao->runQuery('SELECT respostaQuizz, valorResposta FROM respostas WHERE Id_questao = :Id_questao');
+        $stmt->execute(array(':Id_questao' => $Id_questao));
+        $dataRespostas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $filtrarDados = array(  'dadosQuestao'=> $dataQuestao,
+                                'dadosRespostas' => $dataRespostas,
+                                'imagemQuestao'=> $imagemQuestao
+                             );
+        
+        return $filtrarDados;
     }
 }

@@ -23,6 +23,10 @@ $(document).ready(function(){
         location.href="guardarQuizz.php";
     });
 
+    $("#botaoadicionarQuizz").click(function(){
+        location.href="inserirDadosQuizz.php";
+    });
+
     // Eliminar o cookie que indica o tipo de questao a ser criada
     var hoje = new Date();
     hoje.setMonth( hoje.getMonth() - 1 );
@@ -134,13 +138,13 @@ function criarConteudoDentroDoRow(container, i, iplus1, dadosQuestoes, numeroRes
         const divOrganizarInformacoesImagem = document.createElement("div");
         divOrganizarInformacoesImagem.id="organizarInformacoesImagem"+iplus1;
         divOrganizarInformacoesImagem.innerHTML = '<label type="text" class="contemImagem" >Imagem?</label>'
-                                                    +'<label id="contemImagem'+iplus1+'" type="text" class="contemImagem">&nbsp '+dadosQuestoes[i]['imagem']+'</label>';
+                                                 +'<label id="contemImagem'+iplus1+'" type="text" class="contemImagem">&nbsp '+dadosQuestoes[i]['imagem']+'</label>';
         divOrganizarInformacoesImagem.classList.add('col-sm-2','dadosQuizz');
         container.appendChild(divOrganizarInformacoesImagem);
 
         const divOrganizarBotaoEditar = document.createElement("div");
         divOrganizarBotaoEditar.id="organizarBotaoEditar"+iplus1;
-        divOrganizarBotaoEditar.innerHTML = '<button type="text" class="btn button border botaoEditar">Editar</button>';
+        divOrganizarBotaoEditar.innerHTML = '<button type="text" class="btn button border botaoEditar" onclick="guardarId_questaoParaAEditar('+dadosQuestoes[i]['Id_questao']+')">Editar</button>';
         divOrganizarBotaoEditar.classList.add('col-sm-2','dadosQuizz');
         container.appendChild(divOrganizarBotaoEditar);
 }
@@ -165,4 +169,16 @@ function guardarNomeQuestao(Id_questao, numeroDaOrdemQuestao){
             console.log(resposta);
         }
     });
+}
+
+
+function guardarId_questaoParaAEditar(Id_questao){
+    var hoje = new Date();
+    var tempo = hoje.getTime();
+    var expirarCookie = tempo + 3600000;       
+    hoje.setTime(expirarCookie);
+  
+    document.cookie = "idQuestaoAEditar= "+Id_questao+';expires='+hoje.toUTCString()+"; secure=true"+';path=/';
+
+    location.href="editarDadosQuestao.php";
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Language Quizz- Inserir Dados Questao</title>
+    <title>Language Quizz- Editar Dados Questao</title>
     <meta charset="utf-8" http-equiv="pt-pt" >
     
    
@@ -102,7 +102,7 @@ include "menuFooter/menu.php";
 
 
 
-<script  src="InserirDadosQuizz.js"></script>
+<script  src="editarDadosQuestao.js"></script>
 
 </body>
 </html>
