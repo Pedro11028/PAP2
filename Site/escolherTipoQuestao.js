@@ -26,6 +26,15 @@ $(document).ready(function(){
     });
 });
 
+function getIdCookie() {
+    let cookie = {};
+    document.cookie.split(';').forEach(function(separar) {
+        let [key,value] = separar.split('=');
+        cookie[key.trim()] = value;
+    })
+    return cookie['idCookie'];
+}
+
 function criarCookie(valorCookie) {
     var hoje = new Date();
     var tempo = hoje.getTime();
