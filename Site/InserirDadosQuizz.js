@@ -224,8 +224,6 @@ function limparImagemQuestao(){
           toastr.warning('Parece ter ocorrido um erro com a ligação á base de dados!', 'Woops!!!');
       }
     });
-    
-    
 }
 
 function fecharContainerResposta(numeroContainer){

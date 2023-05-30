@@ -78,7 +78,7 @@ include "menuFooter/menu.php";
                     </div>
                 </div>
                 <div id="containerAdicionarResposta">
-                    <button id="adicionarResposta" class="btn button border adicionarResposta" onclick="adicionarCampoResposta()">
+                    <button id="adicionarResposta" class="btn button border adicionarResposta" title="Adicionar resposta" onclick="adicionarCampoResposta()">
                         <i class="fa-solid fa-plus"></i>
                     </button>
                 </div>

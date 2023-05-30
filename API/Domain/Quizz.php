@@ -33,8 +33,6 @@ class Quizz {
             }
         }
 
-        
-
         move_uploaded_file($caminhoTemporario,$caminhoOriginal);
 
         return $caminhoOriginal;
@@ -149,8 +147,10 @@ class Quizz {
         $caminhoImagem= strrchr($caminhoImagem,'/');
         $caminhoDiretorio= strstr($caminhoDiretorio, '/BaseDados');
 
-        unlink('..'.$caminhoDiretorio.$caminhoImagem);
-        rmdir('..'.$caminhoDiretorio);
+        if(!strpos($caminhoDiretorio, '/QuestaoComImagem') && !strpos($caminhoImagem, '/editarDadosQuestao')){
+            unlink('..'.$caminhoDiretorio.$caminhoImagem);
+            rmdir('..'.$caminhoDiretorio);
+        }
 
         return 'sucesso';
     }
@@ -177,7 +177,6 @@ class Quizz {
             $dataRespostas[$i] = $stmt->fetch(PDO::FETCH_ASSOC);
 
             switch ($dadosDataQuestoes['tipoQuestao']) {
-
                 case 'mostrarAcerto':
                     $dataQuestoes[$i]['tipoQuestao']= 'Mostrar resposta';
                     break;
@@ -210,7 +209,6 @@ class Quizz {
 
         return $filtrarDados;
     }
-    
 
 
 
@@ -241,19 +239,32 @@ class Quizz {
         //Ou seja se ela for a menor será a nº1 se for a segunda menor será a nº2 e por assim adiante
         $stmt = $conexao->runQuery('SELECT Id_questao, imagem FROM questoes WHERE Id_quizz = :Id_quizz');
         $stmt->execute(array(':Id_quizz' => $dataQuestao['Id_quizz']));
-        $dataImagemQuestoes = $stmt->fetchAll(PDO::FETCH_ASSOC); 
+        $dataImagemQuestoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+
+        // "$posicaoQuestoesComImagem" serve para verificar a posição em que se encontra dentre as questões que têm uma imagem
+        $posicaoQuestoesComImagem = 0;
+        // "$contemImagem" serve para verificar se a questão atual contém uma imagem na base de dados 
+        $contemImagem = 'false';
+        $tamanhoArray = count($dataImagemQuestoes);
 
         foreach ($dataImagemQuestoes as $dadosImagemQuestoes_temporario) {
             if(!empty($dadosImagemQuestoes_temporario['imagem'])){
-                $i +=1;
+                $posicaoQuestoesComImagem +=1;
+                $contemImagem= 'true';
+            }else{
+                $contemImagem= 'false';
             }
             if($dadosImagemQuestoes_temporario['Id_questao'] == $Id_questao){
                 break;
             }
         }
-
-        $imagemQuestao= '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuestao['Id_quizz'].'/QuestaoComImagem'.$i.$dadosImagemQuestoes_temporario['imagem'];
+        
+        if($contemImagem != 'true'){
+            $imagemQuestao= "";
+        }else{
+            $imagemQuestao= '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuestao['Id_quizz'].'/QuestaoComImagem'.$posicaoQuestoesComImagem.$dadosImagemQuestoes_temporario['imagem'];
+        }
 
         $stmt = $conexao->runQuery('SELECT respostaQuizz, valorResposta FROM respostas WHERE Id_questao = :Id_questao');
         $stmt->execute(array(':Id_questao' => $Id_questao));
@@ -265,5 +276,156 @@ class Quizz {
                              );
         
         return $filtrarDados;
+    }
+
+    function atualizarDadosQuestao($Id_utilizador,$Id_questao,$textoQuestao,$imagem,$caminhoDiretorio,$tipoQuestao,$dadosRespostas,$respostasCorretas){
+        $conexao = new Conexao();
+
+        $limiteRespostas=0;
+
+        if(empty($textoQuestao)){
+            return 'questaoVazia';
+        }
+        foreach ($dadosRespostas as $dadosRespostaTamanho) {
+            if(empty($dadosRespostaTamanho)){
+                return 'respostaVazia';
+            }
+            $limiteRespostas+=1;
+        }
+
+        $verificarExistenciaDeRespostasCorretas= 0;
+
+        for ($i=0; $i< $limiteRespostas; $i++) {
+            if($respostasCorretas[$i] == "true"){
+                $verificarExistenciaDeRespostasCorretas = 1;
+            }
+        }
+
+        if($verificarExistenciaDeRespostasCorretas == 0){
+            return 'nenhumaRespostaCorreta';
+        }
+
+
+        $stmt = $conexao->runQuery('SELECT `Id_quizz` FROM quizzes WHERE Id_utilizador = :Id_utilizador AND escolaridade = :escolaridade');
+        $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':escolaridade' => "temporario"));
+        $dataQuizzes = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $caminhoImagem= strstr($imagem, '/BaseDados');
+        $caminhoDiretorio= strstr($caminhoDiretorio, '/BaseDados');
+        $nomeficheiro= strrchr($imagem,'/');
+
+        $stmt = $conexao->runQuery('SELECT Id_questao, imagem FROM questoes WHERE Id_quizz = :Id_quizz');
+        $stmt->execute(array(':Id_quizz' => $dataQuizzes['Id_quizz']));
+        $dataImagemQuestoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        
+        // "$posicaoQuestoesComImagem" serve para verificar a posição em que se encontra dentre as questões que têm uma imagem
+        $posicaoQuestoesComImagem = 0;
+        // "$contemImagem" serve para verificar se a questão atual contém uma imagem na base de dados 
+        $contemImagem = 'false';
+        $tamanhoArray = count($dataImagemQuestoes);
+
+        foreach ($dataImagemQuestoes as $dadosImagemQuestoes_temporario) {
+            if(!empty($dadosImagemQuestoes_temporario['imagem'])){
+                $posicaoQuestoesComImagem +=1;
+                $contemImagem= 'true';
+            }else{
+                $contemImagem= 'false';
+            }
+            if($dadosImagemQuestoes_temporario['Id_questao'] == $Id_questao){
+                break;
+            }
+        }
+
+        //Primeiro verifica se retornou vazio ou o nome da página, se sim então vai eliminar a imagem ou seja a pasta que a armazena também é eliminada cazo ela já existisse antes
+        if(empty($imagem) || str_contains($imagem, '/editarDadosQuestao.php')){
+            $nomeficheiro= "";
+           
+             if(file_exists('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/QuestaoComImagem'.$posicaoQuestoesComImagem.$dadosImagemQuestoes_temporario['imagem'])){
+                 unlink('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/QuestaoComImagem'.$posicaoQuestoesComImagem.$dadosImagemQuestoes_temporario['imagem']);
+                 rmdir('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/QuestaoComImagem'.$posicaoQuestoesComImagem);
+                
+
+                 $iMinus1= $posicaoQuestoesComImagem;
+
+                 for ($i= $posicaoQuestoesComImagem; $i <= 10; $i++) {
+                    if (file_exists('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/QuestaoComImagem'.$i.'/')) {
+                        $caminhoImagem = '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'];
+                        rename($caminhoImagem.'/QuestaoComImagem'.$i.'/', $caminhoImagem.'/QuestaoComImagem'.$iMinus1.'/');
+                        $iMinus1 += 1;
+                        
+                    }
+                 }
+             }
+
+        }else{
+
+            //Verifica se a imagem foi alterada
+            if(!strpos($caminhoDiretorio, '/QuestaoComImagem')){
+
+                if($contemImagem == 'true'){
+                        unlink('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/QuestaoComImagem'.$posicaoQuestoesComImagem.$dadosImagemQuestoes_temporario['imagem']);
+                        rename('..'.$caminhoDiretorio.$nomeficheiro, 
+                                '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/QuestaoComImagem'.$posicaoQuestoesComImagem.$nomeficheiro);
+
+                        rmdir('..'.$caminhoDiretorio);
+                }else{
+                    //Como as questões com imagens que foram contadas não contam com esta questão é adicionado um para defenir a posição da questão atual entre as questões que têm iamgem
+                    $posicaoQuestoesComImagem += 1;
+                    $iplus1 = $posicaoQuestoesComImagem;
+
+                    for ($i= $posicaoQuestoesComImagem; $i <= 10; $i++) { 
+                        $iplus1 += 1;
+                        if (file_exists('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/QuestaoComImagem'.$i.'/')) {
+                            $caminhoImagem = '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'];
+                            rename($caminhoImagem.'/QuestaoComImagem'.$i.'/', $caminhoImagem.'/QuestaoComImagem'.$iplus1.'a/');
+                        }
+                    }
+
+                    $iplus1 = $posicaoQuestoesComImagem;
+
+                    for ($i= $posicaoQuestoesComImagem; $i <= 10; $i++) {
+                        if (file_exists('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/QuestaoComImagem'.$i.'a/')) {
+                            $caminhoImagem = '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'];
+                            rename($caminhoImagem.'/QuestaoComImagem'.$i.'a/', $caminhoImagem.'/QuestaoComImagem'.$i.'/');
+                        }
+                    }
+
+                    mkdir('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/QuestaoComImagem'.$posicaoQuestoesComImagem.'/', 0755, true);
+                    rename('..'.$caminhoDiretorio.$nomeficheiro, 
+                           '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/QuestaoComImagem'.$posicaoQuestoesComImagem.$nomeficheiro);
+                }
+            }
+        }
+
+        $sql = 'UPDATE questoes SET textoQuestao = :textoQuestao, imagem= :imagem WHERE Id_questao = :Id_questao';
+        $stmt = $conexao->runQuery($sql);    
+        $stmt->bindParam(':Id_questao', $Id_questao, PDO::PARAM_INT);
+        $stmt->bindParam(':textoQuestao', $textoQuestao);
+        $stmt->bindParam(':imagem', $nomeficheiro);
+        $execute = $stmt->execute();
+
+
+         $sql = 'DELETE FROM respostas WHERE Id_questao = :Id_questao';
+         $stmt= $conexao->runQuery($sql);
+         $stmt->bindParam(':Id_questao', $Id_questao);
+         $stmt->execute();
+
+         $stmt = $conexao->runQuery('SELECT MAX(`Id_questao`) as Id_questao FROM questoes WHERE Id_quizz = :Id_quizz');
+         $stmt->execute(array(':Id_quizz' => $dataQuizzes['Id_quizz']));
+         $dataQuizzes = $stmt->fetch(PDO::FETCH_ASSOC);
+
+         for ($i=0; $i< $limiteRespostas; $i++) {
+             if($respostasCorretas[$i] == "true"){
+                 $verdadeiroOuFalso= 'true';
+             }else{
+                 $verdadeiroOuFalso= 'false';
+             }
+
+             $stmt = $conexao->runQuery('INSERT INTO respostas (Id_questao, respostaQuizz, valorResposta) VALUES (:Id_questao, :respostaQuizz, :valorResposta)');
+             $stmt-> execute(array(':Id_questao' => $Id_questao, ':respostaQuizz' => $dadosRespostas[$i], ':valorResposta' => $verdadeiroOuFalso));
+         }
+
+        return "dadosGuardadosComSucesso";
     }
 }

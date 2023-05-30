@@ -37,7 +37,7 @@ include "menuFooter/menu.php";
                     <button id="guardarTempImg" type="submit" class="btn button border"><i class="fa-solid fa-floppy-disk"></i></button>
                 </form>
 
-            <img id="imagemQuestao" src="" class="imagemQuestao" title="Clicar para eliminar imagem" onclick="limparImagemQuestao()">
+            <img id="imagemQuestao" src="" class="imagemQuestao" title="Clicar para eliminar imagem" onclick="eliminarImagemQuestao()">
             <div id="digitarQuestao" class="digitarQuestao" placeholder="Digitar Questão..." contentEditable="plaintext-only"></div>
         </div>
     </div>
