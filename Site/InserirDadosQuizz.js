@@ -1,6 +1,4 @@
 $(document).ready(function(){
-    
-
     document.getElementById("menuBarraPesquisa").remove();
     document.getElementById("menuSearch").remove();
     document.getElementById("menuCriarQuizz").remove();
@@ -10,7 +8,8 @@ $(document).ready(function(){
     document.getElementById("menuGuardarInfoQuizz").style.display="inline";
     document.getElementById("menuGuardarInfoQuizz").style.float= "right";
     document.getElementById("menuGuardarInfoQuizz").style.left= "0px";
-
+    
+    document.getElementById("eliminarResposta1").style.display = "none";
 
     //Verificar se é a primeira questão
     var Id_utilizador = getIdCookie();
@@ -30,13 +29,53 @@ $(document).ready(function(){
             }
             if(resposta == 'naoExiste'){
                 document.getElementById('linkInicio').innerHTML = "Cancelar";
-                document.getElementById('linkInicio').href = "CancelarInserirDados.php";
+                document.getElementById('linkInicio').href = "javascript:void";
             }
         },
           error: function (xhr, ajaxOptions, thrownError) {
             toastr.warning('Parece ter ocorrido um erro com a ligação á base de dados!', 'Woops!!!');
         }
     });
+
+
+    //Voltar ao Inicio do site mas elimininando a imagem temporária caso exista
+    $(document).on('click','#linkInicio',function(e){
+        var caminhoImagem = document.getElementById("imagemQuestao").src;
+        caminhoDiretorio= caminhoImagem.substr(0, caminhoImagem.lastIndexOf("/"));
+        
+        $.ajax({
+            type:"POST",
+            url: "../API/eliminardiretorioTemporarioApi.php",
+            data:{
+                accao:"eliminarDiretorio",
+                caminhoImagem:caminhoImagem,
+                caminhoDiretorio:caminhoDiretorio
+            },
+            cache: false,
+            dataType: 'json',
+            success: function(resposta) {
+                if(resposta == 'sucesso'){
+                    eliminarCookieDoTipoQuestao();
+                    location.href = "index.php";
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+            toastr.warning('Parece ter ocorrido um erro com a ligação á base de dados!', 'Woops!!!');
+        }
+        });
+        return false;
+    });
+
+
+    function eliminarCookieDoTipoQuestao(){
+        var hoje = new Date();
+        hoje.setMonth( hoje.getMonth() - 1 );
+        
+        document.cookie = "escolherTipoQuestao= "+document.cookie.indexOf('escolherTipoQuestao')
+                         +';expires='+hoje.toUTCString()
+                         +"; secure=true"
+                         +';path=/';
+    }
 
 
     // obter o Tipo de questão e com isso determinar o formato da página
@@ -281,6 +320,10 @@ function criarCampoEscreverResposta(){
         }
     }
 
+    if(document.getElementById("eliminarResposta1").style.display == "none"){
+        document.getElementById("eliminarResposta1").style.display = "inline";
+    }
+
     if(numeroCamposResposta<15){
         numeroCamposResposta+=1;
         const container = document.getElementById("containerEscreverResposta");
@@ -295,6 +338,8 @@ function criarCampoEscreverResposta(){
     if(numeroCamposResposta == 15){
         document.getElementById("containerAdicionarResposta").style.display= 'none';
     }
+
+
 }
 
 function EliminarCampoEscreverResposta(numero){

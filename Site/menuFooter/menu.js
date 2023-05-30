@@ -7,6 +7,7 @@
         document.getElementById("dropUtilizador").remove();
     }
     
+    document.getElementById("menuEliminarQuizz").style.display= "none";
     document.getElementById("menuGuardarInfoQuizz").style.display= "none";
     document.getElementById("menuAdicionarQuestao").style.display= "none";
     

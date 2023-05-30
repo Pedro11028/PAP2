@@ -25,6 +25,7 @@
 	padding: 0;
 	margin: 0;
 	list-style: none;
+	z-index: 2;
 }
 
 /* Faz com que os elementos do menu fiquem na esquerda assim impedindo que fiquem todos espalhados */
@@ -33,7 +34,7 @@
 }
 
 /* Centraliza os elementos no menu e define o seu formato */
-.estiloMenu nav ul li a, #botaoGuardar, #botaoadicionarQuizz {
+.estiloMenu nav ul li a, #botaoGuardar, #botaoadicionarQuizz, #botaoEliminarQuizz{
 	display: block;
 	color: blue;
 	text-decoration: none;
@@ -47,9 +48,8 @@
 	border: none;
 	
 }
-#botaoGuardar:hover, #botaoadicionarQuizz:hover{
+#botaoGuardar:hover, #botaoadicionarQuizz:hover, #botaoEliminarQuizz:hover{
 	color: #646464;
-
 }
 
 /* Coloca o dropdown do menu abaixo do nome do Utilizador */
@@ -125,6 +125,8 @@
  }
 
 
- @media(min-width:900px){
-	
+ @media(max-width:767px){
+	#linkInicio{
+		margin-top: 6px;
+	}
 }

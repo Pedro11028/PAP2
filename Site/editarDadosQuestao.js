@@ -1,22 +1,30 @@
 $(document).ready(function(){
     
     document.getElementById('linkInicio').innerHTML = "Voltar";
-    document.getElementById('linkInicio').href = "editarDadosQuizz.php";
+    document.getElementById('linkInicio').href = "javascript:void";
 
     document.getElementById("menuBarraPesquisa").remove();
     document.getElementById("menuSearch").remove();
     document.getElementById("menuCriarQuizz").remove();
     document.getElementById("dropUtilizador").remove();
+    document.getElementById("iconPlus").remove();
 
     document.getElementById('botaoGuardar').innerHTML= "Atualizar";
     document.getElementById("menuGuardarInfoQuizz").style.display="inline";
     document.getElementById("menuGuardarInfoQuizz").style.float= "right";
     document.getElementById("menuGuardarInfoQuizz").style.left= "0px";
 
+    document.getElementById("menuAdicionarQuestao").style.display="inline";
+    document.getElementById("menuAdicionarQuestao").style.float= "right";
+    document.getElementById("menuAdicionarQuestao").style.left= "0px";
+    
+    document.getElementById('botaoadicionarQuizz').innerHTML= "Eliminar";
+    
+    document.getElementById("eliminarResposta1").style.display = "none";
     
     // obter o Tipo de questão e com isso determinar o formato da página
     const Id_questao = getIdquestaoCookie();
-    var Id_utilizador = getIdCookie();
+    const Id_utilizador = getIdCookie();
 
     function getIdquestaoCookie() {
         let cookie = {};
@@ -26,7 +34,6 @@ $(document).ready(function(){
         })
         return cookie['idQuestaoAEditar'];
     }
-
 
     //Obter dados da questao a ser editada
     $.ajax({
@@ -66,7 +73,6 @@ $(document).ready(function(){
 
         document.getElementById("digitarQuestao").innerHTML = dadosQuestao['dadosQuestao']['textoQuestao'];
 
-
         for (let i = 0; i < tamanhoArray; i++) {
             if(document.getElementById("digitarResposta1").value== "" || document.getElementById("digitarResposta1").value== " "){
                 document.getElementById("digitarResposta1").value=  dadosQuestao['dadosRespostas'][0]['respostaQuizz'];
@@ -96,6 +102,27 @@ $(document).ready(function(){
             iplus1= i+1;
             document.getElementById("questao"+iplus1).style.display = 'none';
         }
+
+        //Verificar quantidade de campos existentes, se forem dois então esconde o botão eliminar resposta e mostra o botão para as adicionar
+        var NumeroQuestoesExistentes = 0;
+
+        for (let i = 1; i <= 4; i++) {
+          if (document.getElementById("questao"+ i).style.display == "none") {
+            NumeroQuestoesExistentes += 1;
+          }
+        }
+      
+        if (NumeroQuestoesExistentes >= 1) {
+          for (let i = 1; i <= 4; i++) {
+            document.getElementById("fecharResposta" + i).style.visibility = "hidden";
+          }
+          
+          document.getElementById("adicionarResposta").style.display = "inline";
+        }else{
+                document.getElementById("adicionarResposta").style.display = "none";
+        }
+
+        
     }
 
     function criarTipoCookie(nomeCookie) { 
@@ -107,10 +134,34 @@ $(document).ready(function(){
         document.cookie = "tipoQuestaoCookie= "+nomeCookie+';expires='+hoje.toUTCString()+"; secure=true"+';path=/';
     }
 
-
+    //Voltar ao editar Quizz mas elimininando a imagem temporária caso exista
+    $(document).on('click','#linkInicio',function(e){
+            var caminhoImagem = document.getElementById("imagemQuestao").src;
+            caminhoDiretorio= caminhoImagem.substr(0, caminhoImagem.lastIndexOf("/"));
+            
+            $.ajax({
+                type:"POST",
+                url: "../API/eliminardiretorioTemporarioApi.php",
+                data:{
+                    accao:"eliminarDiretorio",
+                    caminhoImagem:caminhoImagem,
+                    caminhoDiretorio:caminhoDiretorio
+                },
+                cache: false,
+                dataType: 'json',
+                success: function(resposta) {
+                    if(resposta == 'sucesso'){
+                        location.href = "editarDadosQuizz.php";
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                toastr.warning('Parece ter ocorrido um erro com a ligação á base de dados!', 'Woops!!!');
+            }
+            });
+        return false;
+    });
 
     //Guardar a imagem num diretório temporariamente
-    var Id_utilizador = getIdCookie();
     $(document).on('submit','#MostrarImgPergunta',function(e){
 
         e.preventDefault();
@@ -160,18 +211,43 @@ $(document).ready(function(){
         }
     }
 
+    //Embora o id seja "botaoadicionarQuizz" aqui o mesmo servirá para eliminar a questão
+    $("#botaoadicionarQuizz").click(function() {
+        var imagem= document.getElementById("imagemQuestao").src;
+        caminhoDiretorio= imagem.substr(0, imagem.lastIndexOf("/"));
 
-    const tipoQuestao= getTipoQuestaoCookie();
-    // Guardar dados quizz ao clicar em guardar 
+        $.ajax({
+            type:"POST",
+            url: "../API/eliminarQuestaoApi.php",
+            data:{
+                accao:"eliminarQuestao",
+                Id_utilizador:Id_utilizador,
+                Id_questao:Id_questao,
+                imagem:imagem,
+                caminhoDiretorio:caminhoDiretorio
+            },
+            cache: false,
+            dataType: 'json',
+            success: function(resposta) {
+                if(resposta == 'dadosEliminadosComSucesso'){
+                    location.href="editarDadosQuizz.php";
+                }
+            }
+        });
+        return false;
+    });
+
+
+    // Guardar dados quizz ao clicar em guardar
     $("#botaoGuardar").click(function() {
+
+        const tipoQuestao = getTipoQuestaoCookie();
 
         dadosRespostas = [];
         ordemGuardarDados = 0;
         respostasCorretas = [];
-        
-        guardarDadosValido = true;
 
-        if(tipoQuestao == 'escreverResposta'){
+        if(tipoQuestao === "escreverResposta"){
             for (let i = 1; i <= 15; i++) {
                 if(document.getElementById("digitarResposta"+i)){
                     respostasCorretas[ordemGuardarDados]= 'true';
@@ -196,8 +272,7 @@ $(document).ready(function(){
         var imagem= document.getElementById("imagemQuestao").src;
         caminhoDiretorio= imagem.substr(0, imagem.lastIndexOf("/"));
         var questao= document.getElementById("digitarQuestao").innerHTML;
-         
-        if(guardarDadosValido == true){
+
             $.ajax({
                 type:"POST",
                 url: "../API/atualizarDadosQuestaoApi.php",
@@ -215,27 +290,27 @@ $(document).ready(function(){
                 cache: false,
                 dataType: 'json',
                 success: function(resposta) {
+                    console.log(resposta);
                     if(resposta == 'dadosGuardadosComSucesso'){
                         location.href="editarDadosQuizz.php";
                     }
                 }
             });
-        }
         return false;
     });
 
+    function getTipoQuestaoCookie(){
+        let cookie = {};
+            document.cookie.split(';').forEach(function(separar) {
+               let [key,value] = separar.split('=');
+               cookie[key.trim()] = value;
+            })
+            return cookie['tipoQuestaoCookie'];
+    }
+    
 });
 
 
-
-function getTipoQuestaoCookie(){
-    let cookie = {};
-        document.cookie.split(';').forEach(function(separar) {
-           let [key,value] = separar.split('=');
-           cookie[key.trim()] = value;
-        })
-        return cookie['tipoQuestaoCookie'];
-}
 
 //Funções referentes à visualização do form de atualização da imagem de perfil
 
@@ -326,6 +401,10 @@ function criarCampoEscreverResposta(){
         if(document.getElementById("digitarResposta"+i)){
             numeroCamposResposta += 1;
         }
+    }
+
+    if(document.getElementById("eliminarResposta1").style.display == "none"){
+        document.getElementById("eliminarResposta1").style.display = "inline";
     }
 
     if(numeroCamposResposta<15){

@@ -1,7 +1,7 @@
 $(document).ready(function(){
     
-    document.getElementById('linkInicio').innerHTML = "Cancelar";
-    document.getElementById('linkInicio').href = "CancelarInserirDados.php";
+    document.getElementById('linkInicio').innerHTML = "Inicio";
+    document.getElementById('linkInicio').href = "index.php";
 
     document.getElementById("menuBarraPesquisa").remove();
     document.getElementById("menuSearch").remove();
@@ -17,16 +17,57 @@ $(document).ready(function(){
     document.getElementById("menuAdicionarQuestao").style.float= "right";
     document.getElementById("menuAdicionarQuestao").style.left= "0px";
 
+    document.getElementById('botaoEliminarQuizz').innerHTML= "Eliminar Quizz";
+    document.getElementById("menuEliminarQuizz").style.display="inline";
+    document.getElementById("menuEliminarQuizz").style.marginLeft= "30px";
+
     document.getElementById("dropUtilizador").remove();
 
     $("#botaoGuardar").click(function(){
-        location.href="guardarQuizz.php";
+        location.href="guardarQuizz.html";
     });
 
     $("#botaoadicionarQuizz").click(function(){
-        location.href="inserirDadosQuizz.php";
+        location.href="escolherTipoQuestao.html";
     });
 
+    $("#botaoEliminarQuizz").click(function(){
+        if (window.confirm("Tens a certesa que queres eliminar o quizz atual?")) {
+             var Id_utilizador= getIdCookie();
+
+             $.ajax({
+                 type:"POST",
+                 url: "../API/eliminarQuizzApi.php",
+                 data:{
+                     accao:"eliminarQuizz",
+                     Id_utilizador:Id_utilizador
+                 },
+                 cache: false,
+                 dataType: 'json',
+                 success: function(resposta) {
+                     if(resposta == 'dadosEliminadosComSucesso'){
+                        eliminarCookies();
+                        location.href='index.php';
+                     }
+                 }
+             });
+        }
+    });
+
+    function eliminarCookies(){
+        var hoje = new Date();
+        hoje.setMonth( hoje.getMonth() - 1 );
+        
+        document.cookie = "tipoQuestaoCookie= "+document.cookie.indexOf('tipoQuestaoCookie')
+                         +';expires='+hoje.toUTCString()
+                         +"; secure=true"
+                         +';path=/';
+      
+        document.cookie = "idQuestaoAEditar= "+document.cookie.indexOf('idQuestaoAEditar')
+                         +';expires='+hoje.toUTCString()
+                         +"; secure=true"
+                         +';path=/';
+    }
     // Eliminar o cookie que indica o tipo de questao a ser criada
     var hoje = new Date();
     hoje.setMonth( hoje.getMonth() - 1 );
@@ -52,7 +93,6 @@ $(document).ready(function(){
         cache: false,
         dataType: 'json',
         success: function(resposta) {
-            console.log(resposta);
             filtrarEMostrarDadosQuestoes(resposta);
         }
     });
@@ -63,7 +103,6 @@ $(document).ready(function(){
             let [key,value] = separar.split('=');
             cookie[key.trim()] = value;
         })
-
         return cookie['idCookie'];
     }
 
