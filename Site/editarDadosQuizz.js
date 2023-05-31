@@ -205,7 +205,9 @@ function guardarNomeQuestao(Id_questao, numeroDaOrdemQuestao){
         cache: false,
         dataType: 'json',
         success: function(resposta) {
-            console.log(resposta);
+            if(resposta == 'alteradoComSucesso'){
+                toastr.success('Nome da questão alterado com sucesso', 'Sucesso');
+            }
         }
     });
 }

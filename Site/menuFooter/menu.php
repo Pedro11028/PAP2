@@ -18,10 +18,12 @@
           </li>
         </form>
 		
-        <li id="menuCriarQuizz" class="criarQuizz"><a id="linkCriarQuizz" href="escolherTipoQuestao.html">Criar um Quizz</a></li>
+        
 		
 		<!-- Partes do menu para a criação dos quizzes -->
 		<!-- ----------------------------------------------------- -->
+
+		<li id="menuCriarQuizz" class="criarQuizz"><a id="linkCriarQuizz" href="escolherTipoQuestao.html">Criar um Quizz</a></li>
 
 		<li id="menuEliminarQuizz" class="criarQuizz">
 			<button id="botaoEliminarQuizz"></button>

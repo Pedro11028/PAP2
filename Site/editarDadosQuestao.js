@@ -232,6 +232,9 @@ $(document).ready(function(){
                 if(resposta == 'dadosEliminadosComSucesso'){
                     location.href="editarDadosQuizz.php";
                 }
+                if(resposta == 'quizzNaoExiste'){
+                    location.href="index.php";
+                }
             }
         });
         return false;
@@ -240,8 +243,11 @@ $(document).ready(function(){
 
     // Guardar dados quizz ao clicar em guardar
     $("#botaoGuardar").click(function() {
+        var tipoQuestao = getTipoQuestaoCookie();
 
-        const tipoQuestao = getTipoQuestaoCookie();
+        if(!tipoQuestao){
+            tipoQuestao= "";
+        }
 
         dadosRespostas = [];
         ordemGuardarDados = 0;
@@ -293,6 +299,9 @@ $(document).ready(function(){
                     console.log(resposta);
                     if(resposta == 'dadosGuardadosComSucesso'){
                         location.href="editarDadosQuizz.php";
+                    }
+                    if(resposta == 'quizzNaoExiste'){
+                        location.href="index.php";
                     }
                 }
             });

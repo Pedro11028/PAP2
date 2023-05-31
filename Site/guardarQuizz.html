@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Language Quizz- Guardar Quizz</title>
+
+    <link rel="stylesheet" type="text/css" href="registo.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+    <script src="https://kit.fontawesome.com/410e89720f.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<script>
+    if (document.cookie.indexOf('idCookie') < -1 ) {
+        location.href="index.php";
+    }
+</script>
+
+<form id="formGuardarQuizz">
+
+    <br><br>
+    <center>
+        <h2>Guardar Quizz</h2>
+    </center>
+
+    <div class="input-info formContainer">
+        <div class="row h-100 rowEscreverDados" title="exemplo: Verbo To Be">
+            Nome do quizz: <input id="nomeQuizz" class="inputGuardarQuizz">
+        </div>
+
+        <div class="row h-100 rowEscreverDados" title="exemplo: Dia a dia">
+            Descrição (Tema): <input id="TemaQuizz" class="inputGuardarQuizz">
+        </div>
+
+        <div class="row h-100">
+            <div class="col-sm"></div>
+            <div class="col-sm dropdown">
+                Escolariedade: <button id="dropEscolariedade" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                    Escolher...
+                                    <span class="caret"></span>
+                               </button>
+
+                <ul class="dropdown-menu">
+                <li><a class="elemento" onclick="alterarEscolariedade('1ºano')" href="#">1ºano</a></li>
+                <li><a class="elemento" onclick="alterarEscolariedade('2ºano')"href="#">2ºano</a></li>
+                <li><a class="elemento" onclick="alterarEscolariedade('3ºano')"href="#">3ºano</a></li>
+                <li><a class="elemento" onclick="alterarEscolariedade('4ºano')"href="#">4ºano</a></li>
+                <li><a class="elemento" onclick="alterarEscolariedade('5ºano')"href="#">5ºano</a></li>
+                <li><a class="elemento" onclick="alterarEscolariedade('6ºano')"href="#">6ºano</a></li>
+                <li><a class="elemento" onclick="alterarEscolariedade('7ºano')"href="#">7ºano</a></li>
+                <li><a class="elemento" onclick="alterarEscolariedade('8ºano')"href="#">8ºano</a></li>
+                <li><a class="elemento" onclick="alterarEscolariedade('9ºano')"href="#">9ºano</a></li>
+                <li><a class="elemento" onclick="alterarEscolariedade('10ºano')"href="#">10ºano</a></li>
+                <li><a class="elemento" onclick="alterarEscolariedade('11ºano')"href="#">11ºano</a></li>
+                <li><a class="elemento" onclick="alterarEscolariedade('12ºano')"href="#">12ºano</a></li>
+                <li><a class="elemento" onclick="alterarEscolariedade('Universidade')"href="#">Universidade</a></li>
+                <li><a class="elemento" onclick="alterarEscolariedade('Técnico Superior Profissional')"href="#">Técnico Superior Profissional</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="log-sign">
+            <div class="row h-100">
+                <a href="editarDadosQuizz.php">
+                    <button class="voltar" style="align-content: center;" form="voltarform">
+                        Voltar
+                    </button>
+                </a>
+
+                <!-- Tag <a> usada para ajustar o tamanho do botão Guardar igual ao Voltar -->
+                <a href="#">
+                    <button id="guardarDados" class="send" style="align-content: center;" form="voltarform">
+                        Guardar
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div> 
+
+</form>  
+
+</form>
+<script src="guardarQuizz.js"></script>
+</body>
+</html>

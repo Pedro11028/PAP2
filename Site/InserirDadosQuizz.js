@@ -25,7 +25,7 @@ $(document).ready(function(){
         success: function(resposta) {
             if(resposta == 'existe'){
                 document.getElementById('linkInicio').innerHTML = "Voltar";
-                document.getElementById('linkInicio').href = "editarDadosQuizz.php";
+                document.getElementById('linkInicio').href = "javascript:void";
             }
             if(resposta == 'naoExiste'){
                 document.getElementById('linkInicio').innerHTML = "Cancelar";
@@ -56,7 +56,11 @@ $(document).ready(function(){
             success: function(resposta) {
                 if(resposta == 'sucesso'){
                     eliminarCookieDoTipoQuestao();
-                    location.href = "index.php";
+                    if(document.getElementById('linkInicio').innerHTML == "Voltar"){
+                        location.href= "editarDadosQuizz.php";
+                    }else{
+                        location.href = "index.php";
+                    }
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {

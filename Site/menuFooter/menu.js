@@ -3,8 +3,10 @@
         document.getElementById('nomeUtilizador').innerHTML = getCookie();
         document.getElementById("login").remove();
         document.getElementById("register").remove();
+        document.getElementById("menuCriarQuizz").style.display= "inline";
     }else{
         document.getElementById("dropUtilizador").remove();
+        document.getElementById("menuCriarQuizz").style.display= "none";
     }
     
     document.getElementById("menuEliminarQuizz").style.display= "none";

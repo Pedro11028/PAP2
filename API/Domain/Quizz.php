@@ -310,6 +310,20 @@ class Quizz {
         $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':escolaridade' => "temporario"));
         $dataQuizzes = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        if(!$dataQuizzes){
+            $caminhoImagem= strrchr($imagem,'/');
+            $caminhoDiretorio= strstr($caminhoDiretorio, '/BaseDados');
+    
+            if(!str_contains($caminhoDiretorio, '/QuestaoComImagem') && !str_contains($caminhoImagem, '/editarDadosQuestao') && !str_contains($caminhoImagem, '/InserirDadosQuizz')){
+                if (file_exists('..'.$caminhoDiretorio)) {
+                    unlink('..'.$caminhoDiretorio.$caminhoImagem);
+                    rmdir('..'.$caminhoDiretorio);
+                }
+            }
+
+            return 'quizzNaoExiste';
+        }
+
         $caminhoImagem= strstr($imagem, '/BaseDados');
         $caminhoDiretorio= strstr($caminhoDiretorio, '/BaseDados');
         $nomeficheiro= strrchr($imagem,'/');
@@ -337,26 +351,31 @@ class Quizz {
             }
         }
 
+        
         //Primeiro verifica se retornou vazio ou o nome da página, se sim então vai eliminar a imagem ou seja a pasta que a armazena também é eliminada cazo ela já existisse antes
         if(empty($imagem) || str_contains($imagem, '/editarDadosQuestao.php')){
             $nomeficheiro= "";
-           
-             if(file_exists('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/QuestaoComImagem'.$posicaoQuestoesComImagem.$dadosImagemQuestoes_temporario['imagem'])){
-                 unlink('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/QuestaoComImagem'.$posicaoQuestoesComImagem.$dadosImagemQuestoes_temporario['imagem']);
-                 rmdir('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/QuestaoComImagem'.$posicaoQuestoesComImagem);
-                
 
-                 $iMinus1= $posicaoQuestoesComImagem;
-
-                 for ($i= $posicaoQuestoesComImagem; $i <= 10; $i++) {
-                    if (file_exists('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/QuestaoComImagem'.$i.'/')) {
-                        $caminhoImagem = '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'];
-                        rename($caminhoImagem.'/QuestaoComImagem'.$i.'/', $caminhoImagem.'/QuestaoComImagem'.$iMinus1.'/');
-                        $iMinus1 += 1;
-                        
+             //Verifica se o campo imagem da questão está vazio ou não na base de dados
+             if(!empty($dadosImagemQuestoes_temporario['imagem'])){
+                if(file_exists('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/QuestaoComImagem'.$posicaoQuestoesComImagem.$dadosImagemQuestoes_temporario['imagem'])){
+                    unlink('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/QuestaoComImagem'.$posicaoQuestoesComImagem.$dadosImagemQuestoes_temporario['imagem']);
+                    rmdir('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/QuestaoComImagem'.$posicaoQuestoesComImagem);
+                   
+   
+                    $iMinus1= $posicaoQuestoesComImagem;
+   
+                    for ($i= $posicaoQuestoesComImagem; $i <= 10; $i++) {
+                       if (file_exists('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/QuestaoComImagem'.$i.'/')) {
+                           $caminhoImagem = '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'];
+                           rename($caminhoImagem.'/QuestaoComImagem'.$i.'/', $caminhoImagem.'/QuestaoComImagem'.$iMinus1.'/');
+                           $iMinus1 += 1;
+                           
+                       }
                     }
-                 }
+                }
              }
+             
 
         }else{
 
@@ -432,10 +451,24 @@ class Quizz {
 
     function EliminarQuestao($Id_utilizador, $Id_questao, $imagem, $caminhoDiretorio){
         $conexao = new Conexao();
-
+        
         $stmt = $conexao->runQuery('SELECT `Id_quizz` FROM quizzes WHERE Id_utilizador = :Id_utilizador AND escolaridade = :escolaridade');
         $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':escolaridade' => "temporario"));
         $dataQuizzes = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if(!$dataQuizzes){
+            $caminhoImagem= strrchr($imagem,'/');
+            $caminhoDiretorio= strstr($caminhoDiretorio, '/BaseDados');
+    
+            if(!str_contains($caminhoDiretorio, '/QuestaoComImagem') && !str_contains($caminhoImagem, '/editarDadosQuestao') && !str_contains($caminhoImagem, '/InserirDadosQuizz')){
+                if (file_exists('..'.$caminhoDiretorio)) {
+                    unlink('..'.$caminhoDiretorio.$caminhoImagem);
+                    rmdir('..'.$caminhoDiretorio);
+                }
+            }
+
+            return 'quizzNaoExiste';
+        }
 
         $stmt = $conexao->runQuery('SELECT Id_questao, imagem FROM questoes WHERE Id_quizz = :Id_quizz');
         $stmt->execute(array(':Id_quizz' => $dataQuizzes['Id_quizz']));
@@ -508,41 +541,64 @@ class Quizz {
         $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':escolaridade' => "temporario"));
         $dataQuizzes = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $stmt = $conexao->runQuery('SELECT Id_questao, nomeQuestao, imagem, tipoQuestao FROM questoes WHERE Id_quizz = :Id_quizz');
-        $stmt->execute(array(':Id_quizz' => $dataQuizzes['Id_quizz']));
-        $dataQuestoes = $stmt->fetchAll(PDO::FETCH_ASSOC); // Guarda um array dentro de um array por exemplo:  0 => Id_questao => 9
+            $stmt = $conexao->runQuery('SELECT Id_questao, nomeQuestao, imagem, tipoQuestao FROM questoes WHERE Id_quizz = :Id_quizz');
+            $stmt->execute(array(':Id_quizz' => $dataQuizzes['Id_quizz']));
+            $dataQuestoes = $stmt->fetchAll(PDO::FETCH_ASSOC); // Guarda um array dentro de um array por exemplo:  0 => Id_questao => 9
 
-        $caminhoImagensQuestoes= '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'];
-        $existeFicheiros= true;
-        $i= 1;
+            $caminhoImagensQuestoes= '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'];
+            $existeFicheiros= true;
+            $i= 1;
 
-        foreach ($dataQuestoes as $dadosDataQuestoes) {
-            if (!empty($dadosDataQuestoes['imagem'])) {
-                unlink($caminhoImagensQuestoes.'/QuestaoComImagem'.$i.'/'.$dadosDataQuestoes['imagem']);
-                rmdir($caminhoImagensQuestoes.'/QuestaoComImagem'.$i);
-                $i+=1;
-            }else{
-                $existeFicheiros= false;
+            foreach ($dataQuestoes as $dadosDataQuestoes) {
+                if (!empty($dadosDataQuestoes['imagem'])) {
+                    unlink($caminhoImagensQuestoes.'/QuestaoComImagem'.$i.'/'.$dadosDataQuestoes['imagem']);
+                    rmdir($caminhoImagensQuestoes.'/QuestaoComImagem'.$i);
+                    $i+=1;
+                }else{
+                    $existeFicheiros= false;
+                }
+                
+                $sql = 'DELETE FROM respostas WHERE Id_questao = :Id_questao';
+                $stmt= $conexao->runQuery($sql);
+                $stmt->bindParam(':Id_questao', $dadosDataQuestoes['Id_questao']);
+                $stmt->execute();
             }
+
+            rmdir($caminhoImagensQuestoes);
             
-            $sql = 'DELETE FROM respostas WHERE Id_questao = :Id_questao';
+            $sql = 'DELETE FROM questoes WHERE Id_quizz = :Id_quizz';
             $stmt= $conexao->runQuery($sql);
-            $stmt->bindParam(':Id_questao', $dadosDataQuestoes['Id_questao']);
+            $stmt->bindParam(':Id_quizz', $dataQuizzes['Id_quizz']);
             $stmt->execute();
+
+            $sql = 'DELETE FROM quizzes WHERE Id_quizz = :Id_quizz';
+            $stmt= $conexao->runQuery($sql);
+            $stmt->bindParam(':Id_quizz', $dataQuizzes['Id_quizz']);
+            $stmt->execute();
+
+            return "dadosEliminadosComSucesso";
+    }
+
+    function GuardarDadosQuizz($Id_utilizador,$nomeQuizz,$TemaQuizz,$escolariedade){
+        $conexao = new Conexao();
+
+        if(empty($nomeQuizz) || empty($TemaQuizz)){
+            return 'camposVazios';
+        }
+        if(empty($escolariedade)){
+            return 'escolariedadeVazia';
         }
 
-        rmdir($caminhoImagensQuestoes);
         
-        $sql = 'DELETE FROM questoes WHERE Id_quizz = :Id_quizz';
-        $stmt= $conexao->runQuery($sql);
-        $stmt->bindParam(':Id_quizz', $dataQuizzes['Id_quizz']);
-        $stmt->execute();
 
-        $sql = 'DELETE FROM quizzes WHERE Id_quizz = :Id_quizz';
-        $stmt= $conexao->runQuery($sql);
-        $stmt->bindParam(':Id_quizz', $dataQuizzes['Id_quizz']);
-        $stmt->execute();
+        $sql = 'UPDATE quizzes SET nomeQuizz = :nomeQuizz, escolaridade= :escolariedade, tema= :TemaQuizz WHERE Id_utilizador = :Id_utilizador';
+        $stmt = $conexao->runQuery($sql);    
+        $stmt->bindParam(':Id_utilizador', $Id_utilizador, PDO::PARAM_INT);
+        $stmt->bindParam(':nomeQuizz', $nomeQuizz);
+        $stmt->bindParam(':escolariedade', $escolariedade);
+        $stmt->bindParam(':TemaQuizz', $TemaQuizz);
+        $execute = $stmt->execute();
 
-        return "dadosEliminadosComSucesso";
+        return 'dadosGuardadosComSucesso';
     }
 }

@@ -140,3 +140,73 @@ a:hover{
 body {
   background-image: url('img/background.jpg') ;
 }
+
+/* CSS para o form Guardar Quizz */
+
+#formGuardarQuizz .formContainer{
+    height: 338px;
+    width: 387px;
+    margin-left: 30px;
+}
+
+#formGuardarQuizz .dropdown-menu{
+    max-height: 160px;
+    overflow-y: auto;
+}
+
+#formGuardarQuizz .dropdown-toggle{
+    background-color:#646464;
+}
+#formGuardarQuizz .elemento:hover{
+    background-color:#646464;
+    color:white;
+}
+
+#formGuardarQuizz .inputGuardarQuizz{
+    width: 175px;
+    height: 30px;
+    margin-left: 10px;
+    color:white;
+}
+
+#formGuardarQuizz #nomeQuizz{
+    margin-left: 25px;
+}
+
+#formGuardarQuizz .row{
+    margin-top: 38px;
+}
+
+#formGuardarQuizz .rowEscreverDados{
+    width: 303px;
+}
+
+#formGuardarQuizz #dropEscolariedade{
+    margin-left: 30px;
+}
+
+#formGuardarQuizz .dropdown-menu{
+    margin-left: 127px;
+}
+
+#formGuardarQuizz h2{
+    color:white;
+    margin-bottom: 50px;
+}
+
+#formGuardarQuizz .voltar:hover{
+    background:none;
+    border:1px solid #828999;
+    color: #828999;
+}
+
+#formGuardarQuizz .voltar{
+    margin-left:-15px;
+}
+
+#formGuardarQuizz .send:hover{
+    background:none;
+    border:1px solid #828999;
+    color: #828999;
+    align-self: right;
+}

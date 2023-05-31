@@ -197,7 +197,7 @@ class Utilizador {
             return "erroBaseDados";
         }else{
             
-            if (file_exists('../BaseDados/Utilizadores/Utilizador_'.$dataUtilizador['Id_utilizador'].'/'.$dataUtilizador['imagemPerfil'])) {
+            if (file_exists($dataUtilizador['imagemPerfil'])) {
                 unlink($dataUtilizador['imagemPerfil']);
             }
             
@@ -207,7 +207,7 @@ class Utilizador {
             $stmt->bindParam(':imagemPerfil', $imagemPerfil);
             $execute = $stmt->execute();
 
-            return "true";
+            return 'true';
         }
     }
 
