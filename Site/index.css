@@ -1,3 +1,7 @@
+  body{
+    font-family: Arial;
+  }
+  
   .containerInformacoesQuizz {
     display: flex;
     flex-wrap: wrap;
@@ -31,8 +35,10 @@
     background-color: #fff;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     transition: 0.5s ;
+    font-size: 15px;
+    cursor: pointer;
   }
-
+  
   .informacoesQuizz:hover{
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     text-decoration:none;
@@ -53,13 +59,20 @@
     padding: 10px;
   }
   
+  .informacoesQuizz .dadosQuizz{
+    margin:5px;
+  }
+  .imagem img{
+    border-bottom: 1px solid #ccc;
+    border-radius: 0 0 30px 30px;
+  }
   .nomeQuizz{
     font-size: 20px;
+    font-family: 'Times New Roman', Times, serif;
+    text-align: center;
+    font-weight: bold;
   }
-  .informacoesQuizz{
-    font-size: 15px;
-  }
-
+ 
 @media (max-width: 1666px) {
   .testimonial-group::-webkit-scrollbar {
     display: inline;

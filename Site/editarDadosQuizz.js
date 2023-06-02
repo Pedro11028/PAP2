@@ -93,7 +93,11 @@ $(document).ready(function(){
         cache: false,
         dataType: 'json',
         success: function(resposta) {
-            filtrarEMostrarDadosQuestoes(resposta);
+            if(resposta[0] == 'true'){
+                location.href = "index.php";
+            }else{
+                filtrarEMostrarDadosQuestoes(resposta);
+            }
         }
     });
 

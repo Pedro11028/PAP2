@@ -8,8 +8,7 @@
     /* Altera o tipo e o tamanho da letra */
     font: normal 16px sans-serif;
     padding: 45px 50px;
-    position:absolute;
-    top:100%;
+    margin-top: 20px;
 }
 
 /* Altera o texto que fica no centro do footer */

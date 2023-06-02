@@ -161,10 +161,16 @@ class Quizz {
 
     function ObterDadosQuestoes_Quizzes($Id_utilizador){
         $conexao = new Conexao();
+        $quizzNaoExiste= array(  0 => 'true');
 
         $stmt = $conexao->runQuery('SELECT `Id_quizz` FROM quizzes WHERE Id_utilizador = :Id_utilizador AND escolaridade = :escolaridade');
         $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':escolaridade' => "temporario"));
         $dataQuizzes = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if(!$dataQuizzes){
+
+            return $quizzNaoExiste;
+        }
 
         $stmt = $conexao->runQuery('SELECT Id_questao, nomeQuestao, imagem, tipoQuestao FROM questoes WHERE Id_quizz = :Id_quizz');
         $stmt->execute(array(':Id_quizz' => $dataQuizzes['Id_quizz']));
@@ -172,8 +178,9 @@ class Quizz {
 
         $i=0;
 
-        
         foreach ($dataQuestoes as $dadosDataQuestoes) {
+
+            //Aqui são usados algumas funções, a função COUNT conta todos os campos dependendo dos filtros aplicados, caso o campo é o "Id_avaliação" da tabela "avaliacao"
             $stmt = $conexao->runQuery('SELECT COUNT(Id_resposta) as numRespostas FROM respostas WHERE Id_questao = :Id_questao');
             $stmt->execute(array(':Id_questao' => $dadosDataQuestoes['Id_questao']));
             $dataRespostas[$i] = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -571,6 +578,11 @@ class Quizz {
             $stmt->bindParam(':Id_quizz', $dataQuizzes['Id_quizz']);
             $stmt->execute();
 
+            $sql = 'DELETE FROM avaliacao WHERE Id_quizz = :Id_quizz';
+            $stmt= $conexao->runQuery($sql);
+            $stmt->bindParam(':Id_quizz', $dataQuizzes['Id_quizz']);
+            $stmt->execute();
+
             $sql = 'DELETE FROM quizzes WHERE Id_quizz = :Id_quizz';
             $stmt= $conexao->runQuery($sql);
             $stmt->bindParam(':Id_quizz', $dataQuizzes['Id_quizz']);
@@ -589,16 +601,69 @@ class Quizz {
             return 'escolariedadeVazia';
         }
 
+        if($escolariedade = "Técnico Superior Profissional"){
+            $escolariedade=  'tecnicoSuperiorProfissional';
+        }
         
-
-        $sql = 'UPDATE quizzes SET nomeQuizz = :nomeQuizz, escolaridade= :escolariedade, tema= :TemaQuizz WHERE Id_utilizador = :Id_utilizador';
+        $temporario= "temporario";
+        $data = date('y-m-d h:i:s');
+        
+        $sql = 'UPDATE quizzes SET nomeQuizz = :nomeQuizz, DataCriacao = :DataCriacao, escolaridade= :escolariedade, tema= :TemaQuizz WHERE Id_utilizador = :Id_utilizador AND escolaridade = :escolaridadeTemporaria';
         $stmt = $conexao->runQuery($sql);    
         $stmt->bindParam(':Id_utilizador', $Id_utilizador, PDO::PARAM_INT);
+        $stmt->bindParam(':escolaridadeTemporaria', $temporario);
         $stmt->bindParam(':nomeQuizz', $nomeQuizz);
+        $stmt->bindParam(':DataCriacao', $data);
         $stmt->bindParam(':escolariedade', $escolariedade);
         $stmt->bindParam(':TemaQuizz', $TemaQuizz);
         $execute = $stmt->execute();
 
         return 'dadosGuardadosComSucesso';
+    }
+
+    function ObterQuizzes(){
+        $conexao = new Conexao();
+        
+
+        $stmt = $conexao->runQuery("SELECT  quizzes.Id_quizz, nomeQuizz, escolaridade, COUNT(avaliacao.Id_avaliacao) as numAvaliacoes, ROUND(AVG(avaliacao.nota),2) as mediaAvaliacoes FROM quizzes INNER JOIN avaliacao ON (quizzes.Id_quizz= avaliacao.Id_quizz) WHERE escolaridade != :escolaridade GROUP BY  quizzes.Id_quizz
+        ORDER BY COUNT(avaliacao.Id_avaliacao) DESC");
+        $stmt->execute(array(':escolaridade' => "temporario"));
+        $dataAvaliacoesQuizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);    //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50"}
+
+        
+        $stmt = $conexao->runQuery("SELECT  quizzes.Id_quizz, nomeQuizz, escolaridade, COUNT(avaliacao.Id_avaliacao) as numAvaliacoes, ROUND(AVG(avaliacao.nota),2) as mediaAvaliacoes FROM quizzes INNER JOIN avaliacao ON (quizzes.Id_quizz= avaliacao.Id_quizz) WHERE escolaridade != :escolaridade GROUP BY  quizzes.Id_quizz
+        ORDER BY ROUND(AVG(avaliacao.nota),2) DESC");
+        $stmt->execute(array(':escolaridade' => "temporario"));
+        $dataMediaAvaliacoesQuizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+        //Obter dados através da data de criação do maior para o menor
+        $stmt = $conexao->runQuery("SELECT Id_quizz, DataCriacao, nomeQuizz FROM quizzes WHERE escolaridade != :escolaridade ORDER BY DataCriacao DESC LIMIT 5");
+        $stmt->execute(array(':escolaridade' => "temporario"));
+        $dataQuizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $dataCriacaoQuizzDescendente = array();
+        $i=0;
+
+        foreach ($dataQuizzes as $dataQuizzesTamanho) {
+
+            //Aqui são usados algumas funções, a função COUNT conta todos os campos dependendo dos filtros aplicados, caso o campo é o "Id_avaliação" da tabela "avaliacao"
+            //A função Round arredonda as cazas decimais á nossa escolha, neste caso a coluna "nota" da tabea "avaliacao" está limitado a 2 casas decimais
+            //A função AVG cálcula a média de a coluna selecionada que neste caso é a mesma da função ROUND
+            $stmt = $conexao->runQuery("SELECT  COUNT(avaliacao.Id_avaliacao) as numAvaliacoes, ROUND(AVG(avaliacao.nota),2) as mediaAvaliacoes, escolaridade FROM quizzes INNER JOIN avaliacao ON (quizzes.Id_quizz= avaliacao.Id_quizz) WHERE avaliacao.Id_quizz= :Id_quizz");
+            $stmt->execute(array(':Id_quizz' => $dataQuizzesTamanho['Id_quizz']));
+            $dataCriacaoQuizzDescendente[$i] = $stmt->fetch(PDO::FETCH_ASSOC);      //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50"}
+            $dataCriacaoQuizzDescendente[$i]['nomeQuizz']= $dataQuizzesTamanho['nomeQuizz'];    //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50","nomeQuizz":"Nascimento de Jesus"}
+            $dataCriacaoQuizzDescendente[$i]['Id_quizz']= $dataQuizzesTamanho['Id_quizz'];      //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50","nomeQuizz":"Nascimento de Jesus","Id_quizz":"24"}
+            
+            $i +=1;
+        }
+
+        $filtrarDados = array(  'QuizzesOrdenadosPorNumeroAvaliacoes'=> $dataAvaliacoesQuizzes, 
+                                'QuizzesOrdenadosPorMediaAvaliacoes' => $dataMediaAvaliacoesQuizzes,
+                                'QuizzesOrdenadosPorDataCriacao' => $dataCriacaoQuizzDescendente
+                             );
+
+        return $filtrarDados;
     }
 }

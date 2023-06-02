@@ -38,7 +38,7 @@ include "menuFooter/menu.php";
                 </form>
 
             <img id="imagemQuestao" src="" class="imagemQuestao" title="Clicar para eliminar imagem" onclick="limparImagemQuestao()">
-            <div id="digitarQuestao" class="digitarQuestao" placeholder="Digitar Questão..." contentEditable="plaintext-only"></div>
+            <div id="digitarQuestao" class="digitarQuestao" placeholder="Digitar Questão..." contentEditable="plaintext-only" onkeypress="return (this.innerText.length <= 256)"></div>
         </div>
     </div>
 

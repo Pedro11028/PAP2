@@ -31,7 +31,7 @@ $(document).ready(function(){
                 dataType: 'json',
                 success: function(resposta) {
                     if(resposta == 'camposVazios'){
-                        toastr.warning('Por favor preencha todos os capmpos!', 'Woops!!!');
+                        toastr.warning('Por favor preencha todos os campos!', 'Woops!!!');
                     }
                     if(resposta == 'escolariedadeVazia'){
                         toastr.warning('Por favor selecione a escolariedade sugerida para fazer o quizz!', 'Woops!!!');
@@ -74,3 +74,30 @@ $(document).ready(function(){
 function alterarEscolariedade(escolariedade){
     document.getElementById('dropEscolariedade').innerHTML= escolariedade+'&nbsp <span class="caret"></span>';
 }
+
+function openForm() {
+    document.getElementById("showForm").style.display = "block";
+    document.getElementById("showBackground").style.display = "block";  
+  }
+  
+  function displayClick() {
+    document.getElementById("mostrarFicheiro").value= document.getElementById("escolherImagem").value;
+    if(document.getElementById("escolherImagem").value== ""){
+      document.getElementById("guardarImg").style.display= "none";
+    }else{
+      document.getElementById("guardarImg").style.display= "block";
+    }
+  }
+  
+  function closeForm() {
+    document.getElementById("showForm").style.display = "none";
+    document.getElementById("showBackground").style.display = "none";
+  
+    document.getElementById("guardarImg").style.display= "none";
+    document.getElementById("mostrarFicheiro").value="";
+  
+    var radios = document.getElementsByName('groupOfimages');
+    for (var i = 0; i < radios.length; i++) {
+       radios[i].checked = false;
+    }
+  }

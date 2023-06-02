@@ -7,6 +7,8 @@
 	<link rel="stylesheet" type="text/css" href="index.css">
 
 	<script src="https://kit.fontawesome.com/410e89720f.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+
 
 </head>
 <body>
@@ -15,95 +17,41 @@
 include "menuFooter/menu.php";
 ?>
 
-<div class="testimonial-group overflow-auto">
-    <div class="row flex-nowrap">
-		<div class="col-md-auto">
-				<div class="containerInformacoesQuizz">
-					<a class="informacoesQuizz" href="">
-						<div class="imagem">
-							<img src="" alt="" >
-						</div>
-						<div class="informacoes">
-						<p class="nomeQuizz">sdfsdfsdf</p>
-							<p>Quantidade de avaliações:</p>
-							<p>Nota média:</p>				
-						</div>
-					</a>
-				</div>
-		</div>
+<div id="melhoresAvaliados" class="testimonial-group overflow-auto">
+	<h2>Quizzes com maior média de avaliação</h2>
+    <div id="rowMelhoresAvaliados" class="row flex-nowrap">
 
-		<div class="col-md-auto">
-			<div class="containerInformacoesQuizz">
-				<a class="informacoesQuizz" href="">
-					<div class="imagem">
-						<img src="" alt="" >
-					</div>
-					<div class="informacoes">
-					<p class="nomeQuizz">sdfsdfsdf</p>
-						<p>Quantidade de avaliações:</p>
-						<p>Nota média:</p>				
-					</div>
-				</a>
-			</div>
-		</div>
 
-		<div class="col-md-auto">
-			<div class="containerInformacoesQuizz">
-				<a class="informacoesQuizz" href="">
-					<div class="imagem">
-						<img src="" alt="" >
-					</div>
-					<div class="informacoes">
-					<p class="nomeQuizz">sdfsdfsdf</p>
-						<p>Quantidade de avaliações:</p>
-						<p>Nota média:</p>				
-					</div>
-				</a>
-			</div>
-		</div>
 
-		<div class="col-md-auto">
-			<div class="containerInformacoesQuizz">
-				<a class="informacoesQuizz" href="">
-					<div class="imagem">
-						<img src="" alt="" >
-					</div>
-					<div class="informacoes">
-					<p class="nomeQuizz">sdfsdfsdf</p>
-						<p>Quantidade de avaliações:</p>
-						<p>Nota média:</p>				
-					</div>
-				</a>
-			</div>
-		</div>
+	</div>
+</div>
 
-		<div class="col-md-auto">
-			<div class="containerInformacoesQuizz">
-				<a class="informacoesQuizz" href="">
-					<div class="imagem">
-						<img src="" alt="" >
-					</div>
-					<div class="informacoes">
-					<p class="nomeQuizz">sdfsdfsdf</p>
-						<p>Quantidade de avaliações:</p>
-						<p>Nota média:</p>				
-					</div>
-				</a>
-			</div>
-		</div>
-		
-    </div>
+<div id="maisRespondidos" class="testimonial-group overflow-auto">
+	<h2>Quizzes com mais avaliações</h2>
+	<div id="rowMaisRespondidos" class="row flex-nowrap">
+
+
+
+	</div>
+</div>
+
+<div id="maisRecentes" class="testimonial-group overflow-auto">
+	<h2>Quizzes mais recentes</h2>
+	<div id="rowMaisRecentes" class="row flex-nowrap">
+
+
+
+	</div>
 </div>
 
 
 
 
-
+<script  src="index.js"></script>
 
 <?php 
 include "menuFooter/footer.php";
 ?>
-
 
 </body>
 </html>
