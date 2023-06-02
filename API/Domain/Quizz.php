@@ -53,6 +53,7 @@ class Quizz {
         }
     }
 
+
     function InserirDados($Id_utilizador,$questao,$imagem,$caminhoDiretorio,$tipoQuestao,$dadosRespostas,$respostasCorretas){
         $conexao = new Conexao();
         $limiteRespostas=0;
@@ -93,7 +94,9 @@ class Quizz {
             $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':escolaridade' => "temporario"));
             $dataQuizzes = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            mkdir('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/', 0777, true);
+            mkdir('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/', 0755, true);
+            mkdir('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/ImagemQuizz/', 0755, true);
+            mkdir('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/ImagemQuizzTemporaria/', 0755, true);
         }
 
         
@@ -456,6 +459,7 @@ class Quizz {
         return "dadosGuardadosComSucesso";
     }
 
+
     function EliminarQuestao($Id_utilizador, $Id_questao, $imagem, $caminhoDiretorio){
         $conexao = new Conexao();
         
@@ -541,6 +545,7 @@ class Quizz {
         return "dadosEliminadosComSucesso";
     }
 
+
     function EliminarQuizz($Id_utilizador){
         $conexao = new Conexao();
 
@@ -591,24 +596,128 @@ class Quizz {
             return "dadosEliminadosComSucesso";
     }
 
-    function GuardarDadosQuizz($Id_utilizador,$nomeQuizz,$TemaQuizz,$escolariedade){
+
+    function MostrarImagemQuizz($Id_utilizador, $ficheiro){
+        $conexao = new Conexao();
+
+        $stmt = $conexao->runQuery('SELECT Id_quizz, imagem FROM quizzes WHERE Id_utilizador = :Id_utilizador AND escolaridade = :escolaridade');
+        $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':escolaridade' => "temporario"));
+        $dataQuizzes = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $caminhoAGuardar= '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/ImagemQuizzTemporaria';
+
+        $nomeImagem = $ficheiro['file']['name'];
+        $caminhoTemporario= $ficheiro["file"]["tmp_name"];
+        
+
+        if(empty($nomeImagem)){
+            return "imagemVazia";
+        }
+
+        //php basename for files
+        $basename = basename($nomeImagem);
+        $caminhoOriginal = $caminhoAGuardar.'/'.$basename;
+
+        if(empty($dataQuizzes['imagem'])){
+            move_uploaded_file($caminhoTemporario,$caminhoOriginal);
+
+            $nomeImagem= '/'.$nomeImagem;
+
+            $sql = 'UPDATE quizzes SET imagem = :imagem WHERE Id_quizz = :Id_quizz';
+            $stmt = $conexao->runQuery($sql);
+            $stmt->bindParam(':Id_quizz', $dataQuizzes['Id_quizz'], PDO::PARAM_INT);
+            $stmt->bindParam(':imagem', $nomeImagem);
+            $execute = $stmt->execute();
+
+            return $caminhoOriginal;
+
+        }else{
+            if (file_exists($caminhoAGuardar.$dataQuizzes['imagem'])) {
+                unlink($caminhoAGuardar.$dataQuizzes['imagem']);
+            }
+            move_uploaded_file($caminhoTemporario,$caminhoOriginal);
+
+            $nomeImagem= '/'.$nomeImagem;
+
+            $sql = 'UPDATE quizzes SET imagem = :imagem WHERE Id_quizz = :Id_quizz';
+            $stmt = $conexao->runQuery($sql);
+            $stmt->bindParam(':Id_quizz', $dataQuizzes['Id_quizz'], PDO::PARAM_INT);
+            $stmt->bindParam(':imagem', $nomeImagem);
+            $execute = $stmt->execute();
+
+            return $caminhoOriginal;
+        }
+    }
+    
+
+    function GuardarImagemQuizz($Id_utilizador, $imagem){
+        $conexao = new Conexao();
+        $caminhoImagem= 'vazio';
+
+        $stmt = $conexao->runQuery('SELECT Id_quizz, imagem FROM quizzes WHERE Id_utilizador = :Id_utilizador AND escolaridade = :escolaridade');
+        $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':escolaridade' => "temporario"));
+        $dataQuizzes = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $caminhoACopiar= '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/ImagemQuizz'.$dataQuizzes['imagem'];
+
+        $limparImagensAnteriores= glob('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/ImagemQuizz/*');
+
+        foreach ($limparImagensAnteriores as $localAtual) {
+            unlink($localAtual);
+        }
+
+        if(!empty($imagem)){
+            if (file_exists($caminhoImagem.$dataQuizzes['imagem'])) {
+                unlink($caminhoImagem.$dataQuizzes['imagem']);
+            }
+
+            $caminhoImagem= strstr($imagem, '/BaseDados');
+            $caminhoImagem= '..'.$caminhoImagem;
+            
+            rename($caminhoImagem,$caminhoACopiar);
+        }
+
+        return $caminhoACopiar;
+    }
+
+
+    function GuardarDadosQuizz($Id_utilizador,$nomeQuizz,$TemaQuizz,$escolariedade,$imagem){
         $conexao = new Conexao();
 
         if(empty($nomeQuizz) || empty($TemaQuizz)){
             return 'camposVazios';
         }
+
         if(empty($escolariedade)){
             return 'escolariedadeVazia';
         }
 
-        if($escolariedade = "Técnico Superior Profissional"){
-            $escolariedade=  'tecnicoSuperiorProfissional';
+        $stmt = $conexao->runQuery('SELECT Id_quizz, imagem FROM quizzes WHERE Id_utilizador = :Id_utilizador AND escolaridade = :escolaridade');
+        $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':escolaridade' => "temporario"));
+        $dataQuizzes = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if(empty($imagem)){
+            $caminhoImagem= glob('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/ImagemQuizz/*');
+
+            foreach ($caminhoImagem as $localAtual) {
+                unlink($localAtual);
+            }
+        }
+
+        $caminhoImagem= glob('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/ImagemQuizzTemporaria/*');
+
+        foreach ($caminhoImagem as $localAtual) {
+            unlink($localAtual);
+        }
+
+        if($escolariedade == "Técnico Superior Profissional"){
+            $escolariedade =  'tecnicoSuperiorProfissional';
         }
         
         $temporario= "temporario";
         $data = date('y-m-d h:i:s');
         
-        $sql = 'UPDATE quizzes SET nomeQuizz = :nomeQuizz, DataCriacao = :DataCriacao, escolaridade= :escolariedade, tema= :TemaQuizz WHERE Id_utilizador = :Id_utilizador AND escolaridade = :escolaridadeTemporaria';
+        $sql = 'UPDATE quizzes SET nomeQuizz = :nomeQuizz, DataCriacao = :DataCriacao, escolaridade= :escolariedade, tema= :TemaQuizz, imagem= :imagem WHERE Id_utilizador = :Id_utilizador AND escolaridade = :escolaridadeTemporaria';
         $stmt = $conexao->runQuery($sql);    
         $stmt->bindParam(':Id_utilizador', $Id_utilizador, PDO::PARAM_INT);
         $stmt->bindParam(':escolaridadeTemporaria', $temporario);
@@ -616,29 +725,31 @@ class Quizz {
         $stmt->bindParam(':DataCriacao', $data);
         $stmt->bindParam(':escolariedade', $escolariedade);
         $stmt->bindParam(':TemaQuizz', $TemaQuizz);
+        $stmt->bindParam(':imagem', $imagem);
         $execute = $stmt->execute();
 
         return 'dadosGuardadosComSucesso';
     }
 
+
     function ObterQuizzes(){
         $conexao = new Conexao();
         
 
-        $stmt = $conexao->runQuery("SELECT  quizzes.Id_quizz, nomeQuizz, escolaridade, COUNT(avaliacao.Id_avaliacao) as numAvaliacoes, ROUND(AVG(avaliacao.nota),2) as mediaAvaliacoes FROM quizzes INNER JOIN avaliacao ON (quizzes.Id_quizz= avaliacao.Id_quizz) WHERE escolaridade != :escolaridade GROUP BY  quizzes.Id_quizz
+        $stmt = $conexao->runQuery("SELECT  quizzes.Id_quizz, nomeQuizz, imagem, COUNT(avaliacao.Id_avaliacao) as numAvaliacoes, ROUND(AVG(avaliacao.nota),2) as mediaAvaliacoes FROM quizzes INNER JOIN avaliacao ON (quizzes.Id_quizz= avaliacao.Id_quizz) WHERE escolaridade != :escolaridade GROUP BY  quizzes.Id_quizz
         ORDER BY COUNT(avaliacao.Id_avaliacao) DESC");
         $stmt->execute(array(':escolaridade' => "temporario"));
         $dataAvaliacoesQuizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);    //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50"}
 
         
-        $stmt = $conexao->runQuery("SELECT  quizzes.Id_quizz, nomeQuizz, escolaridade, COUNT(avaliacao.Id_avaliacao) as numAvaliacoes, ROUND(AVG(avaliacao.nota),2) as mediaAvaliacoes FROM quizzes INNER JOIN avaliacao ON (quizzes.Id_quizz= avaliacao.Id_quizz) WHERE escolaridade != :escolaridade GROUP BY  quizzes.Id_quizz
+        $stmt = $conexao->runQuery("SELECT  quizzes.Id_quizz, nomeQuizz, imagem, COUNT(avaliacao.Id_avaliacao) as numAvaliacoes, ROUND(AVG(avaliacao.nota),2) as mediaAvaliacoes FROM quizzes INNER JOIN avaliacao ON (quizzes.Id_quizz= avaliacao.Id_quizz) WHERE escolaridade != :escolaridade GROUP BY  quizzes.Id_quizz
         ORDER BY ROUND(AVG(avaliacao.nota),2) DESC");
         $stmt->execute(array(':escolaridade' => "temporario"));
         $dataMediaAvaliacoesQuizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
         //Obter dados através da data de criação do maior para o menor
-        $stmt = $conexao->runQuery("SELECT Id_quizz, DataCriacao, nomeQuizz FROM quizzes WHERE escolaridade != :escolaridade ORDER BY DataCriacao DESC LIMIT 5");
+        $stmt = $conexao->runQuery("SELECT Id_quizz, DataCriacao, nomeQuizz, imagem  FROM quizzes WHERE escolaridade != :escolaridade ORDER BY DataCriacao DESC LIMIT 5");
         $stmt->execute(array(':escolaridade' => "temporario"));
         $dataQuizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -650,12 +761,21 @@ class Quizz {
             //Aqui são usados algumas funções, a função COUNT conta todos os campos dependendo dos filtros aplicados, caso o campo é o "Id_avaliação" da tabela "avaliacao"
             //A função Round arredonda as cazas decimais á nossa escolha, neste caso a coluna "nota" da tabea "avaliacao" está limitado a 2 casas decimais
             //A função AVG cálcula a média de a coluna selecionada que neste caso é a mesma da função ROUND
-            $stmt = $conexao->runQuery("SELECT  COUNT(avaliacao.Id_avaliacao) as numAvaliacoes, ROUND(AVG(avaliacao.nota),2) as mediaAvaliacoes, escolaridade FROM quizzes INNER JOIN avaliacao ON (quizzes.Id_quizz= avaliacao.Id_quizz) WHERE avaliacao.Id_quizz= :Id_quizz");
+            $stmt = $conexao->runQuery("SELECT  COUNT(avaliacao.Id_avaliacao) as numAvaliacoes, ROUND(AVG(avaliacao.nota),2) as mediaAvaliacoes FROM quizzes INNER JOIN avaliacao ON (quizzes.Id_quizz= avaliacao.Id_quizz) WHERE avaliacao.Id_quizz= :Id_quizz");
             $stmt->execute(array(':Id_quizz' => $dataQuizzesTamanho['Id_quizz']));
             $dataCriacaoQuizzDescendente[$i] = $stmt->fetch(PDO::FETCH_ASSOC);      //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50"}
             $dataCriacaoQuizzDescendente[$i]['nomeQuizz']= $dataQuizzesTamanho['nomeQuizz'];    //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50","nomeQuizz":"Nascimento de Jesus"}
-            $dataCriacaoQuizzDescendente[$i]['Id_quizz']= $dataQuizzesTamanho['Id_quizz'];      //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50","nomeQuizz":"Nascimento de Jesus","Id_quizz":"24"}
-            
+            $dataCriacaoQuizzDescendente[$i]['imagem']= $dataQuizzesTamanho['imagem'];      //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50","nomeQuizz":"Nascimento de Jesus","imagem":"/nothinTosee.png"}
+            $dataCriacaoQuizzDescendente[$i]['Id_quizz']= $dataQuizzesTamanho['Id_quizz'];      //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50","nomeQuizz":"Nascimento de Jesus","imagem":"/nothinTosee.png","Id_quizz":"24"}
+
+            if(empty($dataCriacaoQuizzDescendente[$i]['numAvaliacoes'])){
+                $dataCriacaoQuizzDescendente[$i]['numAvaliacoes']= 0;
+            }
+
+            if(empty($dataCriacaoQuizzDescendente[$i]['mediaAvaliacoes'])){
+                $dataCriacaoQuizzDescendente[$i]['mediaAvaliacoes']= 0;
+            }
+
             $i +=1;
         }
 

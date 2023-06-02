@@ -17,34 +17,26 @@
 include "menuFooter/menu.php";
 ?>
 
+
 <div id="melhoresAvaliados" class="testimonial-group overflow-auto">
 	<h2>Quizzes com maior média de avaliação</h2>
     <div id="rowMelhoresAvaliados" class="row flex-nowrap">
-
-
-
 	</div>
 </div>
+
 
 <div id="maisRespondidos" class="testimonial-group overflow-auto">
 	<h2>Quizzes com mais avaliações</h2>
 	<div id="rowMaisRespondidos" class="row flex-nowrap">
-
-
-
 	</div>
 </div>
+
 
 <div id="maisRecentes" class="testimonial-group overflow-auto">
 	<h2>Quizzes mais recentes</h2>
 	<div id="rowMaisRecentes" class="row flex-nowrap">
-
-
-
 	</div>
 </div>
-
-
 
 
 <script  src="index.js"></script>

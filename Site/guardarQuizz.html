@@ -47,7 +47,7 @@
                                </button>
 
                 <ul class="dropdown-menu">
-                <li><a class="elemento" onclick="alterarEscolariedade('Qualquer uma')"href="#">Qualquer uma</a></li>
+                <li><a class="elemento" onclick="alterarEscolariedade('Indiferente')"href="#">Indiferente</a></li>
                 <li><a class="elemento" onclick="alterarEscolariedade('1ºano')" href="#">1ºano</a></li>
                 <li><a class="elemento" onclick="alterarEscolariedade('2ºano')"href="#">2ºano</a></li>
                 <li><a class="elemento" onclick="alterarEscolariedade('3ºano')"href="#">3ºano</a></li>
@@ -67,21 +67,22 @@
         </div>
 
         <div id="containerEscolherImagemQuizz">
-            <button class="btn btn-primary" style="align-content: center;" onclick="openForm()">
+            <button id="abrirDivEscolherImagem" class="btn btn-primary" type="button" style="align-content: center;" onclick="openForm()">
                 Escolher Imagem (Opcional)
             </button>
         </div>
+
         <div class="log-sign">
             <div class="row h-100">
                 <a href="editarDadosQuizz.php">
-                    <button class="voltar" style="align-content: center;">
+                    <button class="voltar" type="button" style="align-content: center;" maxlength="25">
                         Voltar
                     </button>
                 </a>
 
                 <!-- Tag <a> usada para ajustar o tamanho do botão Guardar igual ao Voltar -->
                 <a href="#">
-                    <button id="guardarDados" class="send" style="align-content: center;">
+                    <button id="guardarDados" class="send" type="button" style="align-content: center;">
                         Guardar
                     </button>
                 </a>
@@ -92,22 +93,25 @@
 </form>  
 
 <div id="divEscolherImagemParaOQuizz">
-<div class="outCloseForm" id="showBackground">
-    <div class='imagensPopUp wrapper bg-white mt-sm-5' id="showForm">
-      <div>
-      <form  method="post" enctype="multipart/form-data" id="guardarImgForm">
-          <img src="" id="changeImgPerfil" >
-          <input id="escolherImagem" type="file" name="file" class="custom newButton selecionarImg" accept="image/png, image/jpeg" onchange="displayClick()">
-          <input id="mostrarFicheiro" type="text"  class="mostrarFicheiro selecionarImg" readonly>
-          <button id="guardarImg" type="submit" style="float: right;" class='btn button border selecionarImgBtn'>Guardar</button>
-      </form>
-      
-      </div>
-        <hr class="separarImagens">
-        <br>
+    <div class="outCloseForm" id="showBackground">
+        <div class='imagensPopUp wrapper bg-white mt-sm-5' id="showForm">
+          <div>
+          <form  method="post" enctype="multipart/form-data" id="guardarImgForm">
+              <img src="" id="changeImgPerfil" >
+              <input id="escolherImagem" type="file" name="file" class="custom newButton selecionarImg" accept="image/png, image/jpeg" onchange="document.getElementById('mostrarImg').click()">
+              <button id="mostrarImg" type="submit" style="float: right;">Mostrar imagem</button>
+          </form>
+          
+          </div>
+            <hr class="separarImagens">
+            <br>
 
+            <img id="mostrarFicheiro" src="">
+
+              <button id="guardarImg" type="button" style="float: right;" class='btn button border selecionarImgBtn'>Guardar</button>
+              <button style="float: right;" class='btn button border' onclick="closeForm()">Cancelar</button>
+        </div>
     </div>
-</div>
 </div>
 
 

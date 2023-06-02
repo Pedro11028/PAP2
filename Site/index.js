@@ -43,7 +43,7 @@ $(document).ready(function(){
             //  link da imagem de origem: https://pt.vecteezy.com/arte-vetorial/5044651-hello-calligraphy-lettering-with-colorful-confetti-hand-drawn-typography-poster-word-hello-write-with-brush-vector-template-for-greeting-cards-welcome-banners-panfletos-sinais-etc
              const divGuardarImagem = document.createElement("div");
              divGuardarImagem.id=tipoDeOrganizacao+"guardarImagem"+iplus1;
-             divGuardarImagem.innerHTML = '<img src="img/escolariedade/'+dadosQuizzes[i]["escolaridade"]+'.png">';
+             divGuardarImagem.innerHTML = '<img src="'+dadosQuizzes[i]["imagem"]+'">';
              divGuardarImagem.classList.add('imagem');                        
              container.appendChild(divGuardarImagem);
 

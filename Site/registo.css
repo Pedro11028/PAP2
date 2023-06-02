@@ -11,7 +11,7 @@ input:-webkit-autofill:active{
     -webkit-text-fill-color: white !important;
 }
 
-form {
+#formGuardarQuizz {
     height: 480px;
     width: 450px;
     color: #A4B2B8;
@@ -200,17 +200,19 @@ body {
     margin-left:-15px;
 }
 
-.btn{
+#divEscolherImagemParaOQuizz .btn{
+    position: relative;
+    top: 118px;
     background-color: #fff;
     color: #0779e4;
 }
 
-.btn:hover{
+#divEscolherImagemParaOQuizz .btn:hover{
     background-color: #0779e4;
     color: #fff;
 }
 
-.btn-primary{
+#divEscolherImagemParaOQuizz .btn-primary{
     background-color: #0779e4;
 }
 
@@ -242,6 +244,10 @@ body {
     background-color: rgba(0,0,0,0.4);
 }
 
+#divEscolherImagemParaOQuizz #guardarImg{
+    display: none;
+}
+
 #divEscolherImagemParaOQuizz #showForm{
     display: none;
     width: 545px;
@@ -255,3 +261,19 @@ body {
     width: 100%;
     box-shadow: 0 5px 5px 2px gray;
 }
+
+#divEscolherImagemParaOQuizz .imagensPopUp{
+    position: relative;
+    top: 20%;
+    height: 330px;
+}
+
+#divEscolherImagemParaOQuizz #mostrarImg{
+    visibility: hidden;
+}
+
+#divEscolherImagemParaOQuizz #mostrarFicheiro{
+    height: 150px;
+    width: 250px;
+}
+
