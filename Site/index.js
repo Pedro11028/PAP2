@@ -22,6 +22,11 @@ $(document).ready(function(){
 
          for (let i= 0; i < dadosQuizzes.length; i++) {
              const iplus1=i+1;
+             if(dadosQuizzes[i]["imagem"] != ""){
+                imagem = dadosQuizzes[i]["imagem"];
+             }else{
+                imagem= "img/escolariedade/default.png"
+             }
 
              var container = document.getElementById(row);
 
@@ -34,7 +39,7 @@ $(document).ready(function(){
 
              const divContainerInformacoesQuizz = document.createElement("div");
              divContainerInformacoesQuizz.id=tipoDeOrganizacao+"containerInformacoesQuizz"+iplus1;
-             divContainerInformacoesQuizz.innerHTML = '<div id="'+tipoDeOrganizacao+'informacoesQuizz'+iplus1+'" class="informacoesQuizz"></div>';
+             divContainerInformacoesQuizz.innerHTML = '<div id="'+tipoDeOrganizacao+'informacoesQuizz'+iplus1+'" class="informacoesQuizz" title="Abrir Quizz" onclick="abrirQuizz('+dadosQuizzes[i]["Id_quizz"]+')"></div>';
              divContainerInformacoesQuizz.classList.add('containerInformacoesQuizz');                        
              container.appendChild(divContainerInformacoesQuizz);
 
@@ -43,13 +48,14 @@ $(document).ready(function(){
             //  link da imagem de origem: https://pt.vecteezy.com/arte-vetorial/5044651-hello-calligraphy-lettering-with-colorful-confetti-hand-drawn-typography-poster-word-hello-write-with-brush-vector-template-for-greeting-cards-welcome-banners-panfletos-sinais-etc
              const divGuardarImagem = document.createElement("div");
              divGuardarImagem.id=tipoDeOrganizacao+"guardarImagem"+iplus1;
-             divGuardarImagem.innerHTML = '<img src="'+dadosQuizzes[i]["imagem"]+'">';
+             divGuardarImagem.innerHTML = '<img src="'+imagem+'">';
              divGuardarImagem.classList.add('imagem');                        
              container.appendChild(divGuardarImagem);
 
              const divDadosQuizz = document.createElement("div");
              divDadosQuizz.id=tipoDeOrganizacao+"dadosQuizz"+iplus1;
              divDadosQuizz.innerHTML = ' <p class="nomeQuizz">'+dadosQuizzes[i]["nomeQuizz"]+'</p>'
+                                     + ' <p>Escolariedade: '+dadosQuizzes[i]["escolaridade"]+'</p>'
                                      + ' <p>Quantidade de avaliações: '+dadosQuizzes[i]["numAvaliacoes"]+'</p>'
                                      + ' <p>Nota média: '+dadosQuizzes[i]["mediaAvaliacoes"]+'</p>';
              divDadosQuizz.classList.add('dadosQuizz');                        
@@ -68,3 +74,10 @@ $(document).ready(function(){
     }
 
 });
+
+function abrirQuizz(Id_quizz){
+
+    localStorage.setItem("Id_quizzAJogar", Id_quizz);
+
+    location.href= "jogarQuizz.php";
+}

@@ -709,10 +709,6 @@ class Quizz {
         foreach ($caminhoImagem as $localAtual) {
             unlink($localAtual);
         }
-
-        if($escolariedade == "Técnico Superior Profissional"){
-            $escolariedade =  'tecnicoSuperiorProfissional';
-        }
         
         $temporario= "temporario";
         $data = date('y-m-d h:i:s');
@@ -736,20 +732,20 @@ class Quizz {
         $conexao = new Conexao();
         
 
-        $stmt = $conexao->runQuery("SELECT  quizzes.Id_quizz, nomeQuizz, imagem, COUNT(avaliacao.Id_avaliacao) as numAvaliacoes, ROUND(AVG(avaliacao.nota),2) as mediaAvaliacoes FROM quizzes INNER JOIN avaliacao ON (quizzes.Id_quizz= avaliacao.Id_quizz) WHERE escolaridade != :escolaridade GROUP BY  quizzes.Id_quizz
+        $stmt = $conexao->runQuery("SELECT  quizzes.Id_quizz, nomeQuizz, imagem, escolaridade, COUNT(avaliacao.Id_avaliacao) as numAvaliacoes, ROUND(AVG(avaliacao.nota),2) as mediaAvaliacoes FROM quizzes INNER JOIN avaliacao ON (quizzes.Id_quizz= avaliacao.Id_quizz) WHERE escolaridade != :escolaridade GROUP BY  quizzes.Id_quizz
         ORDER BY COUNT(avaliacao.Id_avaliacao) DESC");
         $stmt->execute(array(':escolaridade' => "temporario"));
         $dataAvaliacoesQuizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);    //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50"}
 
         
-        $stmt = $conexao->runQuery("SELECT  quizzes.Id_quizz, nomeQuizz, imagem, COUNT(avaliacao.Id_avaliacao) as numAvaliacoes, ROUND(AVG(avaliacao.nota),2) as mediaAvaliacoes FROM quizzes INNER JOIN avaliacao ON (quizzes.Id_quizz= avaliacao.Id_quizz) WHERE escolaridade != :escolaridade GROUP BY  quizzes.Id_quizz
+        $stmt = $conexao->runQuery("SELECT  quizzes.Id_quizz, nomeQuizz, imagem, escolaridade, COUNT(avaliacao.Id_avaliacao) as numAvaliacoes, ROUND(AVG(avaliacao.nota),2) as mediaAvaliacoes FROM quizzes INNER JOIN avaliacao ON (quizzes.Id_quizz= avaliacao.Id_quizz) WHERE escolaridade != :escolaridade GROUP BY  quizzes.Id_quizz
         ORDER BY ROUND(AVG(avaliacao.nota),2) DESC");
         $stmt->execute(array(':escolaridade' => "temporario"));
         $dataMediaAvaliacoesQuizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
         //Obter dados através da data de criação do maior para o menor
-        $stmt = $conexao->runQuery("SELECT Id_quizz, DataCriacao, nomeQuizz, imagem  FROM quizzes WHERE escolaridade != :escolaridade ORDER BY DataCriacao DESC LIMIT 5");
+        $stmt = $conexao->runQuery("SELECT Id_quizz, Id_utilizador, DataCriacao, escolaridade, nomeQuizz, imagem  FROM quizzes WHERE escolaridade != :escolaridade ORDER BY DataCriacao DESC LIMIT 4");
         $stmt->execute(array(':escolaridade' => "temporario"));
         $dataQuizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -758,6 +754,8 @@ class Quizz {
 
         foreach ($dataQuizzes as $dataQuizzesTamanho) {
 
+            $caminhoImagem= '../BaseDados/Utilizadores/Utilizador_'.$dataQuizzesTamanho['Id_utilizador'].'/Quizzes/Quizz'.$dataQuizzesTamanho['Id_quizz'].'/ImagemQuizzTemporaria';
+
             //Aqui são usados algumas funções, a função COUNT conta todos os campos dependendo dos filtros aplicados, caso o campo é o "Id_avaliação" da tabela "avaliacao"
             //A função Round arredonda as cazas decimais á nossa escolha, neste caso a coluna "nota" da tabea "avaliacao" está limitado a 2 casas decimais
             //A função AVG cálcula a média de a coluna selecionada que neste caso é a mesma da função ROUND
@@ -765,8 +763,9 @@ class Quizz {
             $stmt->execute(array(':Id_quizz' => $dataQuizzesTamanho['Id_quizz']));
             $dataCriacaoQuizzDescendente[$i] = $stmt->fetch(PDO::FETCH_ASSOC);      //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50"}
             $dataCriacaoQuizzDescendente[$i]['nomeQuizz']= $dataQuizzesTamanho['nomeQuizz'];    //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50","nomeQuizz":"Nascimento de Jesus"}
-            $dataCriacaoQuizzDescendente[$i]['imagem']= $dataQuizzesTamanho['imagem'];      //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50","nomeQuizz":"Nascimento de Jesus","imagem":"/nothinTosee.png"}
-            $dataCriacaoQuizzDescendente[$i]['Id_quizz']= $dataQuizzesTamanho['Id_quizz'];      //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50","nomeQuizz":"Nascimento de Jesus","imagem":"/nothinTosee.png","Id_quizz":"24"}
+            $dataCriacaoQuizzDescendente[$i]['imagem']= $dataQuizzesTamanho['imagem'];      //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50","nomeQuizz":"Nascimento de Jesus","imagem":"/imagem.png"}
+            $dataCriacaoQuizzDescendente[$i]['escolaridade']= $dataQuizzesTamanho['escolaridade'];      //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50","nomeQuizz":"Nascimento de Jesus","imagem":"/imagem.png","escolaridade":"1ºano"}
+            $dataCriacaoQuizzDescendente[$i]['Id_quizz']= $dataQuizzesTamanho['Id_quizz'];      //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50","nomeQuizz":"Nascimento de Jesus","imagem":"/imagem.png","escolaridade":"1ºano","Id_quizz":"24"}
 
             if(empty($dataCriacaoQuizzDescendente[$i]['numAvaliacoes'])){
                 $dataCriacaoQuizzDescendente[$i]['numAvaliacoes']= 0;

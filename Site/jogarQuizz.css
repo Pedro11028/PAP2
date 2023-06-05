@@ -1,0 +1,23 @@
+#wrap {
+    background: #e7e7e7;
+    display: flex;
+    justify-content: center;
+    padding: 5%;
+    width: 80%;
+}
+
+#left, #right {
+    background: #ccc;
+    padding: 2%;
+}
+
+@media (min-height: 700px) {
+
+    #divOrganizarDadosQuizz {
+        height: 800px;
+    }
+    
+    #divAvaliacoes {
+        height: 800px;
+    }
+}
