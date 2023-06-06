@@ -24,7 +24,7 @@ $(document).ready(function(){
     
     // obter o Tipo de questão e com isso determinar o formato da página
     const Id_questao = getIdquestaoCookie();
-    const Id_utilizador = getIdCookie();
+    const Id_utilizador = localStorage.getItem("Id_utilizador");
 
     function getIdquestaoCookie() {
         let cookie = {};
@@ -186,16 +186,6 @@ $(document).ready(function(){
 
         return false;
     });
-
-    // Obter valor do id
-    function getIdCookie() {
-        let cookie = {};
-        document.cookie.split(';').forEach(function(separar) {
-            let [key,value] = separar.split('=');
-            cookie[key.trim()] = value;
-        })
-        return cookie['idCookie'];
-    }
     
     // função para mostrar o aspeto da imagem obtendo o caminho da mesma que neste caso fica num diretório temporário
     function carregarImagemQuizz(imagem){

@@ -12,7 +12,7 @@ $(document).ready(function(){
     document.getElementById("eliminarResposta1").style.display = "none";
 
     //Verificar se é a primeira questão
-    var Id_utilizador = getIdCookie();
+    const Id_utilizador = localStorage.getItem("Id_utilizador");
     $.ajax({
         type:"POST",
         url: "../API/verificarJaCriouQuizzTempApi.php",
@@ -107,7 +107,6 @@ $(document).ready(function(){
 
 
     //Guardar a imagem num diretório temporariamente
-    var Id_utilizador = getIdCookie();
     $(document).on('submit','#MostrarImgPergunta',function(e){
 
         e.preventDefault();
@@ -132,16 +131,6 @@ $(document).ready(function(){
 
         return false;
     });
-
-    // Obter valor do id
-    function getIdCookie() {
-        let cookie = {};
-        document.cookie.split(';').forEach(function(separar) {
-            let [key,value] = separar.split('=');
-            cookie[key.trim()] = value;
-        })
-        return cookie['idCookie'];
-    }
     
     // função para mostrar o aspeto da imagem obtendo o caminho da mesma que neste caso fica num diretório temporário
     function carregarImagemQuizz(imagem){

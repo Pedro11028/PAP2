@@ -1,23 +1,196 @@
 #wrap {
-    background: #e7e7e7;
     display: flex;
-    justify-content: center;
     padding: 5%;
     width: 80%;
 }
 
 #left, #right {
-    background: #ccc;
     padding: 2%;
 }
 
-@media (min-height: 700px) {
+#right{
+    background: hsl(0, 11%, 95%);
+    width: 100%;
+}
 
-    #divOrganizarDadosQuizz {
-        height: 800px;
+#left{
+    background: #e7e7e7;
+    width: 70%;
+}
+
+#containerAvaliacoes{
+    border: rgb(208, 208, 212) solid 2px;
+    max-height: 400px;
+    overflow: scroll;
+    padding: 10px;
+}
+
+.button{
+    background-color: #ffffff;
+    color: #0779e4;
+}
+
+.button:hover{
+    background-color: #0779e4;
+    color: #fff;
+}
+
+.btn-primary{
+    background-color: #0779e4;
+}
+
+#imgPerfil{
+    border: #CCF solid 4px;
+    padding: 1px;
+    border-radius: 70%;
+    border-top-color: #0000FF;
+    border-left-color: #0000FF;
+    width: 100px;
+    height: 100px;
+    margin-top: 10px;
+}
+
+#criadorQuizz{
+    position: relative;
+    height: 100%;
+    left:0;
+}
+
+#InformacoesQuizz{
+    margin-top: 40px;
+}
+
+#InformacoesAvaliacoesQuizz{
+    margin-top: 30px;
+}
+
+
+.organizarDadosQuestao{
+    position: relative;
+    margin-bottom: 40px;
+    min-height: 70px;
+}
+
+.nomeAvaliacao{
+    position: relative;
+    margin-top: 40px;
+}
+
+.mostrarTextoAvaliacao{
+    position: relative;
+    float: left;
+    max-height: 100px;
+    overflow: scroll;
+    width: 100%;
+}
+
+.posicaoBotaoAvaliacao{
+    position: absolute;
+    top: 0;
+    right: 0;
+    text-align: center;
+}
+
+.posicaoDadosAvaliacao{
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+    text-align: center;
+}
+
+.NotaAvaliação{
+    margin-right: 10px;
+}
+
+.like{
+    margin-left: 15px;
+}
+
+.Deslike{
+    margin-left: 10px;
+    transition: 0.5s;
+}
+
+.like:hover, .Deslike:hover{
+    cursor: pointer;
+    opacity: 50%;
+}
+
+.mostrarTextoAvaliacao:hover, .organizarDadosQuestao:hover{
+    cursor: default;
+}
+
+.mostrarTextoAvaliacao::-webkit-scrollbar, #containerAvaliacoes::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+.mostrarTextoAvaliacao::-webkit-scrollbar:vertical,  #containerAvaliacoes::-webkit-scrollbar:vertical{
+    width: 11px;
+}
+
+.mostrarTextoAvaliacao::-webkit-scrollbar:horizontal,  #containerAvaliacoes::-webkit-scrollbar:horizontal{
+    height: 11px;
+}
+
+.mostrarTextoAvaliacao::-webkit-scrollbar-thumb, #containerAvaliacoes::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+
+    background-color: rgba(0, 0, 0, .5);
+}
+
+
+@media screen and (max-width:1255px) {
+    #wrap {
+        display: none;
+        display:contents;
     }
     
-    #divAvaliacoes {
-        height: 800px;
+    #right{
+        width: 100%;
     }
-}
+
+    #left{
+        width: 100%;
+    }
+
+    #left, #right{
+      font-size: 30px;
+    }
+    .organizarDadosQuestao{
+        position: relative;
+        margin-bottom: 40px;
+        min-height: 200px;
+        width: 90%;
+        min-width: 900px;
+    }
+    #nomeCriador{
+      font-size: 220%;
+    }
+
+    h2{
+      font-size: 250%;
+    }
+
+    .mostrarTextoAvaliacao{
+        max-height: 200px;
+    }
+
+    .button{
+        font-size: 150%;
+    }
+    
+    .button:hover{
+        background-color: #0779e4;
+        color: #fff;
+    }
+    
+    .btn-primary{
+        background-color: #0779e4;
+    }
+    
+    #imgPerfil{
+        margin-left: 12px;
+        width: 250px;
+        height: 250px;
+    }
+  }

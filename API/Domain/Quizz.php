@@ -575,8 +575,30 @@ class Quizz {
                 $stmt->bindParam(':Id_questao', $dadosDataQuestoes['Id_questao']);
                 $stmt->execute();
             }
+            
 
-            rmdir($caminhoImagensQuestoes);
+            $limparImagensQuizz= glob('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/ImagemQuizz/*');
+            $limparImagensQuizzTemporarias= glob('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/ImagemQuizzTemporaria/*');
+
+            foreach ($limparImagensQuizz as $localAtual) {
+                unlink($localAtual);
+            }
+            foreach ($limparImagensQuizzTemporarias as $localAtual) {
+                unlink($localAtual);
+            }
+
+            $limparImagensQuizz= '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/ImagemQuizz';
+            $limparImagensQuizzTemporarias= '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/ImagemQuizzTemporaria';
+
+            if (file_exists($limparImagensQuizz)) {
+                rmdir($limparImagensQuizz);
+            }
+            if (file_exists($limparImagensQuizzTemporarias)) {
+                rmdir($limparImagensQuizzTemporarias);
+            }
+            if (file_exists($caminhoImagensQuestoes)) {
+                rmdir($caminhoImagensQuestoes);
+            }
             
             $sql = 'DELETE FROM questoes WHERE Id_quizz = :Id_quizz';
             $stmt= $conexao->runQuery($sql);

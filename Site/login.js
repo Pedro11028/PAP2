@@ -23,6 +23,7 @@
               toastr.warning('Email ou password incorretos!', 'Woops!!!');
             }else{
                 criarCookie(resposta);
+                criarlocalStorage(resposta);
                 location.href="index.php";
             }
           }
@@ -38,9 +39,13 @@ function criarCookie(resposta) {
   var expirarCookie = tempo + 3600000*24*15;       
   hoje.setTime(expirarCookie);
 
-  document.cookie = "idCookie= "+resposta['Id_utilizador']+';expires='+hoje.toUTCString()+"; secure=true"+';path=/';
+  document.cookie = "sessaoCookie= true"+';expires='+hoje.toUTCString()+"; secure=true"+';path=/';
   document.cookie = "permissaoCookie= "+resposta['permissao']+';expires='+hoje.toUTCString()+"; secure"+';path=/';
   document.cookie = "nomeCookie= "+resposta['nomeUnico']+';expires='+hoje.toUTCString()+"; secure"+';path=/';
+}
+
+function criarlocalStorage(resposta) { 
+  localStorage.setItem("Id_utilizador", resposta['Id_utilizador']);
 }
 
 $('#showhide1').click(function() {

@@ -33,7 +33,7 @@ $(document).ready(function(){
 
     $("#botaoEliminarQuizz").click(function(){
         if (window.confirm("Tens a certesa que queres eliminar o quizz atual?")) {
-             var Id_utilizador= getIdCookie();
+             var Id_utilizador= localStorage.getItem("Id_utilizador");
 
              $.ajax({
                  type:"POST",
@@ -67,6 +67,8 @@ $(document).ready(function(){
                          +';expires='+hoje.toUTCString()
                          +"; secure=true"
                          +';path=/';
+        
+        return;
     }
     // Eliminar o cookie que indica o tipo de questao a ser criada
     var hoje = new Date();
@@ -81,7 +83,7 @@ $(document).ready(function(){
     // Obter dados do quizz como:
         // nome, tipo, imagem e número de respostas da questão
 
-    var Id_utilizador= getIdCookie();
+    var Id_utilizador= localStorage.getItem("Id_utilizador");
 
     $.ajax({
         type:"POST",
@@ -101,14 +103,6 @@ $(document).ready(function(){
         }
     });
 
-    function getIdCookie() {
-        let cookie = {};
-        document.cookie.split(';').forEach(function(separar) {
-            let [key,value] = separar.split('=');
-            cookie[key.trim()] = value;
-        })
-        return cookie['idCookie'];
-    }
 
     // filtrar dados e escrever na página as questões exixtentes do quizz
     function filtrarEMostrarDadosQuestoes(dadosQuestoesENumeroRespostas){

@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-      var Id_utilizador = getIdCookie();
+      const Id_utilizador = localStorage.getItem("Id_utilizador");
       
       $.ajax({
           type:"POST",
@@ -98,7 +98,6 @@ $(document).ready(function(){
       // Função para guardar a imagem no ficheiro do utilizador e guardar o caminho na base de dados
       $("#saveCheckedAvatar").click(function() {
 
-        var Id_utilizador = getIdCookie();
         var imagemPerfil= '';
 
         for (let i = 1; i <= 6; i++) {
@@ -136,7 +135,6 @@ $(document).ready(function(){
       $(document).on('submit','#guardarImgForm',function(e){
 
            e.preventDefault();
-           var Id_utilizador = getIdCookie();
            var formData = new FormData(this);
            formData.append('accao', "uploadImg");
            formData.append('Id_utilizador', Id_utilizador);
@@ -155,15 +153,6 @@ $(document).ready(function(){
               }
            });
       });
-
-      function getIdCookie() {
-        let cookie = {};
-        document.cookie.split(';').forEach(function(separar) {
-            let [key,value] = separar.split('=');
-            cookie[key.trim()] = value;
-        })
-        return cookie['idCookie'];
-      }
 
       function obterNivel(pontuacao) {
           pontuacao=parseInt(pontuacao);

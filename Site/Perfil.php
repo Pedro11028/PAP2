@@ -15,7 +15,7 @@
 </head>
 <body>
 <script>
-    if (document.cookie.indexOf('idCookie') > -1 ) {
+    if (document.cookie.indexOf('sessaoCookie') > -1 ) {
         
     }else{
       location.href="login.html";

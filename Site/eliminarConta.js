@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $("#submit").click(function() {
 
-        var Id_utilizador = getCookie(document.cookie.indexOf('idCookie'));
+        const Id_utilizador = localStorage.getItem("Id_utilizador");
         var password= $('#password').val();
         var confirmarPass= $('#confirmarPass').val();
         
@@ -44,16 +44,6 @@ $(document).ready(function() {
             return false;
     });
     
-
-
-    function getCookie(idCookie) {
-        let cookie = {};
-        document.cookie.split(';').forEach(function(separar) {
-            let [key,value] = separar.split('=');
-            cookie[key.trim()] = value;
-        })
-        return cookie['idCookie'];
-    }
   });
 
     // $('#showhide1').click(function() {

@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-    const Id_utilizador= getIdCookie();
+    const Id_utilizador= localStorage.getItem("Id_utilizador");
     
     //localStorage que vai servir para guardar o caminho da imagem
     //O mesmo é declarado aqui para resetar quando a página recarrega
@@ -55,7 +55,7 @@ $(document).ready(function(){
     $(document).on('submit','#guardarImgForm',function(e){
 
         e.preventDefault();
-        var Id_utilizador = getIdCookie();
+        var Id_utilizador = localStorage.getItem("Id_utilizador");
         var formData = new FormData(this);
         formData.append('accao', "mostrarImg");
         formData.append('Id_utilizador', Id_utilizador);
@@ -83,7 +83,7 @@ $(document).ready(function(){
 
     $(document).on('click','#guardarImg',function(e){
 
-        var Id_utilizador = getIdCookie();
+        var Id_utilizador = localStorage.getItem("Id_utilizador");
         imagem= document.getElementById("mostrarFicheiro").src;
 
         $.ajax({
@@ -110,15 +110,6 @@ $(document).ready(function(){
         return false;
 
     });
-
-    function getIdCookie() {
-        let cookie = {};
-        document.cookie.split(';').forEach(function(separar) {
-            let [key,value] = separar.split('=');
-            cookie[key.trim()] = value;
-        })
-        return cookie['idCookie'];
-    }
 
     function eliminarCookiesCriacaoQuizz(){
         var hoje = new Date();

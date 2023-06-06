@@ -1,7 +1,5 @@
 $(document).ready(function(){
 
-    const Id_utilizador= getIdCookie();
-
     $.ajax({
         type:"POST",
         url: "../API/obterQuizzesApi.php",
@@ -63,15 +61,6 @@ $(document).ready(function(){
              
          }
      }
-
-    function getIdCookie() {
-        let cookie = {};
-        document.cookie.split(';').forEach(function(separar) {
-            let [key,value] = separar.split('=');
-            cookie[key.trim()] = value;
-        })
-        return cookie['idCookie'];
-    }
 
 });
 
