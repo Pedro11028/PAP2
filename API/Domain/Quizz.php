@@ -767,7 +767,7 @@ class Quizz {
 
 
         //Obter dados através da data de criação do maior para o menor
-        $stmt = $conexao->runQuery("SELECT Id_quizz, Id_utilizador, DataCriacao, escolaridade, nomeQuizz, imagem  FROM quizzes WHERE escolaridade != :escolaridade ORDER BY DataCriacao DESC LIMIT 4");
+        $stmt = $conexao->runQuery("SELECT Id_quizz, Id_utilizador, DataCriacao, escolaridade, nomeQuizz, imagem  FROM quizzes WHERE escolaridade != :escolaridade ORDER BY DataCriacao DESC LIMIT 5");
         $stmt->execute(array(':escolaridade' => "temporario"));
         $dataQuizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

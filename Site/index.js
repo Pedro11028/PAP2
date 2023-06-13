@@ -68,5 +68,5 @@ function abrirQuizz(Id_quizz){
 
     localStorage.setItem("Id_quizzAJogar", Id_quizz);
 
-    location.href= "jogarQuizz.php";
+    location.href= "informacoesQuizz.php";
 }

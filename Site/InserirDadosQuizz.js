@@ -1,14 +1,16 @@
 $(document).ready(function(){
     document.getElementById("menuBarraPesquisa").remove();
-    document.getElementById("menuSearch").remove();
-    document.getElementById("menuCriarQuizz").remove();
-    document.getElementById("dropUtilizador").remove();
+    document.getElementById("dropdownUtilizador").remove();
+    document.getElementById("menuCriarQuestao").remove();
+    document.getElementById("mostrarConteudosMenu").remove();
+    document.getElementById("menuPrincipal").className = 'navbar navbar-expand-lg navbar-dark bg-dark';
+    document.getElementById("navbarColor02").className = '';
     
-    document.getElementById('botaoGuardar').innerHTML= "Guardar";
-    document.getElementById("menuGuardarInfoQuizz").style.display="inline";
-    document.getElementById("menuGuardarInfoQuizz").style.float= "right";
-    document.getElementById("menuGuardarInfoQuizz").style.left= "0px";
     
+    document.getElementById("menuGuardarQuestao").style.display="inline";
+    document.getElementById("menuCancelarQuestao").style.display="inline";
+    
+    document.getElementById("logotipoSite").innerHTML="";
     document.getElementById("eliminarResposta1").style.display = "none";
 
     //Verificar se é a primeira questão
@@ -24,12 +26,12 @@ $(document).ready(function(){
         dataType: 'json',
         success: function(resposta) {
             if(resposta == 'existe'){
-                document.getElementById('linkInicio').innerHTML = "Voltar";
-                document.getElementById('linkInicio').href = "javascript:void";
+                document.getElementById('menuCancelarQuestao').innerHTML = "Voltar";
+                document.getElementById('menuCancelarQuestao').href = "javascript:void";
             }
             if(resposta == 'naoExiste'){
-                document.getElementById('linkInicio').innerHTML = "Cancelar";
-                document.getElementById('linkInicio').href = "javascript:void";
+                document.getElementById('menuCancelarQuestao').innerHTML = "Cancelar";
+                document.getElementById('menuCancelarQuestao').href = "javascript:void";
             }
         },
           error: function (xhr, ajaxOptions, thrownError) {

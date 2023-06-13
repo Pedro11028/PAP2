@@ -2,16 +2,16 @@
     if (document.cookie.indexOf('nomeCookie') > -1 ) {
         document.getElementById('nomeUtilizador').innerHTML = getCookie();
         document.getElementById("login").remove();
-        document.getElementById("register").remove();
-        document.getElementById("menuCriarQuizz").style.display= "inline";
+        document.getElementById("registar").remove();
+        document.getElementById("menuCriarQuestao").style.display= "inline";
     }else{
-        document.getElementById("dropUtilizador").remove();
-        document.getElementById("menuCriarQuizz").style.display= "none";
+        document.getElementById("dropdownUtilizador").remove();
+        document.getElementById("menuCriarQuestao").style.display= "none";
     }
     
-    document.getElementById("menuEliminarQuizz").style.display= "none";
-    document.getElementById("menuGuardarInfoQuizz").style.display= "none";
-    document.getElementById("menuAdicionarQuestao").style.display= "none";
+    // document.getElementById("menuEliminarQuizz").style.display= "none";
+    // document.getElementById("menuGuardarInfoQuizz").style.display= "none";
+    // document.getElementById("menuAdicionarQuestao").style.display= "none";
     
     function getCookie() {
         let cookie = {};
