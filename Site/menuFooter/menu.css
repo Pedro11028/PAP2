@@ -3,10 +3,6 @@
     right: 0;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 2f84d730dd6a50a9d0f6c975c2eb500a7c55fceb
 
 #menuAdicionarQuestao, #menuEliminarQuizz{
 	display: none;
@@ -31,22 +27,6 @@
 	font-size: 18px;
 }
 
-=======
-#registar{
-	position: absolute;
-	right: 100px;
-}
-
-#login{
-	position: absolute;
-	right: 20px;
-}
-
-.navbar-collapse{
-	font-size: 18px;
-}
-
->>>>>>> 1bc400c5250891d2f526cb902a39df8ecd2aec98
 #dropdownUtilizador{
 	width:133px;
 }
@@ -79,19 +59,10 @@
 		margin:10px;
 	}
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 2f84d730dd6a50a9d0f6c975c2eb500a7c55fceb
 	#menuAdicionarQuestao{
 		position: relative;
 	}
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 1bc400c5250891d2f526cb902a39df8ecd2aec98
->>>>>>> 2f84d730dd6a50a9d0f6c975c2eb500a7c55fceb
 	.esquerda{
 		margin-left: 60px;
 		width: 105px;
