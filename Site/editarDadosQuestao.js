@@ -1,27 +1,25 @@
 $(document).ready(function(){
     
-    document.getElementById('linkInicio').innerHTML = "Voltar";
-    document.getElementById('linkInicio').href = "javascript:void";
-
     document.getElementById("menuBarraPesquisa").remove();
-    document.getElementById("menuSearch").remove();
-    document.getElementById("menuCriarQuizz").remove();
-    document.getElementById("dropUtilizador").remove();
-    document.getElementById("iconPlus").remove();
-
-    document.getElementById('botaoGuardar').innerHTML= "Atualizar";
-    document.getElementById("menuGuardarInfoQuizz").style.display="inline";
-    document.getElementById("menuGuardarInfoQuizz").style.float= "right";
-    document.getElementById("menuGuardarInfoQuizz").style.left= "0px";
-
+    document.getElementById("dropdownUtilizador").remove();
+    document.getElementById("menuCriarQuestao").remove();
+    document.getElementById("mostrarConteudosMenu").remove();
+    document.getElementById("menuPrincipal").className = 'navbar navbar-expand-lg navbar-dark bg-dark';
+    document.getElementById("navbarColor02").className = '';
+    
+    
+    document.getElementById("menuGuardarQuestao").style.display="inline";
+    document.getElementById("menuCancelarQuestao").style.display="inline";
+ 
+    //Embora o botão tenha o id "menuAdicionarQuestao" nesta página ele servirá para eliminar a mesma
     document.getElementById("menuAdicionarQuestao").style.display="inline";
-    document.getElementById("menuAdicionarQuestao").style.float= "right";
-    document.getElementById("menuAdicionarQuestao").style.left= "0px";
+    document.getElementById("menuAdicionarQuestao").innerHTML="Remover Questão <i class='fa-solid fa-right-from-bracket'></i>";
+    document.getElementById("menuAdicionarQuestao").style.position= "absolute";
+    document.getElementById("menuAdicionarQuestao").style.right= "190px";
     
-    document.getElementById('botaoadicionarQuizz').innerHTML= "Eliminar";
-    
+    document.getElementById("logotipoSite").innerHTML="";
     document.getElementById("eliminarResposta1").style.display = "none";
-    
+   
     // obter o Tipo de questão e com isso determinar o formato da página
     const Id_questao = getIdquestaoCookie();
     const Id_utilizador = localStorage.getItem("Id_utilizador");
@@ -135,7 +133,7 @@ $(document).ready(function(){
     }
 
     //Voltar ao editar Quizz mas elimininando a imagem temporária caso exista
-    $(document).on('click','#linkInicio',function(e){
+    $(document).on('click','#menuCancelarQuestao',function(e){
             var caminhoImagem = document.getElementById("imagemQuestao").src;
             caminhoDiretorio= caminhoImagem.substr(0, caminhoImagem.lastIndexOf("/"));
             
@@ -201,8 +199,8 @@ $(document).ready(function(){
         }
     }
 
-    //Embora o id seja "botaoadicionarQuizz" aqui o mesmo servirá para eliminar a questão
-    $("#botaoadicionarQuizz").click(function() {
+    
+    $("#menuAdicionarQuestao").click(function() {
         var imagem= document.getElementById("imagemQuestao").src;
         caminhoDiretorio= imagem.substr(0, imagem.lastIndexOf("/"));
 
@@ -232,7 +230,7 @@ $(document).ready(function(){
 
 
     // Guardar dados quizz ao clicar em guardar
-    $("#botaoGuardar").click(function() {
+    $("#menuGuardarQuestao").click(function() {
         var tipoQuestao = getTipoQuestaoCookie();
 
         if(!tipoQuestao){

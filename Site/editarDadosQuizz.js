@@ -1,37 +1,34 @@
 $(document).ready(function(){
-    
-    document.getElementById('linkInicio').innerHTML = "Inicio";
-    document.getElementById('linkInicio').href = "index.php";
 
+    
+    
+    document.getElementById("menuGuardarQuestao").style.display="inline";
+    document.getElementById("menuCancelarQuestao").style.display="inline";
+        
+
+    document.getElementById("menuCancelarQuestao").remove();
     document.getElementById("menuBarraPesquisa").remove();
-    document.getElementById("menuSearch").remove();
+    document.getElementById("dropdownUtilizador").remove();
+    document.getElementById("menuCriarQuestao").remove();
     
-    document.getElementById("menuCriarQuizz").remove();
-    
-    document.getElementById('botaoGuardar').innerHTML= "Guardar";
-    document.getElementById("menuGuardarInfoQuizz").style.display="inline";
-    document.getElementById("menuGuardarInfoQuizz").style.float= "right";
-    document.getElementById("menuGuardarInfoQuizz").style.left= "0px";
 
     document.getElementById("menuAdicionarQuestao").style.display="inline";
-    document.getElementById("menuAdicionarQuestao").style.float= "right";
-    document.getElementById("menuAdicionarQuestao").style.left= "0px";
+    document.getElementById("menuAdicionarQuestao").style.position= "absolute";
+    document.getElementById("menuAdicionarQuestao").style.right= "190px";
 
-    document.getElementById('botaoEliminarQuizz').innerHTML= "Eliminar Quizz";
+    
     document.getElementById("menuEliminarQuizz").style.display="inline";
-    document.getElementById("menuEliminarQuizz").style.marginLeft= "30px";
+    
 
-    document.getElementById("dropUtilizador").remove();
-
-    $("#botaoGuardar").click(function(){
+    $("#menuGuardarQuestao").click(function(){
         location.href="guardarQuizz.html";
     });
 
-    $("#botaoadicionarQuizz").click(function(){
+    $("#menuAdicionarQuestao").click(function(){
         location.href="escolherTipoQuestao.html";
     });
 
-    $("#botaoEliminarQuizz").click(function(){
+    $("#menuEliminarQuizz").click(function(){
         if (window.confirm("Tens a certesa que queres eliminar o quizz atual?")) {
              var Id_utilizador= localStorage.getItem("Id_utilizador");
 

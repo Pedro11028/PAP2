@@ -150,7 +150,7 @@ class Quizz {
         $caminhoImagem= strrchr($caminhoImagem,'/');
         $caminhoDiretorio= strstr($caminhoDiretorio, '/BaseDados');
 
-        if(!str_contains($caminhoDiretorio, '/QuestaoComImagem') && !str_contains($caminhoImagem, '/editarDadosQuestao') && !str_contains($caminhoImagem, '/InserirDadosQuizz')){
+        if(!str_contains($caminhoDiretorio, '/QuestaoComImagem') && !str_contains($caminhoImagem, '/editarDadosQuestao') && !str_contains($caminhoImagem, '/InserirDadosQuizz.php')){
             if (file_exists('..'.$caminhoDiretorio)) {
                 unlink('..'.$caminhoDiretorio.$caminhoImagem);
                 rmdir('..'.$caminhoDiretorio);
@@ -226,13 +226,13 @@ class Quizz {
     function guardarNomeQuestao($nomeQuestao,$Id_questao){
         $conexao = new Conexao();
 
-            $sql = 'UPDATE questoes SET nomeQuestao = :nomeQuestao WHERE Id_questao = :Id_questao';
-            $stmt = $conexao->runQuery($sql);
-            $stmt->bindParam(':Id_questao', $Id_questao, PDO::PARAM_INT);
-            $stmt->bindParam(':nomeQuestao', $nomeQuestao);
-            $execute = $stmt->execute();
+        $sql = 'UPDATE questoes SET nomeQuestao = :nomeQuestao WHERE Id_questao = :Id_questao';
+        $stmt = $conexao->runQuery($sql);
+        $stmt->bindParam(':Id_questao', $Id_questao, PDO::PARAM_INT);
+        $stmt->bindParam(':nomeQuestao', $nomeQuestao);
+        $execute = $stmt->execute();
 
-            return "alteradoComSucesso";
+        return "alteradoComSucesso";
     }
 
 
@@ -553,69 +553,69 @@ class Quizz {
         $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':escolaridade' => "temporario"));
         $dataQuizzes = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $stmt = $conexao->runQuery('SELECT Id_questao, nomeQuestao, imagem, tipoQuestao FROM questoes WHERE Id_quizz = :Id_quizz');
-            $stmt->execute(array(':Id_quizz' => $dataQuizzes['Id_quizz']));
-            $dataQuestoes = $stmt->fetchAll(PDO::FETCH_ASSOC); // Guarda um array dentro de um array por exemplo:  0 => Id_questao => 9
+        $stmt = $conexao->runQuery('SELECT Id_questao, nomeQuestao, imagem, tipoQuestao FROM questoes WHERE Id_quizz = :Id_quizz');
+        $stmt->execute(array(':Id_quizz' => $dataQuizzes['Id_quizz']));
+        $dataQuestoes = $stmt->fetchAll(PDO::FETCH_ASSOC); // Guarda um array dentro de um array por exemplo:  0 => Id_questao => 9
 
-            $caminhoImagensQuestoes= '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'];
-            $existeFicheiros= true;
-            $i= 1;
+        $caminhoImagensQuestoes= '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'];
+        $existeFicheiros= true;
+        $i= 1;
 
-            foreach ($dataQuestoes as $dadosDataQuestoes) {
-                if (!empty($dadosDataQuestoes['imagem'])) {
-                    unlink($caminhoImagensQuestoes.'/QuestaoComImagem'.$i.'/'.$dadosDataQuestoes['imagem']);
-                    rmdir($caminhoImagensQuestoes.'/QuestaoComImagem'.$i);
-                    $i+=1;
-                }else{
-                    $existeFicheiros= false;
-                }
-                
-                $sql = 'DELETE FROM respostas WHERE Id_questao = :Id_questao';
-                $stmt= $conexao->runQuery($sql);
-                $stmt->bindParam(':Id_questao', $dadosDataQuestoes['Id_questao']);
-                $stmt->execute();
+        foreach ($dataQuestoes as $dadosDataQuestoes) {
+            if (!empty($dadosDataQuestoes['imagem'])) {
+                unlink($caminhoImagensQuestoes.'/QuestaoComImagem'.$i.'/'.$dadosDataQuestoes['imagem']);
+                rmdir($caminhoImagensQuestoes.'/QuestaoComImagem'.$i);
+                $i+=1;
+            }else{
+                $existeFicheiros= false;
             }
             
-
-            $limparImagensQuizz= glob('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/ImagemQuizz/*');
-            $limparImagensQuizzTemporarias= glob('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/ImagemQuizzTemporaria/*');
-
-            foreach ($limparImagensQuizz as $localAtual) {
-                unlink($localAtual);
-            }
-            foreach ($limparImagensQuizzTemporarias as $localAtual) {
-                unlink($localAtual);
-            }
-
-            $limparImagensQuizz= '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/ImagemQuizz';
-            $limparImagensQuizzTemporarias= '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/ImagemQuizzTemporaria';
-
-            if (file_exists($limparImagensQuizz)) {
-                rmdir($limparImagensQuizz);
-            }
-            if (file_exists($limparImagensQuizzTemporarias)) {
-                rmdir($limparImagensQuizzTemporarias);
-            }
-            if (file_exists($caminhoImagensQuestoes)) {
-                rmdir($caminhoImagensQuestoes);
-            }
-            
-            $sql = 'DELETE FROM questoes WHERE Id_quizz = :Id_quizz';
+            $sql = 'DELETE FROM respostas WHERE Id_questao = :Id_questao';
             $stmt= $conexao->runQuery($sql);
-            $stmt->bindParam(':Id_quizz', $dataQuizzes['Id_quizz']);
+            $stmt->bindParam(':Id_questao', $dadosDataQuestoes['Id_questao']);
             $stmt->execute();
+        }
+        
 
-            $sql = 'DELETE FROM avaliacao WHERE Id_quizz = :Id_quizz';
-            $stmt= $conexao->runQuery($sql);
-            $stmt->bindParam(':Id_quizz', $dataQuizzes['Id_quizz']);
-            $stmt->execute();
+        $limparImagensQuizz= glob('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/ImagemQuizz/*');
+        $limparImagensQuizzTemporarias= glob('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/ImagemQuizzTemporaria/*');
 
-            $sql = 'DELETE FROM quizzes WHERE Id_quizz = :Id_quizz';
-            $stmt= $conexao->runQuery($sql);
-            $stmt->bindParam(':Id_quizz', $dataQuizzes['Id_quizz']);
-            $stmt->execute();
+        foreach ($limparImagensQuizz as $localAtual) {
+            unlink($localAtual);
+        }
+        foreach ($limparImagensQuizzTemporarias as $localAtual) {
+            unlink($localAtual);
+        }
 
-            return "dadosEliminadosComSucesso";
+        $limparImagensQuizz= '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/ImagemQuizz';
+        $limparImagensQuizzTemporarias= '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/ImagemQuizzTemporaria';
+
+        if (file_exists($limparImagensQuizz)) {
+            rmdir($limparImagensQuizz);
+        }
+        if (file_exists($limparImagensQuizzTemporarias)) {
+            rmdir($limparImagensQuizzTemporarias);
+        }
+        if (file_exists($caminhoImagensQuestoes)) {
+            rmdir($caminhoImagensQuestoes);
+        }
+        
+        $sql = 'DELETE FROM questoes WHERE Id_quizz = :Id_quizz';
+        $stmt= $conexao->runQuery($sql);
+        $stmt->bindParam(':Id_quizz', $dataQuizzes['Id_quizz']);
+        $stmt->execute();
+
+        $sql = 'DELETE FROM avaliacao WHERE Id_quizz = :Id_quizz';
+        $stmt= $conexao->runQuery($sql);
+        $stmt->bindParam(':Id_quizz', $dataQuizzes['Id_quizz']);
+        $stmt->execute();
+
+        $sql = 'DELETE FROM quizzes WHERE Id_quizz = :Id_quizz';
+        $stmt= $conexao->runQuery($sql);
+        $stmt->bindParam(':Id_quizz', $dataQuizzes['Id_quizz']);
+        $stmt->execute();
+
+        return "dadosEliminadosComSucesso";
     }
 
 
@@ -767,7 +767,7 @@ class Quizz {
 
 
         //Obter dados através da data de criação do maior para o menor
-        $stmt = $conexao->runQuery("SELECT Id_quizz, Id_utilizador, DataCriacao, escolaridade, nomeQuizz, imagem  FROM quizzes WHERE escolaridade != :escolaridade ORDER BY DataCriacao DESC LIMIT 4");
+        $stmt = $conexao->runQuery("SELECT Id_quizz, Id_utilizador, DataCriacao, escolaridade, nomeQuizz, imagem  FROM quizzes WHERE escolaridade != :escolaridade ORDER BY DataCriacao DESC LIMIT 5");
         $stmt->execute(array(':escolaridade' => "temporario"));
         $dataQuizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -807,4 +807,34 @@ class Quizz {
 
         return $filtrarDados;
     }
+
+
+    function ObterDadosQuizzEAvaliacoes($Id_utilizador,$Id_quizz){
+        $conexao = new Conexao();
+
+        $stmt = $conexao->runQuery('SELECT quizzes.nomeQuizz, quizzes.DataCriacao, quizzes.escolaridade, quizzes.tema, COUNT(questoes.Id_questao) as numPerguntas FROM quizzes INNER JOIN questoes ON (quizzes.Id_quizz= questoes.Id_quizz) WHERE quizzes.Id_quizz= :Id_quizz');
+        $stmt->execute(array(':Id_quizz' => $Id_quizz));
+        $dadosQuizz = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $stmt = $conexao->runQuery('SELECT COUNT(avaliacao.Id_avaliacao) as numAvaliacoes, ROUND(AVG(avaliacao.nota),2) as mediaAvaliacoes FROM quizzes INNER JOIN avaliacao ON (quizzes.Id_quizz= avaliacao.Id_quizz) WHERE quizzes.Id_quizz= :Id_quizz');
+        $stmt->execute(array(':Id_quizz' => $Id_quizz));
+        $dadosNumMediaAvaliacoes = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $stmt = $conexao->runQuery('SELECT avaliacao.Id_avaliacao, avaliacao.textoAvaliacao, avaliacao.textoAvaliacao, avaliacao.nota, avaliacao.gosto, avaliacao.naoGosto, utilizadores.Id_utilizador, utilizadores.nomeUnico FROM avaliacao INNER JOIN utilizadores ON (avaliacao.Id_utilizador= utilizadores.Id_utilizador) WHERE avaliacao.Id_quizz= :Id_quizz');
+        $stmt->execute(array(':Id_quizz' => $Id_quizz));
+        $dadosAvaliacoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $stmt = $conexao->runQuery('SELECT utilizadores.nomeUnico, utilizadores.imagemPerfil FROM quizzes INNER JOIN utilizadores ON (quizzes.Id_utilizador= utilizadores.Id_utilizador) WHERE quizzes.Id_quizz= :Id_quizz');
+        $stmt->execute(array(':Id_quizz' => $Id_quizz));
+        $dadosCriadorQuizz = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $filtrarDados = array(  'dadosCriadorQuizz'=> $dadosCriadorQuizz, 
+                                'dadosQuizz'=> $dadosQuizz, 
+                                'dadosNumMediaAvaliacoes' => $dadosNumMediaAvaliacoes, 
+                                'dadosAvaliacoes' => $dadosAvaliacoes
+                            );
+
+        return $filtrarDados;
+    }
+
 }

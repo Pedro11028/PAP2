@@ -14,6 +14,7 @@
 .posicionarDiv{
   width: 80%;
   margin-top:50px;
+  margin-left:10%;
 }
 
 .testimonial-group::-webkit-scrollbar {

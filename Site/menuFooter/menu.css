@@ -1,132 +1,71 @@
-/* css para garantir que o footer fique devidamente formatado */
-* {
-    margin: 0 auto;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Open Sans', sans-serif;
-  }
-
-/* Estilo geral do menu */
-.estiloMenu nav {
-	margin: 0 auto;
-	background: #1E1E1E;
-	box-shadow:0 3px 15px rgba(0,0,0,.15);
-}
-
-/* Garante que o menu fique fixo */
-.estiloMenu nav::after {
-	display: block;
-	content: '';
-	clear: both;
-}
-
-/* Garante a distância entre os elementos do menu */
-.estiloMenu nav ul {
-	padding: 0;
-	margin: 0;
-	list-style: none;
-	z-index: 2;
-}
-
-/* Faz com que os elementos do menu fiquem na esquerda assim impedindo que fiquem todos espalhados */
-.estiloMenu nav ul li {
-	float: left;
-}
-
-/* Centraliza os elementos no menu e define o seu formato */
-.estiloMenu nav ul li a, #botaoGuardar, #botaoadicionarQuizz, #botaoEliminarQuizz{
-	display: block;
-	color: blue;
-	text-decoration: none;
-	padding: 1rem 2rem;
-    color:white;
-    border-radius: 24px;
-    transition: 0.5s;
-    text-align: right;
-	background-color: #1E1E1E;
-	outline: none;
-	border: none;
-	
-}
-#botaoGuardar:hover, #botaoadicionarQuizz:hover, #botaoEliminarQuizz:hover{
-	color: #646464;
-}
-
-/* Coloca o dropdown do menu abaixo do nome do Utilizador */
-.estiloMenu nav li:hover ul, .menu li.over ul{
-    display:block;
-}
-
-/* Este css para este Id foi feito tendo em conta que no perfil tirava a cor do nome do utilizador */
-#nomeUtilizador{
-    color:white;
-}
-
-/* Mudar de cor quando for colocado o rato por cima do texto */
-.estiloMenu nav ul li a:hover, .estiloMenu nav ul li button:hover {
-	color: #646464;
-
-}
-
-/* Estilo do background do dropdown */
-.estiloMenu nav li ul li{
-    background-color: #1E1E1E;
-    display:block;
-    width:123px;
-    color:white;
-}
-
-/* Esconder dropdown e limitar seu tamanho com o position*/
-.estiloMenu .dropar {
-	display: none;
+.direita{
 	position: absolute;
-	background: #fff;
+    right: 0;
 }
 
-/* Coloca o elemento com esta classe á direita, utilizado para o nome de utilizador e o dropdown */
-.estiloMenu .direita{
-    float: right;
-	width:123px;
+
+#menuAdicionarQuestao, #menuEliminarQuizz{
+	display: none;
 }
 
-/* Estilo da barra de pesquisa */
-.estiloMenu .barraPesquisa{
-	position: relative;
-	top: 10px;
-	left: 30px;
-	border: 1px solid #828999;
-	border-radius: 5px;
-	width: 80%;
-	height: 30PX;
-	outline: none;
-	text-indent: 10px;
- }
- 
- /* estilo do icon da barra de pesquisa */
- .estiloMenu .search{
-	position: relative;
-	top: 13px;
-	width: 200%;
-	height: 25%;
-	transition: 0.5s;
-	outline: none;
-	background: none;
-	border:none;
-	color:white;
-	cursor: pointer;
- }
- 
- /* Efeito quando o rato é colocado sobre o icon da pesquisa */
- .estiloMenu  .search:hover{
-	font-size: 110%;
-	top: 13px;
-	left: -4px;
-	color: #646464;
- }
+#menuEliminarQuizz{
 
+	margin-left:30px;
+}
 
- @media(max-width:767px){
-	#linkInicio{
-		margin-top: 6px;
+#registar{
+	position: absolute;
+	right: 100px;
+}
+
+#login{
+	position: absolute;
+	right: 20px;
+}
+
+.navbar-collapse{
+	font-size: 18px;
+}
+
+#dropdownUtilizador{
+	width:133px;
+}
+
+#menuGuardarQuestao{
+	margin-right: 35px;
+	width: 105px;
+}
+
+#menuCancelarQuestao, #menuGuardarQuestao{
+	display: none;
+}
+
+.dropdown-menu, .tamanhoDropDown {
+	min-width:115px;
+	text-align: left;
+}
+
+@media screen and (max-width:991px) {
+	.direita{
+		position: relative;
 	}
+	
+	.esquerda{
+		position: absolute;
+		left: 0;
+	}	
+
+	.nav-item{
+		margin:10px;
+	}
+
+	#menuAdicionarQuestao{
+		position: relative;
+	}
+
+	.esquerda{
+		margin-left: 60px;
+		width: 105px;
+	}
+
 }

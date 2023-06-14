@@ -1,14 +1,16 @@
 $(document).ready(function(){
     document.getElementById("menuBarraPesquisa").remove();
-    document.getElementById("menuSearch").remove();
-    document.getElementById("menuCriarQuizz").remove();
-    document.getElementById("dropUtilizador").remove();
+    document.getElementById("dropdownUtilizador").remove();
+    document.getElementById("menuCriarQuestao").remove();
+    document.getElementById("mostrarConteudosMenu").remove();
+    document.getElementById("menuPrincipal").className = 'navbar navbar-expand-lg navbar-dark bg-dark';
+    document.getElementById("navbarColor02").className = '';
     
-    document.getElementById('botaoGuardar').innerHTML= "Guardar";
-    document.getElementById("menuGuardarInfoQuizz").style.display="inline";
-    document.getElementById("menuGuardarInfoQuizz").style.float= "right";
-    document.getElementById("menuGuardarInfoQuizz").style.left= "0px";
     
+    document.getElementById("menuGuardarQuestao").style.display="inline";
+    document.getElementById("menuCancelarQuestao").style.display="inline";
+    
+    document.getElementById("logotipoSite").innerHTML="";
     document.getElementById("eliminarResposta1").style.display = "none";
 
     //Verificar se é a primeira questão
@@ -24,12 +26,12 @@ $(document).ready(function(){
         dataType: 'json',
         success: function(resposta) {
             if(resposta == 'existe'){
-                document.getElementById('linkInicio').innerHTML = "Voltar";
-                document.getElementById('linkInicio').href = "javascript:void";
+                document.getElementById('menuCancelarQuestao').innerHTML = "<i class='fa-solid fa-outdent'></i> Voltar";
+                document.getElementById('menuCancelarQuestao').href = "javascript:void";
             }
             if(resposta == 'naoExiste'){
-                document.getElementById('linkInicio').innerHTML = "Cancelar";
-                document.getElementById('linkInicio').href = "javascript:void";
+                document.getElementById('menuCancelarQuestao').innerHTML = "<i class='fa-solid fa-outdent'></i> Cancelar";
+                document.getElementById('menuCancelarQuestao').href = "javascript:void";
             }
         },
           error: function (xhr, ajaxOptions, thrownError) {
@@ -39,7 +41,7 @@ $(document).ready(function(){
 
 
     //Voltar ao Inicio do site mas elimininando a imagem temporária caso exista
-    $(document).on('click','#linkInicio',function(e){
+    $(document).on('click','#menuCancelarQuestao',function(e){
         var caminhoImagem = document.getElementById("imagemQuestao").src;
         caminhoDiretorio= caminhoImagem.substr(0, caminhoImagem.lastIndexOf("/"));
         
@@ -56,7 +58,7 @@ $(document).ready(function(){
             success: function(resposta) {
                 if(resposta == 'sucesso'){
                     eliminarCookieDoTipoQuestao();
-                    if(document.getElementById('linkInicio').innerHTML == "Voltar"){
+                    if(document.getElementById('menuCancelarQuestao').innerHTML == "Voltar"){
                         location.href= "editarDadosQuizz.php";
                     }else{
                         location.href = "index.php";
@@ -146,7 +148,7 @@ $(document).ready(function(){
 
 
     // Guardar dados quizz ao clicar em guardar 
-    $("#botaoGuardar").click(function() {
+    $("#menuGuardarQuestao").click(function() {
 
         dadosRespostas = [];
         ordemGuardarDados = 0;
