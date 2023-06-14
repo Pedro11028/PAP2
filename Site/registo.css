@@ -11,7 +11,7 @@ input:-webkit-autofill:active{
     -webkit-text-fill-color: white !important;
 }
 
-form {
+.formAlterarDados {
     height: 480px;
     width: 450px;
     color: #A4B2B8;
@@ -277,3 +277,6 @@ body {
     width: 250px;
 }
 
+#divEscolherImagemParaOQuizz #guardarImgForm{
+
+}

@@ -26,11 +26,11 @@ $(document).ready(function(){
         dataType: 'json',
         success: function(resposta) {
             if(resposta == 'existe'){
-                document.getElementById('menuCancelarQuestao').innerHTML = "Voltar";
+                document.getElementById('menuCancelarQuestao').innerHTML = "<i class='fa-solid fa-outdent'></i> Voltar";
                 document.getElementById('menuCancelarQuestao').href = "javascript:void";
             }
             if(resposta == 'naoExiste'){
-                document.getElementById('menuCancelarQuestao').innerHTML = "Cancelar";
+                document.getElementById('menuCancelarQuestao').innerHTML = "<i class='fa-solid fa-outdent'></i> Cancelar";
                 document.getElementById('menuCancelarQuestao').href = "javascript:void";
             }
         },
@@ -41,7 +41,7 @@ $(document).ready(function(){
 
 
     //Voltar ao Inicio do site mas elimininando a imagem temporária caso exista
-    $(document).on('click','#linkInicio',function(e){
+    $(document).on('click','#menuCancelarQuestao',function(e){
         var caminhoImagem = document.getElementById("imagemQuestao").src;
         caminhoDiretorio= caminhoImagem.substr(0, caminhoImagem.lastIndexOf("/"));
         
@@ -58,7 +58,7 @@ $(document).ready(function(){
             success: function(resposta) {
                 if(resposta == 'sucesso'){
                     eliminarCookieDoTipoQuestao();
-                    if(document.getElementById('linkInicio').innerHTML == "Voltar"){
+                    if(document.getElementById('menuCancelarQuestao').innerHTML == "Voltar"){
                         location.href= "editarDadosQuizz.php";
                     }else{
                         location.href = "index.php";
@@ -148,7 +148,7 @@ $(document).ready(function(){
 
 
     // Guardar dados quizz ao clicar em guardar 
-    $("#botaoGuardar").click(function() {
+    $("#menuGuardarQuestao").click(function() {
 
         dadosRespostas = [];
         ordemGuardarDados = 0;

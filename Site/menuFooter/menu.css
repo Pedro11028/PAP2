@@ -3,6 +3,16 @@
     right: 0;
 }
 
+
+#menuAdicionarQuestao, #menuEliminarQuizz{
+	display: none;
+}
+
+#menuEliminarQuizz{
+
+	margin-left:30px;
+}
+
 #registar{
 	position: absolute;
 	right: 100px;
@@ -47,6 +57,10 @@
 
 	.nav-item{
 		margin:10px;
+	}
+
+	#menuAdicionarQuestao{
+		position: relative;
 	}
 
 	.esquerda{
