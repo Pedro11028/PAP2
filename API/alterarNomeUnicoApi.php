@@ -12,6 +12,7 @@ switch ($_POST['accao'])
         break;
 }
 
+
 function alterarNomeUnico($Id_utilizador,$nomeUnico){
     try {
         // Do your stuff  
