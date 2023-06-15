@@ -824,7 +824,7 @@ class Quizz {
         $stmt->execute(array(':Id_quizz' => $Id_quizz));
         $dadosAvaliacoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $stmt = $conexao->runQuery('SELECT utilizadores.nomeUnico, utilizadores.imagemPerfil FROM quizzes INNER JOIN utilizadores ON (quizzes.Id_utilizador= utilizadores.Id_utilizador) WHERE quizzes.Id_quizz= :Id_quizz');
+        $stmt = $conexao->runQuery('SELECT utilizadores.nomeUnico, utilizadores.imagemPerfil, utilizadores.Id_utilizador FROM quizzes INNER JOIN utilizadores ON (quizzes.Id_utilizador= utilizadores.Id_utilizador) WHERE quizzes.Id_quizz= :Id_quizz');
         $stmt->execute(array(':Id_quizz' => $Id_quizz));
         $dadosCriadorQuizz = $stmt->fetch(PDO::FETCH_ASSOC);
 

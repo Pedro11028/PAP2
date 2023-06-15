@@ -3,7 +3,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 
-
 <nav id="menuPrincipal" class="navbar navbar-expand-lg navbar-dark bg-dark"> <a id="logotipoSite" class="navbar-brand" href="index.php" data-abc="true">LANGUAGEQUIZZ</a> <button id="mostrarConteudosMenu" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
     <div id="navbarColor02" class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto">
@@ -14,8 +13,8 @@
 					Pedr0siris
 				</a>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-					<a class="dropdown-item tamanhoDropDown" href="Perfil.php"><i class="fa-solid fa-user"></i> Perfil</a>
-					<a class="dropdown-item tamanhoDropDown" href="#"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sair </a>
+					<a class="dropdown-item tamanhoDropDown linksDropDown" href="Perfil.php"><i class="fa-solid fa-user"></i> Perfil</a>
+					<a class="dropdown-item tamanhoDropDown linksDropDown" href="Logout.html"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sair </a>
 				</div>
 			</div>
 

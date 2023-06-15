@@ -3,7 +3,6 @@
     right: 0;
 }
 
-
 #menuAdicionarQuestao, #menuEliminarQuizz{
 	display: none;
 }
@@ -43,6 +42,17 @@
 .dropdown-menu, .tamanhoDropDown {
 	min-width:115px;
 	text-align: left;
+	transition: 0.5s;
+}
+
+.tamanhoDropDown:hover{
+	color: white;
+	background-color: #6c757d !important;
+
+}
+
+.dropdown-menu{
+	background-color: #6c757d;
 }
 
 @media screen and (max-width:991px) {
