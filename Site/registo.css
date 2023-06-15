@@ -11,11 +11,7 @@ input:-webkit-autofill:active{
     -webkit-text-fill-color: white !important;
 }
 
-<<<<<<< HEAD
 .formAlterarDados {
-=======
-form {
->>>>>>> 1bc400c5250891d2f526cb902a39df8ecd2aec98
     height: 480px;
     width: 450px;
     color: #A4B2B8;

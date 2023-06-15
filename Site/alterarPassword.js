@@ -7,6 +7,7 @@ $(document).ready(function() {
         var passwordNova= $('#passwordNova').val();
         var confirmarPass= $('#confirmarPass').val();
         
+        
 
             $.ajax({
                 type:"POST",

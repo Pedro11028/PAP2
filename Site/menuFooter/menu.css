@@ -3,7 +3,6 @@
     right: 0;
 }
 
-<<<<<<< HEAD
 
 #menuAdicionarQuestao, #menuEliminarQuizz{
 	display: none;
@@ -28,22 +27,6 @@
 	font-size: 18px;
 }
 
-=======
-#registar{
-	position: absolute;
-	right: 100px;
-}
-
-#login{
-	position: absolute;
-	right: 20px;
-}
-
-.navbar-collapse{
-	font-size: 18px;
-}
-
->>>>>>> 1bc400c5250891d2f526cb902a39df8ecd2aec98
 #dropdownUtilizador{
 	width:133px;
 }
@@ -76,13 +59,10 @@
 		margin:10px;
 	}
 
-<<<<<<< HEAD
 	#menuAdicionarQuestao{
 		position: relative;
 	}
 
-=======
->>>>>>> 1bc400c5250891d2f526cb902a39df8ecd2aec98
 	.esquerda{
 		margin-left: 60px;
 		width: 105px;

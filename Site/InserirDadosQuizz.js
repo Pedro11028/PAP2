@@ -26,19 +26,11 @@ $(document).ready(function(){
         dataType: 'json',
         success: function(resposta) {
             if(resposta == 'existe'){
-<<<<<<< HEAD
                 document.getElementById('menuCancelarQuestao').innerHTML = "<i class='fa-solid fa-outdent'></i> Voltar";
                 document.getElementById('menuCancelarQuestao').href = "javascript:void";
             }
             if(resposta == 'naoExiste'){
                 document.getElementById('menuCancelarQuestao').innerHTML = "<i class='fa-solid fa-outdent'></i> Cancelar";
-=======
-                document.getElementById('menuCancelarQuestao').innerHTML = "Voltar";
-                document.getElementById('menuCancelarQuestao').href = "javascript:void";
-            }
-            if(resposta == 'naoExiste'){
-                document.getElementById('menuCancelarQuestao').innerHTML = "Cancelar";
->>>>>>> 1bc400c5250891d2f526cb902a39df8ecd2aec98
                 document.getElementById('menuCancelarQuestao').href = "javascript:void";
             }
         },

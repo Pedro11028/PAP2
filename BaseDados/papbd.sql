@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 26-Maio-2023 às 15:57
--- Versão do servidor: 10.4.21-MariaDB
--- versão do PHP: 8.0.11
+-- Tempo de geração: 15-Jun-2023 às 00:38
+-- Versão do servidor: 10.4.27-MariaDB
+-- versão do PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -33,9 +33,17 @@ CREATE TABLE `avaliacao` (
   `Id_quizz` int(11) NOT NULL,
   `textoAvaliacao` varchar(250) DEFAULT NULL,
   `nota` int(1) DEFAULT NULL,
-  `gosto` int(11) DEFAULT NULL,
-  `naoGosto` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `gosto` int(11) NOT NULL DEFAULT 0,
+  `naoGosto` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Extraindo dados da tabela `avaliacao`
+--
+
+INSERT INTO `avaliacao` (`Id_avaliacao`, `Id_utilizador`, `Id_quizz`, `textoAvaliacao`, `nota`, `gosto`, `naoGosto`) VALUES
+(21, 338, 57, '[value-6]', 4, 0, 0),
+(23, 363, 57, '[value-4]', 3, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -48,7 +56,7 @@ CREATE TABLE `noficacoes` (
   `Id_utilizador` int(11) NOT NULL,
   `texto` varchar(250) DEFAULT NULL,
   `tipo` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -61,19 +69,17 @@ CREATE TABLE `questoes` (
   `Id_quizz` int(11) NOT NULL,
   `nomeQuestao` varchar(60) DEFAULT '',
   `textoQuestao` varchar(2500) DEFAULT NULL,
-  `imagem` varchar(2500) DEFAULT NULL,
+  `imagem` varchar(300) DEFAULT NULL,
   `tipoQuestao` varchar(25) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `questoes`
 --
 
 INSERT INTO `questoes` (`Id_questao`, `Id_quizz`, `nomeQuestao`, `textoQuestao`, `imagem`, `tipoQuestao`) VALUES
-(108, 16, 'Pepsi ou coca-cola', 'O que se passa na tua cabeça quando bebes uma coca cola?', '', 'mostrarAcerto'),
-(109, 16, 'Bom dia', 'Bom dia', '', 'escreverResposta'),
-(115, 16, '', 'Qual é o mês do natal?', '/nothingToSee.jpeg', 'mostrarAcerto'),
-(127, 16, '', 'erwaegwEGwe', '/61eb8ee4a33d5d634eec750090b4ffa4.jpg', 'mostrarAcerto');
+(205, 57, 'Bom dia', 'dfgdfgdfg', '/1673467850954.png', 'mostrarAcerto'),
+(207, 59, '', 'Bom dia', '', 'escreverResposta');
 
 -- --------------------------------------------------------
 
@@ -84,18 +90,20 @@ INSERT INTO `questoes` (`Id_questao`, `Id_quizz`, `nomeQuestao`, `textoQuestao`,
 CREATE TABLE `quizzes` (
   `Id_quizz` int(11) NOT NULL,
   `Id_utilizador` int(11) NOT NULL,
-  `nomeQuizz` varchar(40) DEFAULT NULL,
-  `categoria` varchar(40) DEFAULT NULL,
-  `escolaridade` varchar(20) DEFAULT 'temporario',
-  `tema` varchar(250) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `nomeQuizz` varchar(40) NOT NULL,
+  `DataCriacao` datetime NOT NULL,
+  `escolaridade` varchar(30) DEFAULT 'temporario',
+  `tema` varchar(150) DEFAULT NULL,
+  `imagem` varchar(300) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `quizzes`
 --
 
-INSERT INTO `quizzes` (`Id_quizz`, `Id_utilizador`, `nomeQuizz`, `categoria`, `escolaridade`, `tema`) VALUES
-(16, 355, NULL, NULL, 'temporario', NULL);
+INSERT INTO `quizzes` (`Id_quizz`, `Id_utilizador`, `nomeQuizz`, `DataCriacao`, `escolaridade`, `tema`, `imagem`) VALUES
+(57, 338, 'Bom dia', '2023-06-14 07:01:25', 'Indiferente', 'Bom dia', '../BaseDados/Utilizadores/Utilizador_338/Quizzes/Quizz57/ImagemQuizz/1673467858757.png'),
+(59, 363, 'Bom dia', '2023-06-14 08:11:49', 'Indiferente', 'Bom dia', '../BaseDados/Utilizadores/Utilizador_363/Quizzes/Quizz59/ImagemQuizz/1673467855528.png');
 
 -- --------------------------------------------------------
 
@@ -108,7 +116,7 @@ CREATE TABLE `quizzes_respondidos` (
   `Id_utilizador` int(11) NOT NULL,
   `Id_quizz` int(11) NOT NULL,
   `valorAdquirido` int(3) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -121,33 +129,16 @@ CREATE TABLE `respostas` (
   `Id_questao` int(11) NOT NULL,
   `respostaQuizz` varchar(2500) DEFAULT NULL,
   `valorResposta` varchar(10) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `respostas`
 --
 
 INSERT INTO `respostas` (`Id_resposta`, `Id_questao`, `respostaQuizz`, `valorResposta`) VALUES
-(202, 108, 'Busca de memória \n&gt; \nBusca de sabor', 'true'),
-(203, 108, 'Busca de memória \n&lt;\nBusca de sabor', 'false'),
-(204, 108, 'Busca de memória \n=\nBusca de sabor', 'false'),
-(205, 108, 'Só busca de memória<br>', 'false'),
-(206, 109, 'test', 'true'),
-(207, 109, 'test', 'true'),
-(208, 109, 'test', 'true'),
-(209, 109, 'test', 'true'),
-(210, 109, 'test', 'true'),
-(211, 109, 'test', 'true'),
-(212, 109, 'test', 'true'),
-(213, 109, 'test', 'true'),
-(231, 115, 'Janeiro', 'false'),
-(232, 115, 'Fevereiro', 'false'),
-(233, 115, 'Desembro', 'true'),
-(234, 115, 'Novembro', 'false'),
-(277, 127, 'adfgadfgadgdfg', 'false'),
-(278, 127, 'adfgadfgafgg', 'false'),
-(279, 127, 'gWEGWEGWeg', 'false'),
-(280, 127, 'wgarggadgasdf', 'false');
+(1511, 205, 'dfg', 'false'),
+(1512, 205, 'fgdfgdfg', 'true'),
+(1514, 207, 'Bom dia', 'true');
 
 -- --------------------------------------------------------
 
@@ -161,20 +152,19 @@ CREATE TABLE `utilizadores` (
   `nomeUnico` varchar(60) DEFAULT NULL,
   `email` varchar(250) DEFAULT NULL,
   `password` varchar(120) DEFAULT NULL,
-  `imagemPerfil` varchar(250) DEFAULT NULL,
+  `imagemPerfil` varchar(300) DEFAULT NULL,
   `dataBan` date DEFAULT NULL,
   `pontuacao` int(11) DEFAULT 0,
   `permissao` varchar(12) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `utilizadores`
 --
 
 INSERT INTO `utilizadores` (`Id_utilizador`, `nomeCompleto`, `nomeUnico`, `email`, `password`, `imagemPerfil`, `dataBan`, `pontuacao`, `permissao`) VALUES
-(338, 'Pedro Oliveira', 'Pedr0siris', 'pedro@gmail.com', 'qaws1234', '../BaseDados/Utilizadores/Utilizador_338/61eb8ee4a33d5d634eec750090b4ffa4.jpg', NULL, 700, 'utilizador'),
-(351, 'Robert Stuart', 'stuartL1r0u', 'aaa@aaa.com', 'aaaaaaaa', '../BaseDados/Utilizadores/Utilizador_351/getimg_ai_img-zME5hHcQjXY8zeM7tdS8h.png', NULL, 576, 'utilizador'),
-(355, 'assa asaas', 'aaas', 'aas@asas.com', 'asdasdasda', '../BaseDados/Utilizadores/Utilizador_355/getimg_ai_img-zME5hHcQjXY8zeM7tdS8h.png', NULL, 0, 'utilizador');
+(338, 'Pedro Oliveira', 'Pedr0siris', 'pedro@gmail.com', 'qaws1234', 'img/avatar5.gif', NULL, 700, 'utilizador'),
+(363, 'aaa aaa', 'aaa', 'aaa@aaa.com', 'aaaaaa', 'img/perfilPadrao.png', NULL, 0, 'utilizador');
 
 --
 -- Índices para tabelas despejadas
@@ -238,7 +228,7 @@ ALTER TABLE `utilizadores`
 -- AUTO_INCREMENT de tabela `avaliacao`
 --
 ALTER TABLE `avaliacao`
-  MODIFY `Id_avaliacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Id_avaliacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de tabela `noficacoes`
@@ -250,13 +240,13 @@ ALTER TABLE `noficacoes`
 -- AUTO_INCREMENT de tabela `questoes`
 --
 ALTER TABLE `questoes`
-  MODIFY `Id_questao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
+  MODIFY `Id_questao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=208;
 
 --
 -- AUTO_INCREMENT de tabela `quizzes`
 --
 ALTER TABLE `quizzes`
-  MODIFY `Id_quizz` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `Id_quizz` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT de tabela `quizzes_respondidos`
@@ -268,13 +258,13 @@ ALTER TABLE `quizzes_respondidos`
 -- AUTO_INCREMENT de tabela `respostas`
 --
 ALTER TABLE `respostas`
-  MODIFY `Id_resposta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=297;
+  MODIFY `Id_resposta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1515;
 
 --
 -- AUTO_INCREMENT de tabela `utilizadores`
 --
 ALTER TABLE `utilizadores`
-  MODIFY `Id_utilizador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=362;
+  MODIFY `Id_utilizador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=364;
 
 --
 -- Restrições para despejos de tabelas
