@@ -26,7 +26,7 @@
 					<button id="menuEliminarQuizz" class="btn btn-secondary my-2 my-sm-0" type="submit"><i class="fa-solid fa-trash"></i> Eliminar Quizz</button>
 					
 					
-					<button id="menuAdicionarQuestao" class="btn btn-secondary my-2 my-sm-0" type="submit">Adicionar Quizz <i class="fa-solid fa-plus"></i></button>
+					<button id="menuAdicionarQuestao" class="btn btn-secondary my-2 my-sm-0" type="submit">Adicionar Questão <i class="fa-solid fa-plus"></i></button>
 					<button id="menuGuardarQuestao" class="btn btn-secondary my-2 my-sm-0 direita" type="submit">Guardar <i class="fa-solid fa-floppy-disk"></i></button>
 				</li>
 		</li>

@@ -91,10 +91,12 @@ $(document).ready(function(){
 
             const divPosicaoDadosAvaliacao = document.createElement("div");
             divPosicaoDadosAvaliacao.id= "posicaoDadosAvaliacao"+iplus1;
-            divPosicaoDadosAvaliacao.innerHTML = '<button type="text" class="btn button border posicaoBotaoAvaliacao">Reportar</button>';
-            divPosicaoDadosAvaliacao.classList.add('col-sm-5');                        
+            divPosicaoDadosAvaliacao.innerHTML = 'Nota: '+dadosAvaliacoes[i]['nota']+' <span class="like"><i class="fa-solid fa-thumbs-up"></i> </span>'+dadosAvaliacoes[i]['gosto']+' <span class="Deslike"><i class="fa-solid fa-thumbs-down"></i> </span>'+dadosAvaliacoes[i]['naoGosto']+' ';
+            divPosicaoDadosAvaliacao.classList.add('posicaoDadosAvaliacao');                        
             container.appendChild(divPosicaoDadosAvaliacao);
-
+            
+               
+            
         //    const divDadosQuizz = document.createElement("div");
         //    divDadosQuizz.id=tipoDeOrganizacao+"dadosQuizz"+iplus1;
         //    divDadosQuizz.innerHTML = ' <p class="nomeQuizz">'+dadosQuizzes[i]["nomeQuizz"]+'</p>'
