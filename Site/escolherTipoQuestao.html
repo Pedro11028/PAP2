@@ -23,40 +23,41 @@
 
     <div class="input-info">
 
-        <h4>Selecionar Resposta</h4>
+        <span><h3 id="selecionarResposta" class="TiposQuestao selecionarResposta ativarHover_selecionarResposta" onclick="selecionarTipoQuestao('selecionarResposta')" title="Clicar para selecionar ou remover"><i id="icon_selecionarResposta" class="fa-solid fa-arrow-right setaIndicadora"></i> Selecionar Resposta</h3></span>
 
-        <button class="selecionarResposta" style="align-content: center;" onclick="criarCookie('mostrarAcerto')">
-            Mostrar Acerto
-        </button>
-        <button class="selecionarResposta" style="align-content: center;"  onclick="criarCookie('naoMostrarAcerto')">
-            Não Mostrar Acerto 
-        </button>
-        <br>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="mostrarRespostasCorretas">
+            <label class="form-check-label" for="mostrarRespostasCorretas">
+              Mostrar Respostas Corretas
+            </label>
+        </div>
 
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="mostrarPercentagemEscolhas">
+            <label class="form-check-label" for="mostrarPercentagemEscolhas">
+              Mostrar Percentagem Escolhas
+            </label>
+        </div>
 
-        <h4>Outros...</h4>
+        <span><h3 id="textoLivre" class="TiposQuestao textoLivre ativarHover_textoLivre" onclick="selecionarTipoQuestao('textoLivre')" title="Clicar para selecionar ou remover"><i id="icon_textoLivre" class="fa-solid fa-arrow-right setaIndicadora"></i> Escrever texto livre </h3></span>
 
-        <button class="escreverResposta" style="align-content: center;"  onclick="criarCookie('escreverResposta')">
-            Escrever Resposta 
-        </button>
-        <br>
-        <button class="enquete" style="align-content: center;"  onclick="criarCookie('enquete')"> 
-            Enquete
-        </button>
-        <br>
-        <br>
-        <br>
-            <a id="linkVoltarCancelar" href="index.php">
-                <button id="botaoVoltarCancelar" class="voltar" form="voltarform">
-                    Cancelar 
+        <div class="log-sign">
+            <br>
+            <div class="log-sign">
+                <a id="linkVoltarCancelar" href="index.php" style="text-decoration: none;">
+                    <button id="botaoVoltarCancelar" class="voltar" style="align-content: center;" form="voltarform">
+                        Cancelar
+                    </button>
+                </a>
+
+                <button id="submit" class="login" name="submit">
+                    Continuar
                 </button>
-            </a>
+        </div>
 </div>
 
 </form>
 
-
 <script src="escolherTipoQuestao.js"></script>
-
 </body>
 </html>
