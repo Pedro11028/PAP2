@@ -163,6 +163,7 @@ include "menuFooter/menu.php";
   </div>
     
   <script  src="perfil.js"></script>
+  <script  src="verificarCriacaoQuizz.js"></script>
 
 </body>
 </html>

@@ -40,7 +40,7 @@ $(document).ready(function(){
         document.getElementById('nomeQuizz').innerHTML = '<b>Nome:</b> '+dadosQuizz['nomeQuizz'];
         document.getElementById('temaQuizz').innerHTML = '<b>Tema:</b> '+dadosQuizz['tema'];
         document.getElementById('dataCriacaoQuizz').innerHTML = '<b>Data de criação:</b> '+dadosQuizz['DataCriacao'];
-        document.getElementById('escolaridadeQuizz').innerHTML = '<b>Escolaridade:</b> '+dadosQuizz['escolaridade'];
+        document.getElementById('escolaridadeQuizz').innerHTML = '<b>Dificuldade:</b> '+dadosQuizz['dificuldade'];
         document.getElementById('numeroPerguntasQuizz').innerHTML = '<b>Número de Perguntas:</b> '+dadosQuizz['numPerguntas'];
         document.getElementById('numeroAvaliacoesFeitas').innerHTML = '<b>Número de avaliações:</b> '+dadosNumMediaAvaliacoes['mediaAvaliacoes'];
         document.getElementById('mediaAvaliacoesFeitas').innerHTML = '<b>Média de avaliações:</b> '+dadosNumMediaAvaliacoes['numAvaliacoes'];
@@ -51,6 +51,7 @@ $(document).ready(function(){
         const minhaAvaliacao= 0;
 
         for (let i= 0; i < dadosAvaliacoes.length; i++) {
+
             const iplus1=i+1;
 
             var container = document.getElementById("containerAvaliacoes");
@@ -95,18 +96,59 @@ $(document).ready(function(){
             divPosicaoDadosAvaliacao.classList.add('posicaoDadosAvaliacao');                        
             container.appendChild(divPosicaoDadosAvaliacao);
             
-               
-            
-        //    const divDadosQuizz = document.createElement("div");
-        //    divDadosQuizz.id=tipoDeOrganizacao+"dadosQuizz"+iplus1;
-        //    divDadosQuizz.innerHTML = ' <p class="nomeQuizz">'+dadosQuizzes[i]["nomeQuizz"]+'</p>'
-        //                             + ' <p>Escolariedade: '+dadosQuizzes[i]["escolaridade"]+'</p>'
-        //                             + ' <p>Quantidade de avaliações: '+dadosQuizzes[i]["numAvaliacoes"]+'</p>'
-        //                             + ' <p>Nota média: '+dadosQuizzes[i]["mediaAvaliacoes"]+'</p>';
-        //    divDadosQuizz.classList.add('dadosQuizz');                        
-        //    container.appendChild(divDadosQuizz);
-            
         }
     }
-
+    
 });
+
+function verificarEdicaoQuizz(){
+    
+        const Id_utilizador = localStorage.getItem("Id_utilizador");
+
+        //Verificar se é a primeira questão
+        $.ajax({
+            type:"POST",
+            url: "../API/verificarJaCriouQuizzTempApi.php",
+            data:{
+                accao:"verificarExistenciaQuizz",
+                Id_utilizador:Id_utilizador
+            },
+            cache: false,
+            dataType: 'json',
+            success: function(resposta) {
+                if(resposta == 'existe'){
+                    toastr.warning('Já existe um quizz a ser editado, por favor acabe de o editar ou elimine-o!', 'Woops!!!');
+                }
+
+                if(resposta == 'naoExiste'){
+                    prepararQuizzParaEdicao();
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                toastr.warning('Parece ter ocorrido um erro com a ligação á base de dados!', 'Woops!!!');
+            }
+        });
+
+}
+
+function prepararQuizzParaEdicao(){
+    const Id_quizz= localStorage.getItem("Id_quizzAJogar");
+
+    $.ajax({
+        type:"POST",
+        url: "../API/prepararEdicaoQuizzApi.php",
+        data:{
+            accao:"prepararQuizz",
+            Id_quizz:Id_quizz
+        },
+        cache: false,
+        dataType: 'json',
+        success: function(resposta){
+                window.location.href= "editarDadosQuizz.php";
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            toastr.warning('Parece ter ocorrido um erro com a ligação á base de dados!', 'Woops!!!');
+        }
+    });
+    return false;
+}

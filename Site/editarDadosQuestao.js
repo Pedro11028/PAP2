@@ -284,7 +284,19 @@ $(document).ready(function(){
                 cache: false,
                 dataType: 'json',
                 success: function(resposta) {
-                    console.log(resposta);
+                    if(resposta == 'nenhumaRespostaCorreta'){
+                        toastr.warning('Por favor selecione uma resposta correta!', 'Woops!!!');
+                    }
+                    if(resposta == 'questaoVazia'){
+                        toastr.warning('Por favor digite uma questão antes de prosseguir!', 'Woops!!!');
+                    }
+                    if(resposta == 'respostaVazia'){
+                        toastr.warning('Por favor preencha todos os campos de resposta ou elimine os não desejáveis', 'Woops!!!');
+                    }
+                    if(resposta == 'dadosGuardadosComSucesso'){
+                        location.href="editarDadosQuizz.php";
+                    }
+                    
                     if(resposta == 'dadosGuardadosComSucesso'){
                         location.href="editarDadosQuizz.php";
                     }

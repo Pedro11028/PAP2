@@ -103,6 +103,7 @@ include "menuFooter/menu.php";
 
 
 <script  src="editarDadosQuestao.js"></script>
+<script  src="verificarCriacaoQuizz.js"></script>
 
 </body>
 </html>

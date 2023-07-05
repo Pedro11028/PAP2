@@ -1,7 +1,5 @@
 $(document).ready(function(){
 
-    
-    
     document.getElementById("menuGuardarQuestao").style.display="inline";
     document.getElementById("menuCancelarQuestao").style.display="inline";
         

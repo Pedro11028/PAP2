@@ -45,6 +45,7 @@ include "menuFooter/menu.php";
 
 
 <script  src="index.js"></script>
+<script  src="verificarCriacaoQuizz.js"></script>
 
 <?php 
 include "menuFooter/footer.php";

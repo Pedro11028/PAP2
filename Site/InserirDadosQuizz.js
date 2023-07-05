@@ -6,39 +6,16 @@ $(document).ready(function(){
     document.getElementById("menuPrincipal").className = 'navbar navbar-expand-lg navbar-dark bg-dark';
     document.getElementById("navbarColor02").className = '';
     
-    
+
     document.getElementById("menuGuardarQuestao").style.display="inline";
     document.getElementById("menuCancelarQuestao").style.display="inline";
     
     document.getElementById("logotipoSite").innerHTML="";
     document.getElementById("eliminarResposta1").style.display = "none";
 
-    //Verificar se é a primeira questão
-    const Id_utilizador = localStorage.getItem("Id_utilizador");
-    $.ajax({
-        type:"POST",
-        url: "../API/verificarJaCriouQuizzTempApi.php",
-        data:{
-            accao:"verificarExistenciaQuizz",
-            Id_utilizador:Id_utilizador
-        },
-        cache: false,
-        dataType: 'json',
-        success: function(resposta) {
-            if(resposta == 'existe'){
-                document.getElementById('menuCancelarQuestao').innerHTML = "<i class='fa-solid fa-outdent'></i> Voltar";
-                document.getElementById('menuCancelarQuestao').href = "javascript:void";
-            }
-            if(resposta == 'naoExiste'){
-                document.getElementById('menuCancelarQuestao').innerHTML = "<i class='fa-solid fa-outdent'></i> Cancelar";
-                document.getElementById('menuCancelarQuestao').href = "javascript:void";
-            }
-        },
-          error: function (xhr, ajaxOptions, thrownError) {
-            toastr.warning('Parece ter ocorrido um erro com a ligação á base de dados!', 'Woops!!!');
-        }
-    });
+    document.getElementById('menuCancelarQuestao').innerHTML = "<i class='fa-solid fa-outdent'></i> Cancelar";
 
+    const Id_utilizador = localStorage.getItem("Id_utilizador");
 
     //Voltar ao Inicio do site mas elimininando a imagem temporária caso exista
     $(document).on('click','#menuCancelarQuestao',function(e){
@@ -58,11 +35,7 @@ $(document).ready(function(){
             success: function(resposta) {
                 if(resposta == 'sucesso'){
                     eliminarCookieDoTipoQuestao();
-                    if(document.getElementById('menuCancelarQuestao').innerHTML == "Voltar"){
-                        location.href= "editarDadosQuizz.php";
-                    }else{
-                        location.href = "index.php";
-                    }
+                        location.href= "escolherTipoQuestao.html";
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {
@@ -87,7 +60,7 @@ $(document).ready(function(){
     // obter o Tipo de questão e com isso determinar o formato da página
     const tipoQuestao = getTipoQuestaoCookie();
 
-    if(tipoQuestao == 'escreverResposta'){
+    if(tipoQuestao == 'textoLivre'){
         document.getElementById("selecionarResposta").remove();
     }else{
         if(tipoQuestao == null){
@@ -156,7 +129,7 @@ $(document).ready(function(){
         
         guardarDadosValido = true;
 
-        if(tipoQuestao == 'escreverResposta'){
+        if(tipoQuestao == 'textoLivre'){
             for (let i = 1; i <= 15; i++) {
                 if(document.getElementById("digitarResposta"+i)){
                     respostasCorretas[ordemGuardarDados]= 'true';
@@ -181,7 +154,10 @@ $(document).ready(function(){
         var imagem= document.getElementById("imagemQuestao").src;
         caminhoDiretorio= imagem.substr(0, imagem.lastIndexOf("/"));
         var questao= document.getElementById("digitarQuestao").innerHTML;
-        
+
+        mostrarRespostaCorreta= localStorage.getItem("mostrarRespostaCorreta");
+        mostrarPercentagemEscolhas= localStorage.getItem("mostrarPercentagemEscolhas");
+
         if(guardarDadosValido == true){
             $.ajax({
                 type:"POST",
@@ -194,7 +170,9 @@ $(document).ready(function(){
                     caminhoDiretorio:caminhoDiretorio,
                     tipoQuestao:tipoQuestao,
                     dadosRespostas:dadosRespostas,
-                    respostasCorretas:respostasCorretas
+                    respostasCorretas:respostasCorretas,
+                    mostrarRespostaCorreta:mostrarRespostaCorreta,
+                    mostrarPercentagemEscolhas:mostrarPercentagemEscolhas
                 },
                 cache: false,
                 dataType: 'json',

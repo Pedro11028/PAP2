@@ -4,11 +4,12 @@
         document.getElementById("login").remove();
         document.getElementById("registar").remove();
         document.getElementById("menuCriarQuestao").style.display= "inline";
+
     }else{
         document.getElementById("dropdownUtilizador").remove();
         document.getElementById("menuCriarQuestao").style.display= "none";
     }
-    
+
     // document.getElementById("menuEliminarQuizz").style.display= "none";
     // document.getElementById("menuGuardarInfoQuizz").style.display= "none";
     // document.getElementById("menuAdicionarQuestao").style.display= "none";

@@ -53,7 +53,7 @@ $(document).ready(function(){
              const divDadosQuizz = document.createElement("div");
              divDadosQuizz.id=tipoDeOrganizacao+"dadosQuizz"+iplus1;
              divDadosQuizz.innerHTML = ' <p class="nomeQuizz">'+dadosQuizzes[i]["nomeQuizz"]+'</p>'
-                                     + ' <p>Escolariedade: '+dadosQuizzes[i]["escolaridade"]+'</p>'
+                                     + ' <p>Dificuldade: '+dadosQuizzes[i]["dificuldade"]+'</p>'
                                      + ' <p>Quantidade de avaliações: '+dadosQuizzes[i]["numAvaliacoes"]+'</p>'
                                      + ' <p>Nota média: '+dadosQuizzes[i]["mediaAvaliacoes"]+'</p>';
              divDadosQuizz.classList.add('dadosQuizz');                        

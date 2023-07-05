@@ -158,6 +158,11 @@ body {
 #formGuardarQuizz .dropdown-toggle{
     background-color:#646464;
 }
+
+#formGuardarQuizz .elemento{
+    margin-left: -7px;
+}
+
 #formGuardarQuizz .elemento:hover{
     background-color:#646464;
     color:white;
@@ -183,7 +188,7 @@ body {
 }
 
 #formGuardarQuizz #dropEscolariedade{
-    margin-left: 30px;
+    margin-left: 50px;
 }
 
 #formGuardarQuizz .dropdown-menu{

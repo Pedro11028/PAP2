@@ -11,6 +11,25 @@ $(document).ready(function(){
         location.href= "login.html"
     }
 
+    $.ajax({
+        type:"POST",
+        url: "../API/carregarDadosQuizzApi.php",
+        data:{
+            accao:"obterDadosQuizz",
+            Id_utilizador:Id_utilizador
+        },
+        cache: false,
+        dataType: 'json',
+        success: function(resposta) {
+            console.log(resposta);
+            document.getElementById('nomeQuizz').value= resposta['nomeQuizz'];
+            document.getElementById('TemaQuizz').value= resposta['tema'];
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            toastr.warning('Parece ter ocorrido um erro com a ligação á base de dados!', 'Woops!!!');
+        }
+    });
+
     $(document).on('click','#guardarDados',function(e){
         
         //Neste código escolariedade vai obter por exemplo o seguinte valor: Universidade &nbsp <span class="caret"></span>

@@ -5,9 +5,11 @@
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="informacoesQuizz.css">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
 
 	<script src="https://kit.fontawesome.com/410e89720f.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
 
 
 </head>
@@ -21,8 +23,8 @@ include "menuFooter/menu.php";
 <div id="wrap">
     <div id="left">
 			<div id="dadosQuizz">
-				<button style="float:right;" class="btn button border"><b>Iniciar</b></button>
-				<button id="editarQuizz" style="float:right; margin-right:10px;" class="btn button border"></button>
+				<button style="float:right;" class="btn button border" onclick="iniciarJogoQuizz()"><b>Iniciar</b></button>
+				<button id="editarQuizz" style="float:right; margin-right:10px;" class="btn button border" onclick="verificarEdicaoQuizz()"></button>
 				<div id="alinharImgENomeCriador">
 					<img id="imgPerfil" src="">
 					<br>
@@ -69,24 +71,7 @@ include "menuFooter/menu.php";
     <div id="right">
 		<h2>Avaliações</h2>
 		<div id="containerAvaliacoes">
-		
-			<div id="nomeUtilizadorAvaliacao" class="nomeAvaliacao container">Pedro Oliveira nvl: 3</div>
-			<div id="organizarDadosQuestao" class="organizarDadosQuestao container" style="border: 3px outset black;">
-					<div id="rowAvaliacoes" class="row h-100" >
-						<div id="mostrarTextoAvaliacao" class="col-sm-7 mostrarTextoAvaliacao">
-						aisd auisd ausdasdahs odasdh aosdiohaisdhaoshd aasjdhaksdh asda siod aosid aioshdashd a sda sd.
-						aisd auisd ausdasdahs odasdh aosdiohaisdhaoshd aasjdhaksdh asda siod aosid aioshdashd a sda sd.
-						</div>
-						<div id="dadosAvaliacao" class="col-sm-5">
-							<button type="text" class="btn button border posicaoBotaoAvaliacao">Reportar</button>
-							<div id="posicaoDadosAvaliacao" class="posicaoDadosAvaliacao">
-									Nota: 3
-									<span class="like"><i class="fa-solid fa-thumbs-up"></i> </span>3    
-									<span class="Deslike"><i class="fa-solid fa-thumbs-down"></i> </span>3
-							</div>
-						</div>
-					</div>
-			</div>
+
 
 		</div>
 	</div>
@@ -97,6 +82,7 @@ include "menuFooter/footer.php";
 ?>
 
 <script  src="informacoesQuizz.js"></script>
+<script  src="verificarCriacaoQuizz.js"></script>
 
 </body>
 </html>
