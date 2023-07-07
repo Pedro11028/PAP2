@@ -1,0 +1,223 @@
+body {
+    background-color: #848585;
+}
+
+#toast-container > .toast-warning { 
+    background-color: #454545; 
+}
+
+#nomeQuestao{
+    margin-top: -24px;
+    color: white;
+}
+
+.containerQuestao {
+    position: relative;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%);
+    border-radius: 2px;
+    width:70%;
+    height:300px;
+    background-color: white;
+    margin-top: 1em;
+}
+
+#escolherImagem {
+    display: none;
+}
+
+.alinharQuestao{
+    display: inline-block;
+}
+
+.digitarQuestao{
+    position: absolute;
+    top: 50%;
+    right: 0;
+    left: 55px;
+    transform: translateY(-50%);
+    text-align: center;
+    max-height: 300px;    
+}
+
+.digitarQuestao:active, .digitarResposta:active{
+    border:none;
+}
+
+[contenteditable]:focus {
+    outline: 0px;
+}
+
+[placeholder]:empty::before {
+    content: attr(placeholder);
+    color: #555; 
+}
+
+.button{
+    background-color: #646464;
+    color: white;
+}
+
+.button:hover{
+    box-shadow: white;
+}
+
+.btn-primary{
+    background-color: #0779e4;
+}
+
+.selecionarResposta{
+    position: relative;
+    height: 40vh;
+}
+
+#adicionarResposta{
+    position: relative;
+    left:50%;
+    transform: translate(-29px);
+    border-radius: 80%;
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+    display: none;
+}
+
+#guardarTempImg{
+    visibility:hidden;
+}
+
+.form-check-input{
+    left:34px;
+}
+
+.fecharResposta{
+    color:#6c757d;
+}
+
+input[type="checkbox"]:checked {
+    background-color: #646464;
+}
+  
+.form-check-input:hover, .fecharResposta:hover{
+    cursor:pointer;
+}
+
+.containerOpcoesResposta{
+    border-radius: 12px;
+    background-color: #343a40;
+    margin: 5px;
+    margin-top: 6%;
+    height: 85%;
+    min-height: 190px;
+    max-height: 300px;
+}
+
+.containerResposta{
+    border-radius: 5px;
+    background-color: white;
+    min-width: 200px;
+    min-height: 150px;
+    height: 80%;
+    margin-top: 28px;
+    cursor: pointer;
+}
+
+.digitarResposta{
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    text-align: center;
+    max-height: 98%;
+}
+
+.imagemQuestao{
+    position: relative;
+    width: 35%;
+    top: -50px;
+    height: 300px;
+    border: 1px outset silver;
+    display: none;
+}
+
+#guardarTempImg, #selecionarImagemQuizz{
+    width:50px;
+    height:50px;
+    cursor:pointer;
+}
+
+.alturaLinha{
+    position: relative;
+    height:100%;
+}
+
+
+
+/* --- */
+/* ------ */
+/* --------- */
+/*      Css para quando o tipo é "escrever resposta" */
+/* --------- */
+/* ------ */
+/* --- */
+
+.containerEscreverResposta{
+    position: relative;
+    margin-top:6%;
+    border-radius: 12px;
+    background-color: #646464;
+    max-height: 40px;
+    max-width: 545px;
+}
+
+
+.digitarEscreverResposta{
+    position: relative;
+    width: 80%;
+    top: 5%;
+    left: 5px;
+    border-radius: 5px;
+    cursor: text;
+    margin: 5px;
+}
+
+#submeterResposta{
+    width: 90px;
+    border-radius: 12px;
+    margin-left: 8px;
+    border-color: #646464 !important;
+}
+
+#submeterResposta:hover{
+    color:white;
+    transition: 1s;
+    color: black;
+    
+}
+
+.eliminarEscreverResposta{
+    position: relative;
+    width: 30px;
+    height: 28px;
+    top: 5px;
+    left: 4px;
+}
+
+.iconDelete{
+    position: relative;
+    width: 30px;
+    top:2px;
+    left: -13.5px;
+}
+
+#adicionarEscreverResposta{
+    position: relative;
+    left:50%;
+    transform: translate(-29px);
+    border-radius: 80%;
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+}

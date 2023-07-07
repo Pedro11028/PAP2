@@ -3,6 +3,8 @@ $(document).ready(function(){
     const Id_utilizador= localStorage.getItem("Id_utilizador");
     const Id_quizz= localStorage.getItem("Id_quizzAJogar");
 
+    localStorage.removeItem("numeroQuestoesRespondidas")
+
     $.ajax({
         type:"POST",
         url: "../API/obterQuizzesApi.php",
@@ -145,6 +147,36 @@ function prepararQuizzParaEdicao(){
         dataType: 'json',
         success: function(resposta){
                 window.location.href= "editarDadosQuizz.php";
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            toastr.warning('Parece ter ocorrido um erro com a ligação á base de dados!', 'Woops!!!');
+        }
+    });
+    return false;
+}
+
+function iniciarJogoQuizz(){
+    const Id_quizz= localStorage.getItem("Id_quizzAJogar");
+
+    $.ajax({
+        type:"POST",
+        url: "../API/obterDadosJogoQuizzApi.php",
+        data:{
+            accao:"obterDados",
+            Id_quizz:Id_quizz
+        },
+        cache: false,
+        dataType: 'json',
+        success: function(resposta){
+            const pontosPorQuestao = 100/parseInt(resposta['numeroQuestoes']);
+
+            localStorage.setItem("dadosQuestoesDoQuizz", JSON.stringify(resposta['dadosQuestoes']));
+            localStorage.setItem("numeroQuestoes", resposta['numeroQuestoes']);
+            localStorage.setItem("numeroQuestoesRespondidas", 0);
+            localStorage.setItem("totalPontosAcumulados", 0);
+            localStorage.setItem("pontosPorQuestao", pontosPorQuestao);
+
+            window.location.href="jogarQuizz.php";
         },
         error: function (xhr, ajaxOptions, thrownError) {
             toastr.warning('Parece ter ocorrido um erro com a ligação á base de dados!', 'Woops!!!');

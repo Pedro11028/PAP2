@@ -155,7 +155,7 @@ function criarConteudoDentroDoRow(container, i, iplus1, dadosQuestoes, numeroRes
         
         const divOrganizarNomeQuestao = document.createElement("div");
         divOrganizarNomeQuestao.id="organizarNomeQuestao"+iplus1;
-        divOrganizarNomeQuestao.innerHTML = '<input id="nomeQuestao'+iplus1+'" type="text" class="nomeQuestao" maxlength="60" placeholder="Nome: (Opcional) max: 60 letras">'
+        divOrganizarNomeQuestao.innerHTML = '<input id="nomeQuestao'+iplus1+'" type="text" class="nomeQuestao" maxlength="30" placeholder="Nome: (Opcional) max: 30 letras">'
                                             +'<button type="text" class="btn button border botaoGuardarNome" onclick="guardarNomeQuestao('+dadosQuestoes[i]['Id_questao']+', '+iplus1+')"> Guardar</button>';
         divOrganizarNomeQuestao.classList.add('col-sm-6','dadosQuizz');                        
         container.appendChild(divOrganizarNomeQuestao);

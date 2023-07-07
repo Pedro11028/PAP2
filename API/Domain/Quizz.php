@@ -123,7 +123,7 @@ class Quizz {
             }
         }
         
-        $nomeQuestao = substr($questao, 0, 60);;
+        $nomeQuestao = substr($questao, 0, 30);;
 
         $stmt = $conexao->runQuery('INSERT INTO questoes (Id_quizz, textoQuestao, nomeQuestao, imagem, tipoQuestao, mostrarRespostaCorreta, mostrarPercentagemEscolhas) VALUES (:Id_quizz, :textoQuestao, :nomeQuestao, :imagem, :tipoQuestao, :mostrarRespostaCorreta, :mostrarPercentagemEscolhas)');
         $stmt->execute(array(':Id_quizz' => $dataQuizzes['Id_quizz'], ':textoQuestao' => $questao, ':nomeQuestao' => $nomeQuestao, ':imagem' => $nomeficheiro, ':tipoQuestao' => $tipoQuestao, ':mostrarRespostaCorreta' => $mostrarRespostaCorreta, ':mostrarPercentagemEscolhas' => $mostrarPercentagemEscolhas));
@@ -242,7 +242,7 @@ class Quizz {
         $conexao = new Conexao();
         $i=0; //guardar ordem da questao
 
-        $stmt = $conexao->runQuery('SELECT Id_quizz, textoQuestao, tipoQuestao FROM questoes WHERE Id_questao = :Id_questao');
+        $stmt = $conexao->runQuery('SELECT Id_quizz, nomeQuestao, textoQuestao, tipoQuestao FROM questoes WHERE Id_questao = :Id_questao');
         $stmt->execute(array(':Id_questao' => $Id_questao));
         $dataQuestao = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -861,5 +861,57 @@ class Quizz {
         $execute = $stmt->execute();
         
         return 'editadoComSucesso';
+    }
+
+    function ObterDadosJogoQuizz($Id_quizz){
+        $conexao = new Conexao();
+
+        $stmt = $conexao->runQuery('SELECT Id_questao FROM questoes WHERE Id_quizz = :Id_quizz');
+        $stmt->execute(array(':Id_quizz' => $Id_quizz));
+        $dadosQuestoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        $numeroQuestoes= count($dadosQuestoes);
+
+        $filtrarDados = array(  'dadosQuestoes'=> $dadosQuestoes, 
+                                'numeroQuestoes' => $numeroQuestoes
+                            );
+
+        return $filtrarDados;
+    }
+    
+    function PesquisarQuizzes($textoAPesquisar){
+        $conexao = new Conexao();
+
+        $stmt = $conexao->runQuery("SELECT Id_quizz, Id_utilizador, DataCriacao, dificuldade, nomeQuizz, imagem  FROM quizzes WHERE dificuldade != :dificuldade AND nomeQuizz LIKE :nomeQuizz");
+        $stmt->execute(array(':dificuldade' => "temporario", ':nomeQuizz' => "%".$textoAPesquisar."%"));
+        $dataQuizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $dataCriacaoQuizzDescendente = array();
+        $i=0;
+
+        foreach ($dataQuizzes as $dataQuizzesTamanho) {
+
+            $caminhoImagem= '../BaseDados/Utilizadores/Utilizador_'.$dataQuizzesTamanho['Id_utilizador'].'/Quizzes/Quizz'.$dataQuizzesTamanho['Id_quizz'].'/ImagemQuizzTemporaria';
+
+            $stmt = $conexao->runQuery("SELECT  COUNT(avaliacao.Id_avaliacao) as numAvaliacoes, ROUND(AVG(avaliacao.nota),2) as mediaAvaliacoes FROM quizzes INNER JOIN avaliacao ON (quizzes.Id_quizz= avaliacao.Id_quizz) WHERE avaliacao.Id_quizz= :Id_quizz");
+            $stmt->execute(array(':Id_quizz' => $dataQuizzesTamanho['Id_quizz']));
+            $dataCriacaoQuizzDescendente[$i] = $stmt->fetch(PDO::FETCH_ASSOC);      //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50"}
+            $dataCriacaoQuizzDescendente[$i]['nomeQuizz']= $dataQuizzesTamanho['nomeQuizz'];    //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50","nomeQuizz":"Nascimento de Jesus"}
+            $dataCriacaoQuizzDescendente[$i]['imagem']= $dataQuizzesTamanho['imagem'];      //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50","nomeQuizz":"Nascimento de Jesus","imagem":"/imagem.png"}
+            $dataCriacaoQuizzDescendente[$i]['dificuldade']= $dataQuizzesTamanho['dificuldade'];      //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50","nomeQuizz":"Nascimento de Jesus","imagem":"/imagem.png","escolaridade":"1ºano"}
+            $dataCriacaoQuizzDescendente[$i]['Id_quizz']= $dataQuizzesTamanho['Id_quizz'];      //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50","nomeQuizz":"Nascimento de Jesus","imagem":"/imagem.png","escolaridade":"1ºano","Id_quizz":"24"}
+
+            if(empty($dataCriacaoQuizzDescendente[$i]['numAvaliacoes'])){
+                $dataCriacaoQuizzDescendente[$i]['numAvaliacoes']= 0;
+            }
+
+            if(empty($dataCriacaoQuizzDescendente[$i]['mediaAvaliacoes'])){
+                $dataCriacaoQuizzDescendente[$i]['mediaAvaliacoes']= 0;
+            }
+
+            $i +=1;
+        }
+
+        return  $dataCriacaoQuizzDescendente;
     }
 }

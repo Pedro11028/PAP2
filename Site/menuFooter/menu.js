@@ -1,3 +1,4 @@
+$(document).ready(function(){
 
     if (document.cookie.indexOf('nomeCookie') > -1 ) {
         document.getElementById('nomeUtilizador').innerHTML = getCookie();
@@ -22,3 +23,15 @@
         })
         return cookie['nomeCookie'];
     }
+
+    $(document).on('click','#pesquisar',function(e){
+        if(document.getElementById("textoAPesquisar").value){
+            localStorage.setItem('textoAPesquisar',document.getElementById("textoAPesquisar").value);
+            window.location.href="Pesquisas.php";
+        }else{
+            toastr.warning('Por favor não deixe espaços em branco!', 'Woops!!!');
+        }
+
+        return false;   
+    });
+});
