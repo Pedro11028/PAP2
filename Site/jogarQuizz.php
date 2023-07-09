@@ -39,6 +39,13 @@ include "menuFooter/menu.php";
     </div>
 
     <!-- O que aparece quando o Tipo da questão é; mostrar resposta, não mostrar resposta ou enquete -->
+    
+    <center>
+        <div class="w3-light-grey">
+           <div class="progress" style="height: 25px; width: 70%;">
+           <div class="progress-bar progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b id="resultadoProgresso">25%</b></div>
+        </div>
+    </center>
 
       <div id="selecionarResposta" class="selecionarResposta container">
             <div class="row h-100">

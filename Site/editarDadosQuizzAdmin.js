@@ -19,23 +19,25 @@ $(document).ready(function(){
     
 
     $("#menuGuardarQuestao").click(function(){
-        location.href="guardarQuizz.html";
+        location.href="guardarQuizzAdmin.html";
     });
 
     $("#menuAdicionarQuestao").click(function(){
-        location.href="escolherTipoQuestao.html";
+        location.href="escolherTipoQuestaoAdmin.html";
     });
 
     $("#menuEliminarQuizz").click(function(){
         if (window.confirm("Tens a certesa que queres eliminar o quizz atual?")) {
              var Id_utilizador= localStorage.getItem("Id_utilizadorAEditarQuizzAdmin");
+             const tipoTemporario= "temporarioAdmin";
 
              $.ajax({
                  type:"POST",
                  url: "../API/eliminarQuizzApi.php",
                  data:{
                      accao:"eliminarQuizz",
-                     Id_utilizador:Id_utilizador
+                     Id_utilizador:Id_utilizador,
+                     tipoTemporario:tipoTemporario
                  },
                  cache: false,
                  dataType: 'json',
@@ -53,17 +55,17 @@ $(document).ready(function(){
         var hoje = new Date();
         hoje.setMonth( hoje.getMonth() - 1 );
         
-        document.cookie = "tipoQuestaoCookie= "+document.cookie.indexOf('tipoQuestaoCookie')
+        document.cookie = "tipoQuestaoCookieAdmin= "+document.cookie.indexOf('tipoQuestaoCookie')
                          +';expires='+hoje.toUTCString()
                          +"; secure=true"
                          +';path=/';
       
-        document.cookie = "idQuestaoAEditar= "+document.cookie.indexOf('idQuestaoAEditar')
+        document.cookie = "idQuestaoAEditarAdmin= "+document.cookie.indexOf('idQuestaoAEditar')
                          +';expires='+hoje.toUTCString()
                          +"; secure=true"
                          +';path=/';
         
-        return;
+        return true;
     }
     // Eliminar o cookie que indica o tipo de questao a ser criada
     var hoje = new Date();
@@ -84,15 +86,16 @@ $(document).ready(function(){
         type:"POST",
         url: "../API/carregarDadosQuizzApi.php",
         data:{
-            accao:"carregar",
+            accao:"carregarDadosQuizzAdmin",
             Id_utilizador:Id_utilizador
         },
         cache: false,
         dataType: 'json',
         success: function(resposta) {
             if(resposta[0] == 'true'){
-                location.href = "index.php";
+                console.log(Id_utilizador);
             }else{
+                console.log(resposta);
                 filtrarEMostrarDadosQuestoes(resposta);
             }
         }
@@ -214,5 +217,5 @@ function guardarId_questaoParaAEditar(Id_questao){
   
     document.cookie = "idQuestaoAEditar= "+Id_questao+';expires='+hoje.toUTCString()+"; secure=true"+';path=/';
 
-    location.href="editarDadosQuestao.php";
+    location.href="editarDadosQuestaoAdmin.php";
 }

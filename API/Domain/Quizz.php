@@ -39,11 +39,11 @@ class Quizz {
     }
 
 
-    function VerificarExistenciaQuizz($Id_utilizador){
+    function VerificarExistenciaQuizz($Id_utilizador, $tipoTemporario){
         $conexao = new Conexao();
         
         $stmt = $conexao->runQuery('SELECT `Id_quizz` FROM quizzes WHERE Id_utilizador = :Id_utilizador AND dificuldade = :dificuldade');
-        $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':dificuldade' => "temporario"));
+        $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':dificuldade' => $tipoTemporario));
         $dataQuizzes = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if($dataQuizzes == true){
@@ -54,7 +54,7 @@ class Quizz {
     }
 
 
-    function InserirDados($Id_utilizador,$questao,$imagem,$caminhoDiretorio,$tipoQuestao,$dadosRespostas,$respostasCorretas, $mostrarRespostaCorreta, $mostrarPercentagemEscolhas){
+    function InserirDados($Id_utilizador,$questao,$imagem,$caminhoDiretorio,$tipoQuestao,$dadosRespostas,$respostasCorretas, $mostrarRespostaCorreta, $mostrarPercentagemEscolhas, $tipoTemporario){
         $conexao = new Conexao();
         $limiteRespostas=0;
 
@@ -82,7 +82,7 @@ class Quizz {
 
 
         $stmt = $conexao->runQuery('SELECT `Id_quizz` FROM quizzes WHERE Id_utilizador = :Id_utilizador AND dificuldade = :dificuldade');
-        $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':dificuldade' => "temporario"));
+        $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':dificuldade' => $tipoTemporario));
         $dataQuizzes = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if($dataQuizzes != true){
@@ -91,7 +91,7 @@ class Quizz {
             $stmt->execute(array(':Id_utilizador' => $Id_utilizador));
 
             $stmt = $conexao->runQuery('SELECT `Id_quizz` FROM quizzes WHERE Id_utilizador = :Id_utilizador AND dificuldade = :dificuldade');
-            $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':dificuldade' => "temporario"));
+            $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':dificuldade' => $tipoTemporario));
             $dataQuizzes = $stmt->fetch(PDO::FETCH_ASSOC);
 
             mkdir('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/', 0755, true);
@@ -103,7 +103,7 @@ class Quizz {
         //Verifica o número de questões existentes no quizz
         //Caso já tenha 10 então retorna a dizer que já está cheio
         //Antes de fazer o que está escrito anteriormente verifica-se se a imagem é válida
-        if(empty($imagem) || str_contains($imagem, 'InserirDadosQuizz.php')){
+        if(empty($imagem) || str_contains($imagem, 'InserirDadosQuizz.php') || str_contains($imagem, 'InserirDadosQuizzAdmin.php')){
             $nomeficheiro= "";
         }else{
             //strrchr() serve para obter o último caractere com o mesmo nome e o texto que está á frente deles
@@ -152,7 +152,7 @@ class Quizz {
         $caminhoImagem= strrchr($caminhoImagem,'/');
         $caminhoDiretorio= strstr($caminhoDiretorio, '/BaseDados');
 
-        if(!str_contains($caminhoDiretorio, '/QuestaoComImagem') && !str_contains($caminhoImagem, '/editarDadosQuestao') && !str_contains($caminhoImagem, '/InserirDadosQuizz.php')){
+        if(!str_contains($caminhoDiretorio, '/QuestaoComImagem') && !str_contains($caminhoImagem, '/editarDadosQuestao') && !str_contains($caminhoImagem, '/InserirDadosQuizz.php') && !str_contains($caminhoImagem, '/InserirDadosQuizzAdmin') && !str_contains($caminhoImagem, '/InserirDadosQuizzAdmin.php')){
             if (file_exists('..'.$caminhoDiretorio)) {
                 unlink('..'.$caminhoDiretorio.$caminhoImagem);
                 rmdir('..'.$caminhoDiretorio);
@@ -199,8 +199,8 @@ class Quizz {
                     $dataQuestoes[$i]['tipoQuestao']= 'Não mostrar acerto';
                     break;
 
-                case 'escreverResposta':
-                    $dataQuestoes[$i]['tipoQuestao']= 'Escrever resposta';
+                case 'textoLivre':
+                    $dataQuestoes[$i]['tipoQuestao']= 'Texto Livre';
                     break;
 
                 case 'enquete':
@@ -224,6 +224,65 @@ class Quizz {
         return $filtrarDados;
     }
 
+    function ObterDadosQuestoes_QuizzesAdmin($Id_utilizador){
+        $conexao = new Conexao();
+        $quizzNaoExiste= array(  0 => 'true');
+
+        $stmt = $conexao->runQuery('SELECT `Id_quizz` FROM quizzes WHERE Id_utilizador = :Id_utilizador AND dificuldade = :dificuldade');
+        $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':dificuldade' => "temporarioAdmin"));
+        $dataQuizzes = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if(!$dataQuizzes){
+
+            return $quizzNaoExiste;
+        }
+
+        $stmt = $conexao->runQuery('SELECT Id_questao, nomeQuestao, imagem, tipoQuestao FROM questoes WHERE Id_quizz = :Id_quizz');
+        $stmt->execute(array(':Id_quizz' => $dataQuizzes['Id_quizz']));
+        $dataQuestoes = $stmt->fetchAll(PDO::FETCH_ASSOC); // Guarda um array dentro de um array por exemplo:  0 => Id_questao => 9
+
+        $i=0;
+
+        foreach ($dataQuestoes as $dadosDataQuestoes) {
+
+            //Aqui são usados algumas funções, a função COUNT conta todos os campos dependendo dos filtros aplicados, caso o campo é o "Id_avaliação" da tabela "avaliacao"
+            $stmt = $conexao->runQuery('SELECT COUNT(Id_resposta) as numRespostas FROM respostas WHERE Id_questao = :Id_questao');
+            $stmt->execute(array(':Id_questao' => $dadosDataQuestoes['Id_questao']));
+            $dataRespostas[$i] = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            switch ($dadosDataQuestoes['tipoQuestao']) {
+                case 'mostrarAcerto':
+                    $dataQuestoes[$i]['tipoQuestao']= 'Mostrar resposta';
+                    break;
+                
+                case 'naoMostrarAcerto':
+                    $dataQuestoes[$i]['tipoQuestao']= 'Não mostrar acerto';
+                    break;
+
+                case 'textoLivre':
+                    $dataQuestoes[$i]['tipoQuestao']= 'Texto Livre';
+                    break;
+
+                case 'enquete':
+                    $dataQuestoes[$i]['tipoQuestao']= 'Enquete';
+                    break;
+            }
+
+            if(empty($dadosDataQuestoes['imagem'])){
+                $dataQuestoes[$i]['imagem']= 'não';
+            }else{
+                $dataQuestoes[$i]['imagem']= 'sim';
+            }
+
+            $i +=1;
+        }
+
+        $filtrarDados = array(  'dadosQuestoes'=> $dataQuestoes, 
+                                'numeroRespostas' => $dataRespostas
+                            );
+
+        return $filtrarDados;
+    }
 
     function guardarNomeQuestao($nomeQuestao,$Id_questao){
         $conexao = new Conexao();
@@ -290,7 +349,7 @@ class Quizz {
     }
 
 
-    function atualizarDadosQuestao($Id_utilizador,$Id_questao,$textoQuestao,$imagem,$caminhoDiretorio,$tipoQuestao,$dadosRespostas,$respostasCorretas){
+    function atualizarDadosQuestao($Id_utilizador,$Id_questao,$textoQuestao,$imagem,$caminhoDiretorio,$tipoQuestao,$dadosRespostas,$respostasCorretas, $tipoTemporario){
         $conexao = new Conexao();
 
         $limiteRespostas=0;
@@ -319,14 +378,14 @@ class Quizz {
 
 
         $stmt = $conexao->runQuery('SELECT `Id_quizz` FROM quizzes WHERE Id_utilizador = :Id_utilizador AND dificuldade = :dificuldade');
-        $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':dificuldade' => "temporario"));
+        $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':dificuldade' => $tipoTemporario));
         $dataQuizzes = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if(!$dataQuizzes){
             $caminhoImagem= strrchr($imagem,'/');
             $caminhoDiretorio= strstr($caminhoDiretorio, '/BaseDados');
     
-            if(!str_contains($caminhoDiretorio, '/QuestaoComImagem') && !str_contains($caminhoImagem, '/editarDadosQuestao') && !str_contains($caminhoImagem, '/InserirDadosQuizz')){
+            if(!str_contains($caminhoDiretorio, '/QuestaoComImagem') && !str_contains($caminhoImagem, '/editarDadosQuestao') && !str_contains($caminhoImagem, '/InserirDadosQuizz') && !str_contains($caminhoImagem, '/editarDadosQuestaoAdmin') && !str_contains($caminhoImagem, '/InserirDadosQuizzAdmin')){
                 if (file_exists('..'.$caminhoDiretorio)) {
                     unlink('..'.$caminhoDiretorio.$caminhoImagem);
                     rmdir('..'.$caminhoDiretorio);
@@ -365,7 +424,7 @@ class Quizz {
 
         
         //Primeiro verifica se retornou vazio ou o nome da página, se sim então vai eliminar a imagem ou seja a pasta que a armazena também é eliminada cazo ela já existisse antes
-        if(empty($imagem) || str_contains($imagem, '/editarDadosQuestao.php')){
+        if(empty($imagem) || str_contains($imagem, '/editarDadosQuestao.php') || str_contains($imagem, '/editarDadosQuestaoAdmin.php')){
             $nomeficheiro= "";
 
              //Verifica se o campo imagem da questão está vazio ou não na base de dados
@@ -421,7 +480,7 @@ class Quizz {
                             rename($caminhoImagem.'/QuestaoComImagem'.$i.'a/', $caminhoImagem.'/QuestaoComImagem'.$i.'/');
                         }
                     }
-
+                    
                     mkdir('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/QuestaoComImagem'.$posicaoQuestoesComImagem.'/', 0755, true);
                     rename('..'.$caminhoDiretorio.$nomeficheiro, 
                            '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/QuestaoComImagem'.$posicaoQuestoesComImagem.$nomeficheiro);
@@ -462,18 +521,18 @@ class Quizz {
     }
 
 
-    function EliminarQuestao($Id_utilizador, $Id_questao, $imagem, $caminhoDiretorio){
+    function EliminarQuestao($Id_utilizador, $Id_questao, $imagem, $caminhoDiretorio, $tipoTemporario){
         $conexao = new Conexao();
         
         $stmt = $conexao->runQuery('SELECT `Id_quizz` FROM quizzes WHERE Id_utilizador = :Id_utilizador AND dificuldade = :dificuldade');
-        $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':dificuldade' => "temporario"));
+        $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':dificuldade' => $tipoTemporario));
         $dataQuizzes = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if(!$dataQuizzes){
             $caminhoImagem= strrchr($imagem,'/');
             $caminhoDiretorio= strstr($caminhoDiretorio, '/BaseDados');
     
-            if(!str_contains($caminhoDiretorio, '/QuestaoComImagem') && !str_contains($caminhoImagem, '/editarDadosQuestao') && !str_contains($caminhoImagem, '/InserirDadosQuizz')){
+            if(!str_contains($caminhoDiretorio, '/QuestaoComImagem') && !str_contains($caminhoImagem, '/editarDadosQuestao') && !str_contains($caminhoImagem, '/InserirDadosQuizz') && !str_contains($caminhoImagem, '/editarDadosQuestaoAdmin') && !str_contains($caminhoImagem, '/editarDadosQuestaoAdmin')){
                 if (file_exists('..'.$caminhoDiretorio)) {
                     unlink('..'.$caminhoDiretorio.$caminhoImagem);
                     rmdir('..'.$caminhoDiretorio);
@@ -548,11 +607,11 @@ class Quizz {
     }
 
 
-    function EliminarQuizz($Id_utilizador){
+    function EliminarQuizz($Id_utilizador, $tipoTemporario){
         $conexao = new Conexao();
 
         $stmt = $conexao->runQuery('SELECT `Id_quizz` FROM quizzes WHERE Id_utilizador = :Id_utilizador AND dificuldade = :dificuldade');
-        $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':dificuldade' => "temporario"));
+        $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':dificuldade' => $tipoTemporario));
         $dataQuizzes = $stmt->fetch(PDO::FETCH_ASSOC);
 
         $stmt = $conexao->runQuery('SELECT Id_questao, nomeQuestao, imagem, tipoQuestao FROM questoes WHERE Id_quizz = :Id_quizz');
@@ -706,17 +765,17 @@ class Quizz {
         return $caminhoACopiar;
     }
 
-    function ObterDadosQuizz($Id_utilizador){
+    function ObterDadosQuizz($Id_utilizador, $tipoTemporario){
         $conexao = new Conexao();
         
         $stmt = $conexao->runQuery('SELECT nomeQuizz, tema FROM quizzes WHERE Id_utilizador = :Id_utilizador AND dificuldade = :dificuldade');
-        $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':dificuldade' => "temporario"));
+        $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':dificuldade' => $tipoTemporario));
         $dataQuizzes = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return $dataQuizzes;
     }
 
-    function GuardarDadosQuizz($Id_utilizador,$nomeQuizz,$TemaQuizz,$escolariedade,$imagem){
+    function GuardarDadosQuizz($Id_utilizador,$nomeQuizz,$TemaQuizz,$escolariedade,$imagem,$tipoTemporario){
         $conexao = new Conexao();
 
         if(empty($nomeQuizz) || empty($TemaQuizz)){
@@ -728,7 +787,7 @@ class Quizz {
         }
 
         $stmt = $conexao->runQuery('SELECT Id_quizz, imagem FROM quizzes WHERE Id_utilizador = :Id_utilizador AND dificuldade = :dificuldade');
-        $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':dificuldade' => "temporario"));
+        $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':dificuldade' => $tipoTemporario));
         $dataQuizzes = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if(empty($imagem)){
@@ -745,13 +804,12 @@ class Quizz {
             unlink($localAtual);
         }
         
-        $temporario= "temporario";
         $data = date('y-m-d h:i:s');
         
         $sql = 'UPDATE quizzes SET nomeQuizz = :nomeQuizz, DataCriacao = :DataCriacao, dificuldade= :escolariedade, tema= :TemaQuizz, imagem= :imagem WHERE Id_utilizador = :Id_utilizador AND dificuldade = :escolaridadeTemporaria';
         $stmt = $conexao->runQuery($sql);    
         $stmt->bindParam(':Id_utilizador', $Id_utilizador, PDO::PARAM_INT);
-        $stmt->bindParam(':escolaridadeTemporaria', $temporario);
+        $stmt->bindParam(':escolaridadeTemporaria', $tipoTemporario);
         $stmt->bindParam(':nomeQuizz', $nomeQuizz);
         $stmt->bindParam(':DataCriacao', $data);
         $stmt->bindParam(':escolariedade', $escolariedade);

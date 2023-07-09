@@ -2,6 +2,7 @@ $(document).ready(function(){
 
     if(document.getElementById("menuCriarQuestao").style.display == "inline"){
         const Id_utilizador = localStorage.getItem("Id_utilizador");
+        const tipoTemporario = "temporario";
 
         //Verificar se é a primeira questão
         $.ajax({
@@ -9,7 +10,8 @@ $(document).ready(function(){
             url: "../API/verificarJaCriouQuizzTempApi.php",
             data:{
                 accao:"verificarExistenciaQuizz",
-                Id_utilizador:Id_utilizador
+                Id_utilizador:Id_utilizador,
+                tipoTemporario:tipoTemporario
             },
             cache: false,
             dataType: 'json',

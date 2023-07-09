@@ -22,7 +22,7 @@ $(document).ready(function(){
    
     // obter o Tipo de questão e com isso determinar o formato da página
     const Id_questao = getIdquestaoCookie();
-    const Id_utilizador = localStorage.getItem("Id_utilizador");
+    const Id_utilizador = localStorage.getItem("Id_utilizadorAEditarQuizzAdmin");
 
     function getIdquestaoCookie() {
         let cookie = {};
@@ -149,7 +149,7 @@ $(document).ready(function(){
                 dataType: 'json',
                 success: function(resposta) {
                     if(resposta == 'sucesso'){
-                        location.href = "editarDadosQuizz.php";
+                        location.href = "editarDadosQuizzAdmin.php";
                     }
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
@@ -203,7 +203,7 @@ $(document).ready(function(){
     $("#menuAdicionarQuestao").click(function() {
         var imagem= document.getElementById("imagemQuestao").src;
         caminhoDiretorio= imagem.substr(0, imagem.lastIndexOf("/"));
-        const tipoTemporario= "temporario";
+        const tipoTemporario= "temporarioAdmin";
 
         $.ajax({
             type:"POST",
@@ -220,7 +220,7 @@ $(document).ready(function(){
             dataType: 'json',
             success: function(resposta) {
                 if(resposta == 'dadosEliminadosComSucesso'){
-                    location.href="editarDadosQuizz.php";
+                    location.href="editarDadosQuizzAdmin.php";
                 }
                 if(resposta == 'quizzNaoExiste'){
                     location.href="index.php";
@@ -268,7 +268,7 @@ $(document).ready(function(){
         var imagem= document.getElementById("imagemQuestao").src;
         caminhoDiretorio= imagem.substr(0, imagem.lastIndexOf("/"));
         var questao= document.getElementById("digitarQuestao").innerHTML;
-        const tipoTemporario= "temporario";
+        const tipoTemporario= "temporarioAdmin";
 
             $.ajax({
                 type:"POST",
@@ -298,11 +298,11 @@ $(document).ready(function(){
                         toastr.warning('Por favor preencha todos os campos de resposta ou elimine os não desejáveis', 'Woops!!!');
                     }
                     if(resposta == 'dadosGuardadosComSucesso'){
-                        location.href="editarDadosQuizz.php";
+                        location.href="editarDadosQuizzAdmin.php";
                     }
                     
                     if(resposta == 'dadosGuardadosComSucesso'){
-                        location.href="editarDadosQuizz.php";
+                        location.href="editarDadosQuizzAdmin.php";
                     }
                     if(resposta == 'quizzNaoExiste'){
                         location.href="index.php";

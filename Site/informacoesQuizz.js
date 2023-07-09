@@ -112,9 +112,10 @@ $(document).ready(function(){
     
 });
 
-function verificarEdicaoQuizz(permissao){
+function verificarEdicaoQuizz(){
     
         const Id_utilizador = localStorage.getItem("Id_utilizador");
+        const tipoTemporario = "temporario";
 
         //Verificar se é a primeira questão
         $.ajax({
@@ -122,7 +123,8 @@ function verificarEdicaoQuizz(permissao){
             url: "../API/verificarJaCriouQuizzTempApi.php",
             data:{
                 accao:"verificarExistenciaQuizz",
-                Id_utilizador:Id_utilizador
+                Id_utilizador:Id_utilizador,
+                tipoTemporario:tipoTemporario
             },
             cache: false,
             dataType: 'json',
@@ -131,7 +133,7 @@ function verificarEdicaoQuizz(permissao){
                     toastr.warning('Já existe um quizz a ser editado, por favor acabe de o editar ou elimine-o!', 'Woops!!!');
                 }
                 if(resposta == 'naoExiste'){
-                    prepararQuizzParaEdicao(permissao);
+                    prepararQuizzParaEdicao();
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {
@@ -141,10 +143,10 @@ function verificarEdicaoQuizz(permissao){
 
 }
 
-function prepararQuizzParaEdicao(permissao){
+function prepararQuizzParaEdicao(){
     const Id_quizz= localStorage.getItem("Id_quizzAJogar");
 
-    if(permissao == "admin"){
+    if(localStorage.getItem("permissaoUtilizador") == "admin"){
 
         $.ajax({
             type:"POST",
@@ -156,7 +158,7 @@ function prepararQuizzParaEdicao(permissao){
             cache: false,
             dataType: 'json',
             success: function(resposta){
-                    window.location.href= "editarDadosQuizz.php";
+                    window.location.href= "editarDadosQuizzAdmin.php";
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 toastr.warning('Parece ter ocorrido um erro com a ligação á base de dados!', 'Woops!!!');

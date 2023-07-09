@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
-    const Id_utilizador= localStorage.getItem("Id_utilizador");
-    const tipoTemporario= "temporario";
+    const Id_utilizador= localStorage.getItem("Id_utilizadorAEditarQuizzAdmin");
+    const tipoTemporario= "temporarioAdmin";
     
     //localStorage que vai servir para guardar o caminho da imagem
     //O mesmo é declarado aqui para resetar quando a página recarrega
@@ -77,7 +77,7 @@ $(document).ready(function(){
     $(document).on('submit','#guardarImgForm',function(e){
 
         e.preventDefault();
-        var Id_utilizador = localStorage.getItem("Id_utilizador");
+        var Id_utilizador = localStorage.getItem("Id_utilizadorAEditarQuizzAdmin");
         var formData = new FormData(this);
         formData.append('accao', "mostrarImg");
         formData.append('Id_utilizador', Id_utilizador);
@@ -105,7 +105,7 @@ $(document).ready(function(){
 
     $(document).on('click','#guardarImg',function(e){
 
-        var Id_utilizador = localStorage.getItem("Id_utilizador");
+        var Id_utilizador = localStorage.getItem("Id_utilizadorAEditarQuizzAdmin");
         imagem= document.getElementById("mostrarFicheiro").src;
 
         $.ajax({

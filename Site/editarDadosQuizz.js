@@ -29,13 +29,15 @@ $(document).ready(function(){
     $("#menuEliminarQuizz").click(function(){
         if (window.confirm("Tens a certesa que queres eliminar o quizz atual?")) {
              var Id_utilizador= localStorage.getItem("Id_utilizador");
+             const tipoTemporario= "temporario";
 
              $.ajax({
                  type:"POST",
                  url: "../API/eliminarQuizzApi.php",
                  data:{
                      accao:"eliminarQuizz",
-                     Id_utilizador:Id_utilizador
+                     Id_utilizador:Id_utilizador,
+                     tipoTemporario:tipoTemporario
                  },
                  cache: false,
                  dataType: 'json',
@@ -65,6 +67,7 @@ $(document).ready(function(){
         
         return;
     }
+    
     // Eliminar o cookie que indica o tipo de questao a ser criada
     var hoje = new Date();
     hoje.setMonth( hoje.getMonth() - 1 );

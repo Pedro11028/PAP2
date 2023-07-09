@@ -4,7 +4,7 @@ require 'Domain/Quizz.php';
 switch ($_POST['accao'])
 {
     case 'inserirDados':
-        inserirDados($_POST['Id_utilizador'],$_POST['questao'],$_POST['imagem'],$_POST['caminhoDiretorio'],$_POST['tipoQuestao'],$_POST['dadosRespostas'],$_POST['respostasCorretas'], $_POST['mostrarRespostaCorreta'], $_POST['mostrarPercentagemEscolhas']);
+        inserirDados($_POST['Id_utilizador'],$_POST['questao'],$_POST['imagem'],$_POST['caminhoDiretorio'],$_POST['tipoQuestao'],$_POST['dadosRespostas'],$_POST['respostasCorretas'], $_POST['mostrarRespostaCorreta'], $_POST['mostrarPercentagemEscolhas'], $_POST['tipoTemporario']);
     break;
     default:
         header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
@@ -12,11 +12,11 @@ switch ($_POST['accao'])
         break;
 }
 
-function inserirDados($Id_utilizador,$questao,$imagem,$caminhoDiretorio,$tipoQuestao,$dadosRespostas,$respostasCorretas, $mostrarRespostaCorreta, $mostrarPercentagemEscolhas){
+function inserirDados($Id_utilizador,$questao,$imagem,$caminhoDiretorio,$tipoQuestao,$dadosRespostas,$respostasCorretas, $mostrarRespostaCorreta, $mostrarPercentagemEscolhas, $tipoTemporario){
     try {
         // Do your stuff  
         $Quizz = new Quizz();
-        $inserirDados = $Quizz-> InserirDados($Id_utilizador,$questao,$imagem,$caminhoDiretorio,$tipoQuestao,$dadosRespostas,$respostasCorretas, $mostrarRespostaCorreta, $mostrarPercentagemEscolhas);      
+        $inserirDados = $Quizz-> InserirDados($Id_utilizador,$questao,$imagem,$caminhoDiretorio,$tipoQuestao,$dadosRespostas,$respostasCorretas, $mostrarRespostaCorreta, $mostrarPercentagemEscolhas, $tipoTemporario);      
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok', true, 200);
         echo json_encode($inserirDados);
         return;

@@ -15,10 +15,10 @@ $(document).ready(function(){
 
     document.getElementById('menuCancelarQuestao').innerHTML = "<i class='fa-solid fa-outdent'></i> Cancelar";
 
-    const Id_utilizador = localStorage.getItem("Id_utilizador");
-    const tipoTemporario = "temporario";
+    const Id_utilizador = localStorage.getItem("Id_utilizadorAEditarQuizzAdmin");
+    const tipoTemporario = "temporarioAdmin";
 
-    //Voltar ao Inicio do site mas elimininando a imagem temporária caso exista
+    //Voltar ao escolherQuestao mas elimininando a imagem temporária caso exista
     $(document).on('click','#menuCancelarQuestao',function(e){
         var caminhoImagem = document.getElementById("imagemQuestao").src;
         caminhoDiretorio= caminhoImagem.substr(0, caminhoImagem.lastIndexOf("/"));
@@ -36,7 +36,7 @@ $(document).ready(function(){
             success: function(resposta) {
                 if(resposta == 'sucesso'){
                     eliminarCookieDoTipoQuestao();
-                        location.href= "escolherTipoQuestao.html";
+                        location.href= "escolherTipoQuestaoAdmin.html";
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {
@@ -51,7 +51,7 @@ $(document).ready(function(){
         var hoje = new Date();
         hoje.setMonth( hoje.getMonth() - 1 );
         
-        document.cookie = "escolherTipoQuestao= "+document.cookie.indexOf('escolherTipoQuestao')
+        document.cookie = "escolherTipoQuestaoAdmin= "+document.cookie.indexOf('escolherTipoQuestaoAdmin')
                          +';expires='+hoje.toUTCString()
                          +"; secure=true"
                          +';path=/';
@@ -65,7 +65,7 @@ $(document).ready(function(){
         document.getElementById("selecionarResposta").remove();
     }else{
         if(tipoQuestao == null){
-            location.href="escolherTipoQuestao.html";
+            location.href="escolherTipoQuestaoAdmin.html";
         }else{
             document.getElementById("escreverResposta").remove();
         }
@@ -78,7 +78,7 @@ $(document).ready(function(){
             let [key,value] = separar.split('=');
             cookie[key.trim()] = value;
         })
-        return cookie['escolherTipoQuestao'];
+        return cookie['escolherTipoQuestaoAdmin'];
     }
 
 
@@ -156,8 +156,8 @@ $(document).ready(function(){
         caminhoDiretorio= imagem.substr(0, imagem.lastIndexOf("/"));
         var questao= document.getElementById("digitarQuestao").innerHTML;
 
-        mostrarRespostaCorreta= localStorage.getItem("mostrarRespostaCorreta");
-        mostrarPercentagemEscolhas= localStorage.getItem("mostrarPercentagemEscolhas");
+        mostrarRespostaCorreta= localStorage.getItem("mostrarRespostaCorretaAdmin");
+        mostrarPercentagemEscolhas= localStorage.getItem("mostrarRespostaCorretaAdmin");
 
         if(guardarDadosValido == true){
             $.ajax({
@@ -189,7 +189,7 @@ $(document).ready(function(){
                         toastr.warning('Por favor preencha todos os campos de resposta ou elimine os não desejáveis', 'Woops!!!');
                     }
                     if(resposta == 'dadosGuardadosComSucesso'){
-                        location.href="editarDadosQuizz.php";
+                        location.href="editarDadosQuizzAdmin.php";
                     }
                 },
                   error: function (xhr, ajaxOptions, thrownError) {

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Language Quizz- Guardar Quizz</title>
+
+    <link rel="stylesheet" type="text/css" href="registo.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+    <script src="https://kit.fontawesome.com/410e89720f.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<script>
+    if (document.cookie.indexOf('sessaoCookie') < -1 ) {
+        location.href="index.php";
+    }
+</script>
+
+<form id="formGuardarQuizz" class="formAlterarDados">
+
+    <br><br>
+    <center>
+        <h2>Guardar Quizz</h2>
+    </center>
+
+    <div class="input-info formContainer">
+        <div class="row h-100 rowEscreverDados" title="exemplo: Verbo To Be, tamanho máximo 40 letras">
+            Nome do quizz: <input id="nomeQuizz" class="inputGuardarQuizz" maxlength="40">
+        </div>
+
+        <div class="row h-100 rowEscreverDados" title="exemplo: Dia a dia, tamanho máximo 150 letras">
+            Descrição (Tema): <input id="TemaQuizz" class="inputGuardarQuizz" maxlength="150">
+        </div>
+
+        <div class="row h-100">
+            <div class="col-sm"></div>
+            <div class="col-sm dropdown">
+                Dificuldade: <button id="dropEscolariedade" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                    Escolher...
+                                    <span class="caret"></span>
+                               </button>
+
+                <ul class="dropdown-menu">
+                    <li><a class="elemento" onclick="alterarEscolariedade('Fácil')"href="#">Fácil</a></li>
+                    <li><a class="elemento" onclick="alterarEscolariedade('Médio')" href="#">Médio</a></li>
+                    <li><a class="elemento" onclick="alterarEscolariedade('Difícil')"href="#">Difícil</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="containerEscolherImagemQuizz">
+            <button id="abrirDivEscolherImagem" class="btn btn-primary" type="button" style="align-content: center;" onclick="openForm()">
+                Escolher Imagem (Opcional)
+            </button>
+        </div>
+
+        <div class="log-sign">
+            <div class="row h-100">
+                <a href="editarDadosQuizz.php">
+                    <button class="voltar" type="button" style="align-content: center;" maxlength="25">
+                        Voltar
+                    </button>
+                </a>
+
+                <!-- Tag <a> usada para ajustar o tamanho do botão Guardar igual ao Voltar -->
+                <a href="#">
+                    <button id="guardarDados" class="send" type="button" style="align-content: center;">
+                        Guardar
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div> 
+
+</form>  
+
+<div id="divEscolherImagemParaOQuizz">
+    <div class="outCloseForm" id="showBackground">
+        <div class='imagensPopUp wrapper bg-white mt-sm-5' id="showForm">
+          <div>
+          <form  method="post" enctype="multipart/form-data" id="guardarImgForm">
+              <img src="" id="changeImgPerfil" >
+              <input id="escolherImagem" type="file" name="file" class="custom newButton selecionarImg" accept="image/png, image/jpeg" onchange="document.getElementById('mostrarImg').click()">
+              <button id="mostrarImg" type="submit" style="float: right;">Mostrar imagem</button>
+          </form>
+          
+          </div>
+            <hr class="separarImagens">
+            <br>
+
+            <img id="mostrarFicheiro" src="">
+
+              <button id="guardarImg" type="button" style="float: right;" class='btn button border selecionarImgBtn'>Guardar</button>
+              <button style="float: right;" class='btn button border' onclick="closeForm()">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+
+<script src="guardarQuizzAdmin.js"></script>
+</body>
+</html>

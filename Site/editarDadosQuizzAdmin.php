@@ -21,10 +21,7 @@
 <body>
 
 <script>
-    
-    if(!localStorage.getItem("Id_utilizadorAEditarQuizzAdmin")){
-        window.location.href="index.php";
-    } 
+
 </script>
 
 <?php
@@ -36,6 +33,6 @@ include "menuFooter/menu.php";
 </div>
 
 
-<script src="editarDadosQuizz.js"></script>
+<script src="editarDadosQuizzAdmin.js"></script>
 </body>
 </html>
