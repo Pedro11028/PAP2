@@ -1,13 +1,13 @@
 <?php
-require 'Domain/Quizz.php';
+require 'Domain/utilizador.php';
 
 switch ($_POST['accao'])
 {
-    case 'prepararQuizz':
-        prepararQuizz($_POST['Id_quizz']);
+    case 'obterUtilizadores':
+        obterUtilizadores();
     break;
-    case 'prepararQuizzAdmin':
-        prepararQuizzAdmin($_POST['Id_quizz']);
+    case 'obterDadosUtilizador':
+        obterDadosUtilizador($_POST['Id_Utilizador']);
     break;
     default:
         header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
@@ -15,13 +15,13 @@ switch ($_POST['accao'])
         break;
 }
 
-function prepararQuizz($Id_quizz){
+function obterUtilizadores(){
     try {
-        // Do your stuff
-        $Quizz = new Quizz();
-        $obterResposta = $Quizz-> PrepararEdicaoQuizz($Id_quizz);
+        // Do your stuff  
+        $utilizador = new Utilizador();
+        $obterUtilizadores = $utilizador->ObterUtilizadores();      
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok', true, 200);
-        echo json_encode($obterResposta);
+        echo json_encode($obterUtilizadores);
         return;
     } catch (Exception $e) {
         header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
@@ -31,13 +31,13 @@ function prepararQuizz($Id_quizz){
 
 }
 
-function prepararQuizzAdmin($Id_quizz){
+function obterDadosUtilizador($Id_Utilizador){
     try {
-        // Do your stuff
-        $Quizz = new Quizz();
-        $obterResposta = $Quizz-> PrepararEdicaoQuizzAdmin($Id_quizz);
+        // Do your stuff  
+        $utilizador = new Utilizador();
+        $obterDadosUtilizador = $utilizador->ObterDadosUtilizador($Id_Utilizador);      
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok', true, 200);
-        echo json_encode($obterResposta);
+        echo json_encode($obterDadosUtilizador);
         return;
     } catch (Exception $e) {
         header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);

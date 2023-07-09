@@ -11,6 +11,7 @@
         <ul class="navbar-nav mr-auto">
             <form onsubmit="event.preventDefault()" id="menuBarraPesquisa" class="form-inline my-2 my-lg-0"> <input id="textoAPesquisar" class="form-control mr-sm-2" type="text" placeholder="Search"> <button id="pesquisar" class="btn btn-secondary my-2 my-sm-0" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button> </form>
 			<li id="menuCriarQuestao" class="nav-item"> <a id="linkCriarQuestao" class="nav-link" href="escolherTipoQuestao.html" data-abc="true">Criar Questão</a> </li>
+			<li id="painelAdmin" class="nav-item"> <a id="linkPermissao" class="nav-link" href="" data-abc="true"></a> </li>
 			<div id="dropdownUtilizador" class="dropdown show direita">
 				<a class="btn btn-secondary dropdown-toggle tamanhoDropDown" href="" role="button" id="nomeUtilizador" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					Pedr0siris

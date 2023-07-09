@@ -1,9 +1,10 @@
 $(document).ready(function(){
-    
 
+        
     if(localStorage.getItem("numeroQuestoesRespondidas") == localStorage.getItem("numeroQuestoes")){
-        location.href= "resultadosJogo.php";
+        window.location.href= "resultadosJogo.php";
     }
+
     console.log(localStorage.getItem("totalPontosAcumulados"));
 
     document.getElementById("menuBarraPesquisa").remove();
@@ -124,7 +125,7 @@ $(document).ready(function(){
 
 function confirmarEscolhaSelecionada(numeroQuestao){
     const respostasCorretasEIncorretas= JSON.parse(localStorage.getItem('respostasCorretasEIncorretas'));
-    
+
     if(respostasCorretasEIncorretas[numeroQuestao]['valorResposta'] == 'true'){
         document.getElementById("containerResposta"+numeroQuestao).style.transition= "background 1s";  
         document.getElementById("containerResposta"+numeroQuestao).style.backgroundColor= "green"; 
@@ -173,7 +174,7 @@ function confirmarEscolhaSelecionada(numeroQuestao){
 function confirmarEscolhaEscrita(){
     const respostasCorretasEIncorretas= JSON.parse(localStorage.getItem('respostasCorretasEIncorretas'));
     verificarResposta=0;
-    
+
     if(document.getElementById("digitarResposta1").value){
         for (let i = 0; i < respostasCorretasEIncorretas.length; i++) {
             if(respostasCorretasEIncorretas[i]['respostaQuizz'] == document.getElementById("digitarResposta1").value){

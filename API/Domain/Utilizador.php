@@ -301,4 +301,14 @@ class Utilizador {
             }
         }
     }
+
+    function ObterUtilizadores(){
+        $conexao = new Conexao();
+        
+        $stmt = $conexao->runQuery('SELECT Id_utilizador, nomeUnico, email FROM utilizadores WHERE permissao != :permissao');
+        $stmt->execute(array(':permissao' => "admin"));
+        $dadosUtilizador = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $dadosUtilizador;    
+    }
 }

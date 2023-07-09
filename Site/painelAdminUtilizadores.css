@@ -1,0 +1,17 @@
+#containerTabela{
+    margin-top: 50px;
+}
+
+.button{
+    background-color: #fff;
+    color: #0779e4;
+}
+
+.button:hover{
+    background-color: #0779e4;
+    color: #fff;
+}
+
+.btn-primary{
+    background-color: #0779e4;
+}

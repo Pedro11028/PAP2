@@ -1,5 +1,12 @@
 $(document).ready(function(){
-
+   
+    const permissao= localStorage.getItem("permissaoUtilizador");
+    
+    if(permissao == "admin"){
+        document.getElementById("linkPermissao").href= "painelAdminUtilizadores.php";
+        document.getElementById("linkPermissao").innerHTML= "Painel Admin";
+    }
+    
     $.ajax({
         type:"POST",
         url: "../API/obterQuizzesApi.php",

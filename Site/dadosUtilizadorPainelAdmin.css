@@ -1,0 +1,14 @@
+body{
+    width: 100%;
+}
+#containerTabela{
+    margin-top: 150px;
+    width: 600px;
+    padding: 10px;
+    border: 1px outset silver;
+}
+@media only screen and (max-width: 600px) {
+    nav{
+        width: 161%;
+    }
+}

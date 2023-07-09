@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Language Quizz- Editar Dados Quizz</title>
+    <title>Language Quizz- Editar Dados Quizz Admin</title>
     <meta charset="utf-8" http-equiv="pt-pt" >
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
@@ -19,6 +19,13 @@
 
 </head>
 <body>
+
+<script>
+    
+    if(!localStorage.getItem("Id_utilizadorAEditarQuizzAdmin")){
+        window.location.href="index.php";
+    } 
+</script>
 
 <?php
 include "menuFooter/menu.php";

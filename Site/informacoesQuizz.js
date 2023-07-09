@@ -26,11 +26,20 @@ $(document).ready(function(){
         const dadosCriadorQuizz= dadosQuizzEAvaliacoes['dadosCriadorQuizz'];
         const dadosQuizz= dadosQuizzEAvaliacoes['dadosQuizz'];
         const dadosNumMediaAvaliacoes= dadosQuizzEAvaliacoes['dadosNumMediaAvaliacoes'];
-              
+        localStorage.setItem("Id_criadorQuizz", dadosCriadorQuizz['Id_utilizador'] );      
+        
         if (Id_utilizador != parseInt(dadosCriadorQuizz['Id_utilizador'])) {
             document.getElementById('editarQuizz').remove();
         }else{
             document.getElementById('editarQuizz').innerHTML= "<b>Editar</b>";
+        }
+
+
+        if(localStorage.getItem("permissaoUtilizador") != "admin"){
+            document.getElementById('editarComoAdmin').remove();
+        }else{
+            document.getElementById('editarComoAdmin').innerHTML= "<b>Editar como Administrador</b>";
+           
         }
 
         if (dadosNumMediaAvaliacoes['mediaAvaliacoes'] == null) {
@@ -103,7 +112,7 @@ $(document).ready(function(){
     
 });
 
-function verificarEdicaoQuizz(){
+function verificarEdicaoQuizz(permissao){
     
         const Id_utilizador = localStorage.getItem("Id_utilizador");
 
@@ -121,9 +130,8 @@ function verificarEdicaoQuizz(){
                 if(resposta == 'existe'){
                     toastr.warning('Já existe um quizz a ser editado, por favor acabe de o editar ou elimine-o!', 'Woops!!!');
                 }
-
                 if(resposta == 'naoExiste'){
-                    prepararQuizzParaEdicao();
+                    prepararQuizzParaEdicao(permissao);
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {
@@ -133,25 +141,48 @@ function verificarEdicaoQuizz(){
 
 }
 
-function prepararQuizzParaEdicao(){
+function prepararQuizzParaEdicao(permissao){
     const Id_quizz= localStorage.getItem("Id_quizzAJogar");
 
-    $.ajax({
-        type:"POST",
-        url: "../API/prepararEdicaoQuizzApi.php",
-        data:{
-            accao:"prepararQuizz",
-            Id_quizz:Id_quizz
-        },
-        cache: false,
-        dataType: 'json',
-        success: function(resposta){
-                window.location.href= "editarDadosQuizz.php";
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            toastr.warning('Parece ter ocorrido um erro com a ligação á base de dados!', 'Woops!!!');
-        }
-    });
+    if(permissao == "admin"){
+
+        $.ajax({
+            type:"POST",
+            url: "../API/prepararEdicaoQuizzApi.php",
+            data:{
+                accao:"prepararQuizzAdmin",
+                Id_quizz:Id_quizz
+            },
+            cache: false,
+            dataType: 'json',
+            success: function(resposta){
+                    window.location.href= "editarDadosQuizz.php";
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                toastr.warning('Parece ter ocorrido um erro com a ligação á base de dados!', 'Woops!!!');
+            }
+        });
+
+        localStorage.setItem("Id_utilizadorAEditarQuizzAdmin", localStorage.getItem("Id_criadorQuizz"));
+        window.location.href="";
+    }else{
+        $.ajax({
+            type:"POST",
+            url: "../API/prepararEdicaoQuizzApi.php",
+            data:{
+                accao:"prepararQuizz",
+                Id_quizz:Id_quizz
+            },
+            cache: false,
+            dataType: 'json',
+            success: function(resposta){
+                    window.location.href= "editarDadosQuizz.php";
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                toastr.warning('Parece ter ocorrido um erro com a ligação á base de dados!', 'Woops!!!');
+            }
+        });
+    }
     return false;
 }
 

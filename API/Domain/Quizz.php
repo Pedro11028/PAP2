@@ -767,21 +767,21 @@ class Quizz {
         $conexao = new Conexao();
         
 
-        $stmt = $conexao->runQuery("SELECT  quizzes.Id_quizz, nomeQuizz, imagem, dificuldade, COUNT(avaliacao.Id_avaliacao) as numAvaliacoes, ROUND(AVG(avaliacao.nota),2) as mediaAvaliacoes FROM quizzes INNER JOIN avaliacao ON (quizzes.Id_quizz= avaliacao.Id_quizz) WHERE dificuldade != :dificuldade GROUP BY  quizzes.Id_quizz
+        $stmt = $conexao->runQuery("SELECT  quizzes.Id_quizz, nomeQuizz, imagem, dificuldade, COUNT(avaliacao.Id_avaliacao) as numAvaliacoes, ROUND(AVG(avaliacao.nota),2) as mediaAvaliacoes FROM quizzes INNER JOIN avaliacao ON (quizzes.Id_quizz= avaliacao.Id_quizz) WHERE dificuldade != :dificuldade AND  dificuldade != :temporarioAdmin GROUP BY  quizzes.Id_quizz
         ORDER BY COUNT(avaliacao.Id_avaliacao) DESC");
-        $stmt->execute(array(':dificuldade' => "temporario"));
+        $stmt->execute(array(':dificuldade' => "temporario", ':temporarioAdmin' => "temporarioAdmin"));
         $dataAvaliacoesQuizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);    //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50"}
 
         
-        $stmt = $conexao->runQuery("SELECT  quizzes.Id_quizz, nomeQuizz, imagem, dificuldade, COUNT(avaliacao.Id_avaliacao) as numAvaliacoes, ROUND(AVG(avaliacao.nota),2) as mediaAvaliacoes FROM quizzes INNER JOIN avaliacao ON (quizzes.Id_quizz= avaliacao.Id_quizz) WHERE dificuldade != :dificuldade GROUP BY  quizzes.Id_quizz
+        $stmt = $conexao->runQuery("SELECT  quizzes.Id_quizz, nomeQuizz, imagem, dificuldade, COUNT(avaliacao.Id_avaliacao) as numAvaliacoes, ROUND(AVG(avaliacao.nota),2) as mediaAvaliacoes FROM quizzes INNER JOIN avaliacao ON (quizzes.Id_quizz= avaliacao.Id_quizz) WHERE dificuldade != :dificuldade AND  dificuldade != :temporarioAdmin GROUP BY  quizzes.Id_quizz
         ORDER BY ROUND(AVG(avaliacao.nota),2) DESC");
-        $stmt->execute(array(':dificuldade' => "temporario"));
+        $stmt->execute(array(':dificuldade' => "temporario", ':temporarioAdmin' => "temporarioAdmin"));
         $dataMediaAvaliacoesQuizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
         //Obter dados através da data de criação do maior para o menor
-        $stmt = $conexao->runQuery("SELECT Id_quizz, Id_utilizador, DataCriacao, dificuldade, nomeQuizz, imagem  FROM quizzes WHERE dificuldade != :dificuldade ORDER BY DataCriacao DESC LIMIT 5");
-        $stmt->execute(array(':dificuldade' => "temporario"));
+        $stmt = $conexao->runQuery("SELECT Id_quizz, Id_utilizador, DataCriacao, dificuldade, nomeQuizz, imagem  FROM quizzes WHERE dificuldade != :dificuldade AND  dificuldade != :temporarioAdmin ORDER BY DataCriacao DESC LIMIT 5");
+        $stmt->execute(array(':dificuldade' => "temporario", ':temporarioAdmin' => "temporarioAdmin"));
         $dataQuizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         $dataCriacaoQuizzDescendente = array();
@@ -863,6 +863,20 @@ class Quizz {
         return 'editadoComSucesso';
     }
 
+    function PrepararEdicaoQuizzAdmin($Id_quizz){
+        $conexao = new Conexao();
+        $temporarioAdmin = 'temporarioAdmin';
+
+        $sql = 'UPDATE quizzes SET dificuldade = :dificuldade WHERE Id_quizz = :Id_quizz';
+        $stmt = $conexao->runQuery($sql);
+        $stmt->bindParam(':Id_quizz', $Id_quizz, PDO::PARAM_INT);
+        $stmt->bindParam(':dificuldade', $temporarioAdmin);
+        $execute = $stmt->execute();
+        
+        return 'editadoComSucesso';
+    }
+
+
     function ObterDadosJogoQuizz($Id_quizz){
         $conexao = new Conexao();
 
@@ -882,8 +896,8 @@ class Quizz {
     function PesquisarQuizzes($textoAPesquisar){
         $conexao = new Conexao();
 
-        $stmt = $conexao->runQuery("SELECT Id_quizz, Id_utilizador, DataCriacao, dificuldade, nomeQuizz, imagem  FROM quizzes WHERE dificuldade != :dificuldade AND nomeQuizz LIKE :nomeQuizz");
-        $stmt->execute(array(':dificuldade' => "temporario", ':nomeQuizz' => "%".$textoAPesquisar."%"));
+        $stmt = $conexao->runQuery("SELECT Id_quizz, Id_utilizador, DataCriacao, dificuldade, nomeQuizz, imagem  FROM quizzes WHERE dificuldade != :dificuldade AND  dificuldade != :temporarioAdmin AND nomeQuizz LIKE :nomeQuizz");
+        $stmt->execute(array(':dificuldade' => "temporario", ':temporarioAdmin' => "temporarioAdmin", ':nomeQuizz' => "%".$textoAPesquisar."%"));
         $dataQuizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         $dataCriacaoQuizzDescendente = array();

@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
     if (document.cookie.indexOf('nomeCookie') > -1 ) {
-        document.getElementById('nomeUtilizador').innerHTML = getCookie();
+        document.getElementById('nomeUtilizador').innerHTML = getNomeCookie();
         document.getElementById("login").remove();
         document.getElementById("registar").remove();
         document.getElementById("menuCriarQuestao").style.display= "inline";
@@ -15,7 +15,7 @@ $(document).ready(function(){
     // document.getElementById("menuGuardarInfoQuizz").style.display= "none";
     // document.getElementById("menuAdicionarQuestao").style.display= "none";
     
-    function getCookie() {
+    function getNomeCookie() {
         let cookie = {};
         document.cookie.split(';').forEach(function(separar) {
             let [key,value] = separar.split('=');
@@ -34,4 +34,5 @@ $(document).ready(function(){
 
         return false;   
     });
+
 });

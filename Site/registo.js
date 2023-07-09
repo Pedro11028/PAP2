@@ -50,10 +50,11 @@ $(document).ready(function() {
     hoje.setTime(expirarCookie);
   
     document.cookie = "sessaoCookie= true"+';expires='+hoje.toUTCString()+"; secure=true"+';path=/';
-    document.cookie = "permissaoCookie= "+resposta['permissao']+';expires='+hoje.toUTCString()+"; secure"+';path=/';
     document.cookie = "nomeCookie= "+resposta['nomeUnico']+';expires='+hoje.toUTCString()+"; secure"+';path=/';
   }
   
   function criarlocalStorage(resposta) { 
     localStorage.setItem("Id_utilizador", resposta['Id_utilizador']);
+  localStorage.setItem("permissaoUtilizador", resposta['permissao']);
+
   }

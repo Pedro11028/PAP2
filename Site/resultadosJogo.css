@@ -1,0 +1,61 @@
+body{
+    font-family: Arial;
+    font-size: inherit;
+    background-color: rgb(128, 128, 128);
+  }
+
+  .posicionarDiv{
+    background-color: white;
+    margin-top:100px;
+    max-width: 40%;
+    min-width: 555px;
+    height: 550px;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+  }
+
+#resultadoProgresso{
+    font-size: 15px;
+}
+
+#imgPerfil{
+    border: #CCF solid 4px;
+    padding: 1px;
+    border-radius: 70%;
+    border-top-color: #0000FF;
+    border-left-color: #0000FF;
+    width: 100px;
+    height: 100px;
+    margin-top: 10px;
+}
+
+#alinharImgENomeCriador{
+    width: 100px;
+}
+
+.button{
+    background-color: #ffffff;
+    color: #0779e4;
+}
+
+.button:hover{
+    background-color: #0779e4;
+    color: #fff;
+}
+
+.btn-primary{
+    background-color: #0779e4;
+}
+
+#organizarAvaliacao{
+    margin-top: 10px;
+}
+
+#submeterAvaliacao{
+    position: relative;
+    top: -103px;
+}
+
+#organizarAvaliacao{
+    width: 524px;
+}
