@@ -189,6 +189,10 @@ body{
         border: 3px outset black;
     }
     
+    .row{
+        height: 100%;
+    }
+
     #nomeCriador{
         font-size: 220%;
     }
@@ -199,6 +203,7 @@ body{
 
     .mostrarTextoAvaliacao{
         max-height: 200px;
+        height: 100%;
     }
 
     .button{

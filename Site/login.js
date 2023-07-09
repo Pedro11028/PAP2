@@ -26,6 +26,9 @@
                 criarlocalStorage(resposta);
                 location.href="index.php";
             }
+          },
+          error: function (xhr, ajaxOptions, thrownError) {
+              toastr.warning('Parece ter ocorrido um erro com a ligação á base de dados!', 'Woops!!!');
           }
       });
       return false;

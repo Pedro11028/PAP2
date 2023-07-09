@@ -113,34 +113,34 @@ $(document).ready(function(){
 });
 
 function verificarEdicaoQuizz(){
-    
-        const Id_utilizador = localStorage.getItem("Id_utilizador");
-        const tipoTemporario = "temporario";
+        
+        
+            const Id_utilizador = localStorage.getItem("Id_utilizador");
+            const tipoTemporario = "temporario";
 
-        //Verificar se é a primeira questão
-        $.ajax({
-            type:"POST",
-            url: "../API/verificarJaCriouQuizzTempApi.php",
-            data:{
-                accao:"verificarExistenciaQuizz",
-                Id_utilizador:Id_utilizador,
-                tipoTemporario:tipoTemporario
-            },
-            cache: false,
-            dataType: 'json',
-            success: function(resposta) {
-                if(resposta == 'existe'){
-                    toastr.warning('Já existe um quizz a ser editado, por favor acabe de o editar ou elimine-o!', 'Woops!!!');
+            //Verificar se é a primeira questão
+            $.ajax({
+                type:"POST",
+                url: "../API/verificarJaCriouQuizzTempApi.php",
+                data:{
+                    accao:"verificarExistenciaQuizz",
+                    Id_utilizador:Id_utilizador,
+                    tipoTemporario:tipoTemporario
+                },
+                cache: false,
+                dataType: 'json',
+                success: function(resposta) {
+                    if(resposta == 'existe'){
+                        toastr.warning('Já existe um quizz a ser editado, por favor acabe de o editar ou elimine-o!', 'Woops!!!');
+                    }
+                    if(resposta == 'naoExiste'){
+                        prepararQuizzParaEdicao();
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    toastr.warning('Parece ter ocorrido um erro com a ligação á base de dados!', 'Woops!!!');
                 }
-                if(resposta == 'naoExiste'){
-                    prepararQuizzParaEdicao();
-                }
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                toastr.warning('Parece ter ocorrido um erro com a ligação á base de dados!', 'Woops!!!');
-            }
-        });
-
+            });
 }
 
 function prepararQuizzParaEdicao(){
@@ -189,31 +189,38 @@ function prepararQuizzParaEdicao(){
 }
 
 function iniciarJogoQuizz(){
-    const Id_quizz= localStorage.getItem("Id_quizzAJogar");
 
-    $.ajax({
-        type:"POST",
-        url: "../API/obterDadosJogoQuizzApi.php",
-        data:{
-            accao:"obterDados",
-            Id_quizz:Id_quizz
-        },
-        cache: false,
-        dataType: 'json',
-        success: function(resposta){
-            const pontosPorQuestao = 100/parseInt(resposta['numeroQuestoes']);
+    if(document.cookie.indexOf('sessaoCookie') > -1){
+        const Id_quizz= localStorage.getItem("Id_quizzAJogar");
 
-            localStorage.setItem("dadosQuestoesDoQuizz", JSON.stringify(resposta['dadosQuestoes']));
-            localStorage.setItem("numeroQuestoes", resposta['numeroQuestoes']);
-            localStorage.setItem("numeroQuestoesRespondidas", 0);
-            localStorage.setItem("totalPontosAcumulados", 0);
-            localStorage.setItem("pontosPorQuestao", pontosPorQuestao);
+        console.log("sdsdf");
 
-            window.location.href="jogarQuizz.php";
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            toastr.warning('Parece ter ocorrido um erro com a ligação á base de dados!', 'Woops!!!');
-        }
-    });
+        $.ajax({
+            type:"POST",
+            url: "../API/obterDadosJogoQuizzApi.php",
+            data:{
+                accao:"obterDados",
+                Id_quizz:Id_quizz
+            },
+            cache: false,
+            dataType: 'json',
+            success: function(resposta){
+                const pontosPorQuestao = 100/parseInt(resposta['numeroQuestoes']);
+
+                localStorage.setItem("dadosQuestoesDoQuizz", JSON.stringify(resposta['dadosQuestoes']));
+                localStorage.setItem("numeroQuestoes", resposta['numeroQuestoes']);
+                localStorage.setItem("numeroQuestoesRespondidas", 0);
+                localStorage.setItem("totalPontosAcumulados", 0);
+                localStorage.setItem("pontosPorQuestao", pontosPorQuestao);
+
+                window.location.href="jogarQuizz.php";
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                toastr.warning('Parece ter ocorrido um erro com a ligação á base de dados!', 'Woops!!!');
+            }
+        });
+    }else{
+        toastr.warning('Por favor entre numa conta para jogar o Quizz!', 'Atenção!!!');
+    }
     return false;
 }

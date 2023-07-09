@@ -19,12 +19,6 @@
 include "menuFooter/menu.php";
 ?>
 
-<script>
-    if (document.cookie.indexOf('sessaoCookie') < -1 ) {
-        location.href="index.php";
-    }
-</script>
-
 <div class="posicionarDiv overflow-auto">
 	<h2>Quizzes com maior média de avaliação</h2>
 	<div id="melhoresAvaliados" class="testimonial-group overflow-auto">
@@ -51,14 +45,14 @@ include "menuFooter/menu.php";
 </div>
 
 
-<div class="d-flex justify-content-center container mt-5">
+<div class="d-flex container mt-5 fixed-bottom">
         <div class="row">
             <div class="col-md-10">
-                <div class="d-flex flex-row justify-content-between align-items-center card cookie p-3">
+                <div class="d-flex flex-row justify-content-between align-items-center card cookie p-3 border border-primary">
                     <div class="d-flex flex-row align-items-center"><img src="https://i.imgur.com/Tl8ZBUe.png" width="40">
-                        <div class="ml-2 mr-2"><span>We use third party cookies to personalize content, ads and&nbsp; analyze site traffic.<br></span><a class="learn-more" href="#">Learn more<i class="fa fa-angle-right ml-2"></i></a></div>
+                        <div class="ml-2 mr-2"><span>Nós usamos cookies para permitir com que o site funcione corretamente.<br></span></div>
                     </div>
-                    <div><button class="btn btn-dark" type="button">Okay</button></div>
+                    <div><button class="btn btn-dark" type="button">Ok</button></div>
                 </div>
             </div>
         </div>

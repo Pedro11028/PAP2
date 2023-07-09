@@ -23,7 +23,7 @@
 			</div>
 
 				<li id="registar" class="nav-item active"> <a class="nav-link" href="registo.html" data-abc="true">Registar</a> </li>
-				<li id="login" class="nav-item active"> <a class="nav-link" href="login.html" data-abc="true">Login</a> </li>
+				<li id="login" class="nav-item active"> <a class="nav-link" href="login.html" data-abc="true">Entrar</a> </li>
 
 				<li  class="nav-item">
 					<button id="menuCancelarQuestao" class="btn btn-secondary my-2 my-sm-0 esquerda" type="submit"><i class="fa-solid fa-outdent"></i> Cancelar</button>

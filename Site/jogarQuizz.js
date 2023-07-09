@@ -5,7 +5,6 @@ $(document).ready(function(){
         window.location.href= "resultadosJogo.php";
     }
 
-    console.log(localStorage.getItem("totalPontosAcumulados"));
 
     document.getElementById("menuBarraPesquisa").remove();
     document.getElementById("dropdownUtilizador").remove();
@@ -42,7 +41,6 @@ $(document).ready(function(){
         cache: false,
         dataType: 'json',
         success: function(resposta) {
-            console.log(resposta);
             tipoQuestaoENome(resposta);
             carregarImagemQuizz(resposta['imagemQuestao']);
             criarTipoCookie(resposta['dadosQuestao']['tipoQuestao']);
@@ -145,7 +143,6 @@ function confirmarEscolhaSelecionada(numeroQuestao){
             const questaoAtual= localStorage.getItem("numeroQuestoesRespondidas");
             const novaQuestao = parseInt(questaoAtual)+1;
             localStorage.setItem("numeroQuestoesRespondidas", novaQuestao);
-            console.log(localStorage.getItem("numeroQuestoesRespondidas"));
             window.location.reload()
         }, 1100);
     
@@ -165,7 +162,6 @@ function confirmarEscolhaSelecionada(numeroQuestao){
             const questaoAtual= localStorage.getItem("numeroQuestoesRespondidas");
             const novaQuestao = parseInt(questaoAtual)+1;
             localStorage.setItem("numeroQuestoesRespondidas", novaQuestao);
-            console.log(localStorage.getItem("numeroQuestoesRespondidas"));
             window.location.reload()
         }, 1100);
     }

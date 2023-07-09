@@ -3,6 +3,11 @@ body{
   font-size: inherit;
 }
 
+.fixed-bottom{
+  left: -780px;
+  bottom: 20px;
+}
+
 .containerInformacoesQuizz {
 display: flex;
 flex-wrap: wrap;
