@@ -39,6 +39,10 @@ button{
     margin-bottom: 15px;
 }
 
+#showhide1{
+    margin-right: 5px;
+}
+
 /* Formato do input do tipo email e caon*/
 input,input[type="email"]  {
     border: 1px solid #828999;

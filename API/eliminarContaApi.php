@@ -27,5 +27,4 @@ function eliminar($password,$confirmarPass,$Id_utilizador){
     }
 
 }
-
 ?>

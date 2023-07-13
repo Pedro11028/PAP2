@@ -49,20 +49,3 @@
 .footer-distributed .footer-links .link-1:before {
     content: none;
 }
-
-@media screen and (max-width:1000px) {
-
-
-    /* Esta parte do código serve para esconder a mudança de cor do link quando clica-mos no mesmo */
-    .footer-distributed p.footer-links a {
-        font: normal 150% sans-serif;
-    }
-
-
-    .footer-distributed .footer-center p {
-        font-size: 150% !important;
-    }
-
-
-
-}

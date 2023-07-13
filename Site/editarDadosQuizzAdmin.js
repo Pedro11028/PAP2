@@ -11,12 +11,23 @@ $(document).ready(function(){
     
 
     document.getElementById("menuAdicionarQuestao").style.display="inline";
-    document.getElementById("menuAdicionarQuestao").style.position= "absolute";
-    document.getElementById("menuAdicionarQuestao").style.right= "190px";
-
     
     document.getElementById("menuEliminarQuizz").style.display="inline";
     
+    function tamanhoDaJanela(media) {
+        if (media.matches) {
+            document.getElementById("menuAdicionarQuestao").style.position= "relative";
+            document.getElementById("menuAdicionarQuestao").style.right= "0px";
+
+        } else {
+            document.getElementById("menuAdicionarQuestao").style.position= "absolute";
+            document.getElementById("menuAdicionarQuestao").style.right= "190px";
+        }
+    }
+
+    const media = window.matchMedia("(max-width: 700px)");
+    tamanhoDaJanela(media);
+    media.addListener(tamanhoDaJanela);
 
     $("#menuGuardarQuestao").click(function(){
         location.href="guardarQuizzAdmin.html";

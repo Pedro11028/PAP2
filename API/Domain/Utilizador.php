@@ -69,7 +69,6 @@ class Utilizador {
     }
 
     function Eliminar($password,$confirmarPass,$Id_utilizador){
-
         $conexao = new Conexao();
         
         $stmt = $conexao->runQuery('SELECT * FROM utilizadores WHERE Id_utilizador = :Id_utilizador');
@@ -78,28 +77,96 @@ class Utilizador {
 
         if ($data == false) {
             return "nulo";
-        }else{
-            if($password == $confirmarPass){
-                if ($data['password'] == $password) {
-                    try{
-                        $sql = 'DELETE FROM utilizadores WHERE Id_utilizador = :Id_utilizador';
-                        $stmt= $conexao->runQuery($sql);
-                        $stmt->bindParam(':Id_utilizador', $Id_utilizador);
-                        $stmt->execute();
-
-                        return "true";
-                    }catch(PDOExtrueception $e){
-                        return "erroSemResposta";
-                    }
-
-
-                }else{
-                    return "passwordNaoExiste";
-                }
-            }else{
-                return "passwordsNaoCorrespondem";
-            }
         }
+        if($password != $confirmarPass){
+            return "passwordsNaoCorrespondem";
+        }
+        if ($data['password'] != $password) {
+            return "passwordNaoExiste";
+        }
+
+        $stmt = $conexao->runQuery('SELECT `Id_quizz` FROM quizzes WHERE Id_utilizador = :Id_utilizador');
+        $stmt->execute(array(':Id_utilizador' => $Id_utilizador));
+        $dataQuizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($dataQuizzes as $dadosDataQuizzes){
+
+        
+            $stmt = $conexao->runQuery('SELECT Id_questao, nomeQuestao, imagem, tipoQuestao FROM questoes WHERE Id_quizz = :Id_quizz');
+            $stmt->execute(array(':Id_quizz' => $dadosDataQuizzes['Id_quizz']));
+            $dataQuestoes = $stmt->fetchAll(PDO::FETCH_ASSOC); // Guarda um array dentro de um array por exemplo:  0 => Id_questao => 9
+
+            $caminhoImagensQuestoes= '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dadosDataQuizzes['Id_quizz'];
+            $existeFicheiros= true;
+            $i= 1;
+
+            foreach ($dataQuestoes as $dadosDataQuestoes) {
+                if (!empty($dadosDataQuestoes['imagem'])) {
+                    unlink($caminhoImagensQuestoes.'/QuestaoComImagem'.$i.'/'.$dadosDataQuestoes['imagem']);
+                    rmdir($caminhoImagensQuestoes.'/QuestaoComImagem'.$i);
+                    $i+=1;
+                }else{
+                    $existeFicheiros= false;
+                }
+                
+                $sql = 'DELETE FROM respostas WHERE Id_questao = :Id_questao';
+                $stmt= $conexao->runQuery($sql);
+                $stmt->bindParam(':Id_questao', $dadosDataQuestoes['Id_questao']);
+                $stmt->execute();
+            }
+            
+
+            $limparImagensQuizz= glob('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dadosDataQuizzes['Id_quizz'].'/ImagemQuizz/*');
+            $limparImagensQuizzTemporarias= glob('../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dadosDataQuizzes['Id_quizz'].'/ImagemQuizzTemporaria/*');
+
+            foreach ($limparImagensQuizz as $localAtual) {
+                unlink($localAtual);
+            }
+            foreach ($limparImagensQuizzTemporarias as $localAtual) {
+                unlink($localAtual);
+            }
+
+            $limparImagensQuizz= '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dadosDataQuizzes['Id_quizz'].'/ImagemQuizz';
+            $limparImagensQuizzTemporarias= '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dadosDataQuizzes['Id_quizz'].'/ImagemQuizzTemporaria';
+
+            if (file_exists($limparImagensQuizz)) {
+                rmdir($limparImagensQuizz);
+            }
+            if (file_exists($limparImagensQuizzTemporarias)) {
+                rmdir($limparImagensQuizzTemporarias);
+            }
+            if (file_exists($caminhoImagensQuestoes)) {
+                rmdir($caminhoImagensQuestoes);
+            }
+        
+
+            $sql = 'DELETE FROM questoes WHERE Id_quizz = :Id_quizz';
+            $stmt= $conexao->runQuery($sql);
+            $stmt->bindParam(':Id_quizz', $dadosDataQuizzes['Id_quizz']);
+            $stmt->execute();
+
+            $sql = 'DELETE FROM avaliacao WHERE Id_quizz = :Id_quizz';
+            $stmt= $conexao->runQuery($sql);
+            $stmt->bindParam(':Id_quizz', $dadosDataQuizzes['Id_quizz']);
+            $stmt->execute();
+
+            $sql = 'DELETE FROM quizzes_respondidos WHERE Id_quizz = :Id_quizz';
+            $stmt= $conexao->runQuery($sql);
+            $stmt->bindParam(':Id_quizz', $dadosDataQuizzes['Id_quizz']);
+            $stmt->execute();
+
+            $sql = 'DELETE FROM quizzes WHERE Id_quizz = :Id_quizz';
+            $stmt= $conexao->runQuery($sql);
+            $stmt->bindParam(':Id_quizz', $dadosDataQuizzes['Id_quizz']);
+            $stmt->execute();
+        }
+
+            $sql = 'DELETE FROM utilizadores WHERE Id_utilizador = :Id_utilizador';
+            $stmt= $conexao->runQuery($sql);
+            $stmt->bindParam(':Id_utilizador', $Id_utilizador);
+            $stmt->execute();
+
+        return "dadosEliminadosComSucesso";
 
 
     }
@@ -184,6 +251,15 @@ class Utilizador {
         }
     }
 
+    function CarregarTodosOsDados($Id_utilizador){
+        $conexao = new Conexao();
+
+        $stmt = $conexao->runQuery('SELECT * FROM utilizadores WHERE Id_utilizador = :Id_utilizador');
+        $stmt->execute(array(':Id_utilizador' => $Id_utilizador));
+        $dataUtilizador = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $dataUtilizador;
+    }
 
     function GuardarImagem($Id_utilizador,$imagemPerfil){
         $conexao = new Conexao();
@@ -302,11 +378,11 @@ class Utilizador {
         }
     }
 
-    function ObterUtilizadores(){
+    function ObterUtilizadores($nomeUnicoAPesquisar){
         $conexao = new Conexao();
         
-        $stmt = $conexao->runQuery('SELECT Id_utilizador, nomeUnico, email FROM utilizadores WHERE permissao != :permissao');
-        $stmt->execute(array(':permissao' => "admin"));
+        $stmt = $conexao->runQuery('SELECT Id_utilizador, nomeUnico, email FROM utilizadores WHERE permissao != :permissao AND nomeUnico LIKE :nomeUnico');
+        $stmt->execute(array(':permissao' => "admin", ':nomeUnico' => "%".$nomeUnicoAPesquisar."%"));
         $dadosUtilizador = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
         return $dadosUtilizador;    

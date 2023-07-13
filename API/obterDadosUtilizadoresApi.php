@@ -4,7 +4,7 @@ require 'Domain/utilizador.php';
 switch ($_POST['accao'])
 {
     case 'obterUtilizadores':
-        obterUtilizadores();
+        obterUtilizadores($_POST['nomeUnicoAPesquisar']);
     break;
     case 'obterDadosUtilizador':
         obterDadosUtilizador($_POST['Id_Utilizador']);
@@ -15,11 +15,11 @@ switch ($_POST['accao'])
         break;
 }
 
-function obterUtilizadores(){
+function obterUtilizadores($nomeUnicoAPesquisar){
     try {
         // Do your stuff  
         $utilizador = new Utilizador();
-        $obterUtilizadores = $utilizador->ObterUtilizadores();      
+        $obterUtilizadores = $utilizador->ObterUtilizadores($nomeUnicoAPesquisar);      
         header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok', true, 200);
         echo json_encode($obterUtilizadores);
         return;

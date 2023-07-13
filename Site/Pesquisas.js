@@ -1,15 +1,27 @@
 $(document).ready(function(){
-const textoAPesquisar= localStorage.getItem('textoAPesquisar');
+    
+    const textoAPesquisar= localStorage.getItem('textoAPesquisar');
+    const tipoPesquisa= localStorage.getItem('tipoPesquisa');
+    const Id_utilizador= localStorage.getItem('Id_utilizador');
+    
+    if(tipoPesquisa == 'quizzesCriados' || tipoPesquisa == 'quizzesRealizados' || tipoPesquisa == 'quizzesAvaliados'){
+        document.getElementById("menuCriarQuestao").style.visibility="hidden";
+        document.getElementById("menuBarraPesquisa").remove();
+    }
+
     $.ajax({
         type:"POST",
         url: "../API/pesquisarQuizzesApi.php",
         data:{
             accao:"pesquisar",
-            textoAPesquisar:textoAPesquisar
+            Id_utilizador:Id_utilizador,
+            textoAPesquisar:textoAPesquisar,
+            tipoPesquisa:tipoPesquisa
         },
         cache: false,
         dataType: 'json',
         success: function(resposta) {
+            console.log(resposta);
             criarCardsQuizzesMelhoresAvaliados(resposta, "rowQuizzes", "divQuizzes");
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -54,13 +66,30 @@ const textoAPesquisar= localStorage.getItem('textoAPesquisar');
    
                 const divDadosQuizz = document.createElement("div");
                 divDadosQuizz.id=tipoDeOrganizacao+"dadosQuizz"+iplus1;
-                divDadosQuizz.innerHTML = ' <p class="nomeQuizz">'+dadosQuizzes[i]["nomeQuizz"]+'</p>'
-                                        + ' <p>Dificuldade: '+dadosQuizzes[i]["dificuldade"]+'</p>'
-                                        + ' <p>Quantidade de avaliações: '+dadosQuizzes[i]["numAvaliacoes"]+'</p>'
-                                        + ' <p>Nota média: '+dadosQuizzes[i]["mediaAvaliacoes"]+'</p>';
+                
+                if(tipoPesquisa == "quizzesRealizados"){
+                    divDadosQuizz.innerHTML = ' <p class="nomeQuizz">'+dadosQuizzes[i]["nomeQuizz"]+'</p>'
+                                            + ' <p>Dificuldade: '+dadosQuizzes[i]["dificuldade"]+'</p>'
+                                            + ' <p>Quantidade de avaliações: '+dadosQuizzes[i]["numAvaliacoes"]+'</p>'
+                                            + ' <p>Total de pontos feitos: '+dadosQuizzes[i]["valorAdquirido"]+' / 100</p>';
+                }else{
+                    divDadosQuizz.innerHTML = ' <p class="nomeQuizz">'+dadosQuizzes[i]["nomeQuizz"]+'</p>'
+                                            + ' <p>Dificuldade: '+dadosQuizzes[i]["dificuldade"]+'</p>'
+                                            + ' <p>Quantidade de avaliações: '+dadosQuizzes[i]["numAvaliacoes"]+'</p>'
+                                            + ' <p>Nota média: '+dadosQuizzes[i]["mediaAvaliacoes"]+'</p>';
+                }
+
                 divDadosQuizz.classList.add('dadosQuizz');                        
                 container.appendChild(divDadosQuizz);
                 
             }
         }
+        
 });
+
+function abrirQuizz(Id_quizz){
+
+    localStorage.setItem("Id_quizzAJogar", Id_quizz);
+
+    location.href= "informacoesQuizz.php";
+}

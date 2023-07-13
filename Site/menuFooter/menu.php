@@ -18,7 +18,7 @@
 				</a>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 					<a class="dropdown-item tamanhoDropDown linksDropDown" href="Perfil.php"><i class="fa-solid fa-user"></i> Perfil</a>
-					<a class="dropdown-item tamanhoDropDown linksDropDown" href="Logout.html"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sair </a>
+					<a class="dropdown-item tamanhoDropDown linksDropDown" href="sair.html"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sair </a>
 				</div>
 			</div>
 

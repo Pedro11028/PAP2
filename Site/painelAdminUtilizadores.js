@@ -4,17 +4,18 @@ $(document).ready(function(){
     document.getElementById("dropdownUtilizador").remove();
     document.getElementById("mostrarConteudosMenu").remove();
 
-    document.getElementById("linkCriarQuestao").innerHTML="Visualizar Quizzes";
-    document.getElementById("linkCriarQuestao").style.marginLeft="30px";
-    document.getElementById("linkCriarQuestao").href="painelAdminQuizzs.php";
+    document.getElementById("linkCriarQuestao").remove();
     
     localStorage.removeItem('Id_utilizadorAVerificarPeloAdmin');
+    localStorage.removeItem('passwordUtilizador');
+    var nomeUnicoAPesquisar = "";
 
     $.ajax({
         type:"POST",
         url: "../API/obterDadosUtilizadoresApi.php",
         data:{
-            accao:"obterUtilizadores"
+            accao:"obterUtilizadores",
+            nomeUnicoAPesquisar:nomeUnicoAPesquisar
         },
         cache: false,
         dataType: 'json',
@@ -23,10 +24,53 @@ $(document).ready(function(){
         }
     });
 
+    const tipoTemporario= "temporarioAdmin";
+
+    $.ajax({
+        type:"POST",
+        url: "../API/verificarJaCriouQuizzTempApi.php",
+        data:{
+            accao:"verificarExistenciaQuizzAdmin",
+            tipoTemporario:tipoTemporario
+        },
+        cache: false,
+        dataType: 'json',
+        success: function(resposta) {
+            if(resposta == 'existe'){
+                document.getElementById("linkPermissao").href= "editarDadosQuizzAdmin.php";
+                document.getElementById("linkPermissao").innerHTML= "Continuar a editar Quizz como Admin";
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            toastr.warning('Parece ter ocorrido um erro com a ligação á base de dados!', 'Woops!!!');
+        }
+    });
+
+    $(document).on('click','#pesquisarUtilizador',function(e){
+        nomeUnicoAPesquisar = document.getElementById("utilizadorAPesquisar").value;
+
+        $.ajax({
+            type:"POST",
+            url: "../API/obterDadosUtilizadoresApi.php",
+            data:{
+                accao:"obterUtilizadores",
+                nomeUnicoAPesquisar:nomeUnicoAPesquisar
+            },
+            cache: false,
+            dataType: 'json',
+            success: function(resposta) {
+                eliminarLinhasUtilizadores();
+                criarLinhasUtilizadores(resposta);
+            }
+        });
+
+    });
+
 });
 
 function criarLinhasUtilizadores(dadosUtilizadores){
     const minhaAvaliacao= 0;
+    localStorage.setItem('numeroTotalDeUtilizadores', dadosUtilizadores.length);
 
     for (let i= 0; i < dadosUtilizadores.length; i++) {
 
@@ -57,6 +101,13 @@ function criarLinhasUtilizadores(dadosUtilizadores){
         trbotao.innerHTML = '<button class="btn button border" onclick="editarUtilizador('+dadosUtilizadores[i]['Id_utilizador']+')"><b>Editar</b></button>';
         container.appendChild(trbotao);
         
+    }
+}
+
+function eliminarLinhasUtilizadores(){
+    
+    for (let i= 0; i < localStorage.getItem('numeroTotalDeUtilizadores'); i++) {
+        document.getElementById("tr"+i).remove();
     }
 }
 

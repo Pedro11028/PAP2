@@ -237,3 +237,10 @@ function closeForm() {
      radios[i].checked = false;
   }
 }
+
+function definirTipoPesquisa(tipoPesquisa) {
+  localStorage.setItem('tipoPesquisa', tipoPesquisa);
+  localStorage.setItem('textoAPesquisar', '');
+
+  window.location.href='Pesquisas.php';
+}

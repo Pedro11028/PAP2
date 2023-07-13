@@ -18,7 +18,8 @@ $(document).ready(function(){
         success: function(resposta){
             console.log(resposta);
             filtrarEMostrarDadosQuizz(resposta);
-            filtrarEMostrarDadosAvaliacoes(resposta['dadosAvaliacoes']);
+            filtrarEMostrarDadosAvaliacoes(resposta['dadosAvaliacoes'], resposta['dadosAvaliacaoUtilizador']);
+        
         }
     });
 
@@ -58,13 +59,21 @@ $(document).ready(function(){
   
     }
 
-    function filtrarEMostrarDadosAvaliacoes(dadosAvaliacoes){
-        const minhaAvaliacao= 0;
+    function filtrarEMostrarDadosAvaliacoes(dadosAvaliacoes, dadosAvaliacaoUtilizador){
+        
+        for (let i= 0; i < dadosAvaliacaoUtilizador.length; i++) {
+            criarAvaliacoes(dadosAvaliacaoUtilizador, 0, 0);
+        }
 
         for (let i= 0; i < dadosAvaliacoes.length; i++) {
-
             const iplus1=i+1;
-
+            criarAvaliacoes(dadosAvaliacoes, iplus1, i);
+        }
+    }
+    
+    function criarAvaliacoes(dadosAvaliacoes, iplus1, i){
+        
+        if(dadosAvaliacoes[i]['nomeUnico']){
             var container = document.getElementById("containerAvaliacoes");
 
             const divNomeUtilizadorAvaliacao = document.createElement("div");
@@ -90,63 +99,92 @@ $(document).ready(function(){
 
             const divMostrarTextoAvaliacao = document.createElement("div");
             divMostrarTextoAvaliacao.innerHTML = dadosAvaliacoes[i]['textoAvaliacao'];
-            divMostrarTextoAvaliacao.classList.add('col-sm-7','mostrarTextoAvaliacao');                        
+            divMostrarTextoAvaliacao.classList.add('col-sm-10','mostrarTextoAvaliacao');                        
             container.appendChild(divMostrarTextoAvaliacao);
             
             const divDadosAvaliacao = document.createElement("div");
             divDadosAvaliacao.id= "dadosAvaliacao"+iplus1;
-            divDadosAvaliacao.innerHTML = '<button type="text" class="btn button border posicaoBotaoAvaliacao">Reportar</button>';
-            divDadosAvaliacao.classList.add('col-sm-5');                        
+            if(localStorage.getItem("Id_utilizador") == dadosAvaliacoes[i]['Id_utilizador'] || localStorage.getItem("permissaoUtilizador") == "admin"){
+                divDadosAvaliacao.innerHTML = '<button type="text" class="btn button border posicaoBotaoAvaliacao" onclick="eliminarAvaliacao('+dadosAvaliacoes[i]['Id_avaliacao']+')">Eliminar</button>';
+            }
+            divDadosAvaliacao.classList.add('col-sm-2');                        
             container.appendChild(divDadosAvaliacao);
 
             var container = document.getElementById("dadosAvaliacao"+iplus1);
 
             const divPosicaoDadosAvaliacao = document.createElement("div");
             divPosicaoDadosAvaliacao.id= "posicaoDadosAvaliacao"+iplus1;
-            divPosicaoDadosAvaliacao.innerHTML = 'Nota: '+dadosAvaliacoes[i]['nota']+' <span class="like"><i class="fa-solid fa-thumbs-up"></i> </span>'+dadosAvaliacoes[i]['gosto']+' <span class="Deslike"><i class="fa-solid fa-thumbs-down"></i> </span>'+dadosAvaliacoes[i]['naoGosto']+' ';
+            divPosicaoDadosAvaliacao.innerHTML = 'Nota: '+dadosAvaliacoes[i]['nota'];
             divPosicaoDadosAvaliacao.classList.add('posicaoDadosAvaliacao');                        
             container.appendChild(divPosicaoDadosAvaliacao);
-            
         }
+
     }
-    
+
 });
 
 function verificarEdicaoQuizz(){
         
-        
-            const Id_utilizador = localStorage.getItem("Id_utilizador");
-            const tipoTemporario = "temporario";
+    const Id_utilizador = localStorage.getItem("Id_utilizador");
+    const tipoTemporario = "temporario";
 
-            //Verificar se é a primeira questão
-            $.ajax({
-                type:"POST",
-                url: "../API/verificarJaCriouQuizzTempApi.php",
-                data:{
-                    accao:"verificarExistenciaQuizz",
-                    Id_utilizador:Id_utilizador,
-                    tipoTemporario:tipoTemporario
-                },
-                cache: false,
-                dataType: 'json',
-                success: function(resposta) {
-                    if(resposta == 'existe'){
-                        toastr.warning('Já existe um quizz a ser editado, por favor acabe de o editar ou elimine-o!', 'Woops!!!');
-                    }
-                    if(resposta == 'naoExiste'){
-                        prepararQuizzParaEdicao();
-                    }
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    toastr.warning('Parece ter ocorrido um erro com a ligação á base de dados!', 'Woops!!!');
-                }
-            });
+    //Verificar se é a primeira questão
+    $.ajax({
+        type:"POST",
+        url: "../API/verificarJaCriouQuizzTempApi.php",
+        data:{
+            accao:"verificarExistenciaQuizz",
+            Id_utilizador:Id_utilizador,
+            tipoTemporario:tipoTemporario
+        },
+        cache: false,
+        dataType: 'json',
+        success: function(resposta) {
+            if(resposta == 'existe'){
+                toastr.warning('Já existe um quizz a ser editado, por favor acabe de o editar ou elimine-o!', 'Woops!!!');
+            }
+            if(resposta == 'naoExiste'){
+                prepararQuizzParaEdicao("user");
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            toastr.warning('Parece ter ocorrido um erro com a ligação á base de dados!', 'Woops!!!');
+        }
+    });
 }
 
-function prepararQuizzParaEdicao(){
+function verificarEdicaoQuizzAdmin(){
+        
+    const tipoTemporario = "temporarioAdmin";
+
+    //Verificar se é a primeira questão
+    $.ajax({
+        type:"POST",
+        url: "../API/verificarJaCriouQuizzTempApi.php",
+        data:{
+            accao:"verificarExistenciaQuizzAdmin",
+            tipoTemporario:tipoTemporario
+        },
+        cache: false,
+        dataType: 'json',
+        success: function(resposta) {
+            if(resposta == 'existe'){
+                toastr.warning('Já existe um quizz a ser editado pelo Administrador, verifique o quizz no Painel Admin!', 'Woops!!!');
+            }
+            if(resposta == 'naoExiste'){
+                prepararQuizzParaEdicao("admin");
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            toastr.warning('Parece ter ocorrido um erro com a ligação á base de dados!', 'Woops!!!');
+        }
+    });
+}
+
+function prepararQuizzParaEdicao(permissao){
     const Id_quizz= localStorage.getItem("Id_quizzAJogar");
 
-    if(localStorage.getItem("permissaoUtilizador") == "admin"){
+    if(permissao == "admin"){
 
         $.ajax({
             type:"POST",
@@ -209,7 +247,9 @@ function iniciarJogoQuizz(){
 
                 localStorage.setItem("dadosQuestoesDoQuizz", JSON.stringify(resposta['dadosQuestoes']));
                 localStorage.setItem("numeroQuestoes", resposta['numeroQuestoes']);
+                localStorage.setItem("Id_criadorQuizz", localStorage.getItem("Id_criadorQuizz"));
                 localStorage.setItem("numeroQuestoesRespondidas", 0);
+                localStorage.setItem("numeroQuestoesAcertadas", 0);
                 localStorage.setItem("totalPontosAcumulados", 0);
                 localStorage.setItem("pontosPorQuestao", pontosPorQuestao);
 
@@ -223,4 +263,26 @@ function iniciarJogoQuizz(){
         toastr.warning('Por favor entre numa conta para jogar o Quizz!', 'Atenção!!!');
     }
     return false;
+}
+
+
+function eliminarAvaliacao(Id_avaliacao){
+    if (window.confirm("Tens a certesa que queres eliminar esta avaliação?")) {
+    $.ajax({
+        type:"POST",
+        url: "../API/eliminarAvaliacaoApi.php",
+        data:{
+            accao:"eliminar",
+            Id_avaliacao:Id_avaliacao
+        },
+        cache: false,
+        dataType: 'json',
+        success: function(resposta){
+            window.location.reload();
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            toastr.warning('Parece ter ocorrido um erro com a ligação á base de dados!', 'Woops!!!');
+        }
+    });
+    }
 }

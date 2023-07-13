@@ -27,6 +27,8 @@ $(document).ready(function(){
     $(document).on('click','#pesquisar',function(e){
         if(document.getElementById("textoAPesquisar").value){
             localStorage.setItem('textoAPesquisar',document.getElementById("textoAPesquisar").value);
+            localStorage.setItem('tipoPesquisa', 'TodosOsQuizzes');
+
             window.location.href="Pesquisas.php";
         }else{
             toastr.warning('Por favor não deixe espaços em branco!', 'Woops!!!');

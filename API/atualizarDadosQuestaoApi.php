@@ -6,6 +6,9 @@ switch ($_POST['accao'])
     case 'atualizarDados':
         atualizarDados($_POST['Id_utilizador'],$_POST['Id_questao'],$_POST['questao'],$_POST['imagem'],$_POST['caminhoDiretorio'],$_POST['tipoQuestao'],$_POST['dadosRespostas'],$_POST['respostasCorretas'],$_POST['tipoTemporario']);
     break;
+    case 'guardarNumeroRespostasDadas':
+        guardarNumeroRespostasDadas($_POST['Id_resposta'], $_POST['vezesQueARespostaFoiSelecionada']);
+    break;
     default:
         header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
         echo json_encode(array("success" => false, "message" => $_POST['accao'] . " is not valid"));
@@ -28,4 +31,19 @@ function atualizarDados($Id_utilizador,$Id_questao,$questao,$imagem,$caminhoDire
 
 }
 
+function guardarNumeroRespostasDadas($Id_resposta, $vezesQueARespostaFoiSelecionada){
+    try {
+        // Do your stuff  
+        $Quizz = new Quizz();
+        $atualizarDados = $Quizz-> GuardarNumeroRespostasDadas($Id_resposta, $vezesQueARespostaFoiSelecionada);      
+        header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok', true, 200);
+        echo json_encode($atualizarDados);
+        return;
+    } catch (Exception $e) {
+        header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
+        echo json_encode(array("success" => false, "message" => $e->getMessage()));
+        return;
+    }
+
+}
 ?>

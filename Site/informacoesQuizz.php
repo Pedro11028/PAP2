@@ -26,7 +26,7 @@ include "menuFooter/menu.php";
 			<div id="dadosQuizz">
 				<button style="float:right;" class="btn button border" onclick="iniciarJogoQuizz()"><b>Iniciar</b></button>
 				<button id="editarQuizz" style="float:right; margin-right:10px;" class="btn button border" onclick="verificarEdicaoQuizz()"></button>
-				<button id="editarComoAdmin" style="float:left; margin-right:10px;" class="btn button border" onclick="verificarEdicaoQuizz()"></button>
+				<button id="editarComoAdmin" style="float:left; margin-right:10px;" class="btn button border" onclick="verificarEdicaoQuizzAdmin()"></button>
 				<div id="alinharImgENomeCriador">
 					<img id="imgPerfil" src="">
 					<br>

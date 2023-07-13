@@ -44,7 +44,7 @@ include "menuFooter/menu.php";
 	</div>
 </div>
 
-
+<!-- 
 <div class="d-flex container mt-5 fixed-bottom">
         <div class="row">
             <div class="col-md-10">
@@ -56,7 +56,7 @@ include "menuFooter/menu.php";
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 <script  src="index.js"></script>
 <script  src="verificarCriacaoQuizz.js"></script>

@@ -30,37 +30,37 @@ include "menuFooter/menu.php";
   <div class="form-group row">
     <label for="inputPassword" class="col-sm-4 col-form-label">Id Utilizador</label>
     <div class="col-sm-8">
-      <input id="Id_utilizador" type="text" class="form-control" id="inputPassword" disabled>
+      <input id="Id_utilizador" type="text" class="form-control" disabled>
     </div>
   </div>
   <div class="form-group row">
     <label for="inputPassword" class="col-sm-4 col-form-label">Nome Completo:</label>
     <div class="col-sm-8">
-      <input id="nomeCompleto" type="text" class="form-control" id="inputPassword" placeholder="Nome Completo..." required>
+      <input id="nomeCompleto" type="text" class="form-control" placeholder="Nome Completo..." required>
     </div>
   </div>
   <div class="form-group row">
     <label for="inputPassword" class="col-sm-4 col-form-label">Nome Unico:</label>
     <div class="col-sm-8">
-      <input id="nomeUnico" type="text" class="form-control" id="inputPassword" placeholder="Nome Unico..." required>
+      <input id="nomeUnico" type="text" class="form-control" placeholder="Nome Unico..." required>
     </div>
   </div>
   <div class="form-group row">
     <label for="inputPassword" class="col-sm-4 col-form-label">Email:</label>
     <div class="col-sm-8">
-      <input id="email" type="email" class="form-control" id="inputPassword" placeholder="Email..." required>
+      <input id="email" type="email" class="form-control" placeholder="Email..." required>
     </div>
   </div>
   <div class="form-group row">
     <label for="inputPassword" class="col-sm-4 col-form-label">Password:</label>
     <div class="col-sm-8">
-      <input id="password" type="password" class="form-control" id="inputPassword" placeholder="Password..." required>
+      <input id="password" type="text" class="form-control" placeholder="Password..." required>
     </div>
   </div>
   <div class="form-group row">
     <label for="inputPassword" class="col-sm-4 col-form-label">Caminho Imagem:</label>
     <div class="col-sm-8">
-      <input id="Imagem" type="text" class="form-control" id="inputPassword" placeholder="Caminho Imagem ex:(img/avatar5.gif)">
+      <input id="Imagem" type="text" class="form-control" placeholder="Caminho Imagem ex:(img/avatar5.gif)">
     </div>
   </div>
   <div class="form-group row">
@@ -72,7 +72,7 @@ include "menuFooter/menu.php";
   <div class="form-group row">
     <label for="inputPassword" class="col-sm-4 col-form-label">Permissão:</label>
     <div class="col-sm-8">
-      <input id="permissao" type="password" class="form-control" id="inputPassword" placeholder="Permissão..." required>
+      <input id="permissao" type="text" class="form-control" id="inputPassword" placeholder="Permissão..." required>
     </div>
   </div>
 </form>

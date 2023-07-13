@@ -13,7 +13,7 @@
 <!-- Links para o menu principal, ajuda(informações do site) e o número de contacto da "Empresa" -->
     <p class="footer-links">
       <a class="link-1" href="#">Inicio</a>
-      <a href="">Pesquisa</a>
+      <a href="sobre.php">Sobre</a>
       <a>Contato 999-999-999</a>
     </p>
 

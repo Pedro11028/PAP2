@@ -53,7 +53,7 @@ $(document).ready(function(){
     });
 
     function descobrirTipoquestao(dadosQuestao){
-        if(dadosQuestao['dadosQuestao']['tipoQuestao'] == 'escreverResposta'){
+        if(dadosQuestao['dadosQuestao']['tipoQuestao'] == 'textoLivre'){
             document.getElementById("selecionarResposta").remove();
             inserirDadosDoTipoEscreverResposta(dadosQuestao);
         }else{
@@ -201,33 +201,36 @@ $(document).ready(function(){
 
     
     $("#menuAdicionarQuestao").click(function() {
-        var imagem= document.getElementById("imagemQuestao").src;
-        caminhoDiretorio= imagem.substr(0, imagem.lastIndexOf("/"));
-        const tipoTemporario= "temporarioAdmin";
+        if (window.confirm("Tens a certesa que queres eliminar a questão atual?")) {
+            var imagem= document.getElementById("imagemQuestao").src;
+            caminhoDiretorio= imagem.substr(0, imagem.lastIndexOf("/"));
+            const tipoTemporario= "temporarioAdmin";
 
-        $.ajax({
-            type:"POST",
-            url: "../API/eliminarQuestaoApi.php",
-            data:{
-                accao:"eliminarQuestao",
-                Id_utilizador:Id_utilizador,
-                Id_questao:Id_questao,
-                imagem:imagem,
-                caminhoDiretorio:caminhoDiretorio,
-                tipoTemporario:tipoTemporario
-            },
-            cache: false,
-            dataType: 'json',
-            success: function(resposta) {
-                if(resposta == 'dadosEliminadosComSucesso'){
-                    location.href="editarDadosQuizzAdmin.php";
+            $.ajax({
+                type:"POST",
+                url: "../API/eliminarQuestaoApi.php",
+                data:{
+                    accao:"eliminarQuestao",
+                    Id_utilizador:Id_utilizador,
+                    Id_questao:Id_questao,
+                    imagem:imagem,
+                    caminhoDiretorio:caminhoDiretorio,
+                    tipoTemporario:tipoTemporario
+                },
+                cache: false,
+                dataType: 'json',
+                success: function(resposta) {
+                    if(resposta == 'dadosEliminadosComSucesso'){
+                        location.href="editarDadosQuizzAdmin.php";
+                    }
+                    if(resposta == 'quizzNaoExiste'){
+                        location.href="index.php";
+                    }
                 }
-                if(resposta == 'quizzNaoExiste'){
-                    location.href="index.php";
-                }
-            }
-        });
+            });
+        }
         return false;
+
     });
 
 
@@ -243,7 +246,7 @@ $(document).ready(function(){
         ordemGuardarDados = 0;
         respostasCorretas = [];
 
-        if(tipoQuestao === "escreverResposta"){
+        if(tipoQuestao === "textoLivre"){
             for (let i = 1; i <= 15; i++) {
                 if(document.getElementById("digitarResposta"+i)){
                     respostasCorretas[ordemGuardarDados]= 'true';

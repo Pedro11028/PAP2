@@ -53,6 +53,19 @@ class Quizz {
         }
     }
 
+    function VerificarExistenciaQuizzAdmin( $tipoTemporario){
+        $conexao = new Conexao();
+        
+        $stmt = $conexao->runQuery('SELECT `Id_quizz` FROM quizzes WHERE dificuldade = :dificuldade');
+        $stmt->execute(array(':dificuldade' => $tipoTemporario));
+        $dataQuizzes = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if($dataQuizzes == true){
+            return 'existe';
+        }else{
+            return 'naoExiste';
+        }
+    }
 
     function InserirDados($Id_utilizador,$questao,$imagem,$caminhoDiretorio,$tipoQuestao,$dadosRespostas,$respostasCorretas, $mostrarRespostaCorreta, $mostrarPercentagemEscolhas, $tipoTemporario){
         $conexao = new Conexao();
@@ -301,7 +314,7 @@ class Quizz {
         $conexao = new Conexao();
         $i=0; //guardar ordem da questao
 
-        $stmt = $conexao->runQuery('SELECT Id_quizz, nomeQuestao, textoQuestao, tipoQuestao FROM questoes WHERE Id_questao = :Id_questao');
+        $stmt = $conexao->runQuery('SELECT Id_quizz, nomeQuestao, textoQuestao, tipoQuestao, mostrarRespostaCorreta, mostrarPercentagemEscolhas	 FROM questoes WHERE Id_questao = :Id_questao');
         $stmt->execute(array(':Id_questao' => $Id_questao));
         $dataQuestao = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -336,7 +349,7 @@ class Quizz {
             $imagemQuestao= '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuestao['Id_quizz'].'/QuestaoComImagem'.$posicaoQuestoesComImagem.$dadosImagemQuestoes_temporario['imagem'];
         }
 
-        $stmt = $conexao->runQuery('SELECT respostaQuizz, valorResposta FROM respostas WHERE Id_questao = :Id_questao');
+        $stmt = $conexao->runQuery('SELECT Id_resposta, respostaQuizz, valorResposta, vezesSelecionada FROM respostas WHERE Id_questao = :Id_questao');
         $stmt->execute(array(':Id_questao' => $Id_questao));
         $dataRespostas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -520,6 +533,37 @@ class Quizz {
         return "dadosGuardadosComSucesso";
     }
 
+    function GuardarNumeroRespostasDadas($Id_resposta, $vezesQueARespostaFoiSelecionada){
+        $conexao = new Conexao();
+        
+        $vezesQueARespostaFoiSelecionada = $vezesQueARespostaFoiSelecionada + 1;
+        
+        $sql = 'UPDATE respostas SET vezesSelecionada = :vezesSelecionada WHERE Id_resposta = :Id_resposta';
+        $stmt = $conexao->runQuery($sql);    
+        $stmt->bindParam(':Id_resposta', $Id_resposta, PDO::PARAM_INT);
+        $stmt->bindParam(':vezesSelecionada', $vezesQueARespostaFoiSelecionada);
+        $execute = $stmt->execute();
+        
+        return $dataRespostas;
+    }
+
+    function AlterarDadosUtilizador($Id_utilizador,$nomeCompleto,$nomeUnico,$email,$password,$Imagem,$pontuacao,$permissao){
+        $conexao = new Conexao();
+        
+        $sql = 'UPDATE utilizadores SET nomeCompleto = :nomeCompleto, nomeUnico = :nomeUnico, email = :email, password = :password, Imagem = :Imagem, pontuacao = :pontuacao, permissao = :permissao WHERE Id_utilizador = :Id_utilizador';
+        $stmt = $conexao->runQuery($sql);    
+        $stmt->bindParam(':Id_utilizador', $Id_utilizador, PDO::PARAM_INT);
+        $stmt->bindParam(':nomeCompleto', $nomeCompleto);
+        $stmt->bindParam(':nomeUnico', $nomeUnico);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':password', $password);
+        $stmt->bindParam(':Imagem', $Imagem);
+        $stmt->bindParam(':pontuacao', $pontuacao);
+        $stmt->bindParam(':permissao', $permissao);
+        $execute = $stmt->execute();
+        
+        return "dadosGuardadosComSucesso";
+    }
 
     function EliminarQuestao($Id_utilizador, $Id_questao, $imagem, $caminhoDiretorio, $tipoTemporario){
         $conexao = new Conexao();
@@ -680,11 +724,11 @@ class Quizz {
     }
 
 
-    function MostrarImagemQuizz($Id_utilizador, $ficheiro){
+    function MostrarImagemQuizz($Id_utilizador, $ficheiro, $tipoTemporario){
         $conexao = new Conexao();
 
         $stmt = $conexao->runQuery('SELECT Id_quizz, imagem FROM quizzes WHERE Id_utilizador = :Id_utilizador AND dificuldade = :dificuldade');
-        $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':dificuldade' => "temporario"));
+        $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':dificuldade' => $tipoTemporario));
         $dataQuizzes = $stmt->fetch(PDO::FETCH_ASSOC);
 
         $caminhoAGuardar= '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes/Quizz'.$dataQuizzes['Id_quizz'].'/ImagemQuizzTemporaria';
@@ -692,7 +736,7 @@ class Quizz {
         $nomeImagem = $ficheiro['file']['name'];
         $caminhoTemporario= $ficheiro["file"]["tmp_name"];
         
-
+        
         if(empty($nomeImagem)){
             return "imagemVazia";
         }
@@ -733,12 +777,12 @@ class Quizz {
     }
     
 
-    function GuardarImagemQuizz($Id_utilizador, $imagem){
+    function GuardarImagemQuizz($Id_utilizador, $imagem, $tipoTemporario){
         $conexao = new Conexao();
         $caminhoImagem= 'vazio';
 
         $stmt = $conexao->runQuery('SELECT Id_quizz, imagem FROM quizzes WHERE Id_utilizador = :Id_utilizador AND dificuldade = :dificuldade');
-        $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':dificuldade' => "temporario"));
+        $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':dificuldade' => $tipoTemporario));
         $dataQuizzes = $stmt->fetch(PDO::FETCH_ASSOC);
         
         $tipoImagem= strrchr($imagem,'.');
@@ -826,13 +870,13 @@ class Quizz {
         
 
         $stmt = $conexao->runQuery("SELECT  quizzes.Id_quizz, nomeQuizz, imagem, dificuldade, COUNT(avaliacao.Id_avaliacao) as numAvaliacoes, ROUND(AVG(avaliacao.nota),2) as mediaAvaliacoes FROM quizzes INNER JOIN avaliacao ON (quizzes.Id_quizz= avaliacao.Id_quizz) WHERE dificuldade != :dificuldade AND  dificuldade != :temporarioAdmin GROUP BY  quizzes.Id_quizz
-        ORDER BY COUNT(avaliacao.Id_avaliacao) DESC");
+        ORDER BY COUNT(avaliacao.Id_avaliacao) DESC LIMIT 5");
         $stmt->execute(array(':dificuldade' => "temporario", ':temporarioAdmin' => "temporarioAdmin"));
         $dataAvaliacoesQuizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);    //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50"}
 
         
         $stmt = $conexao->runQuery("SELECT  quizzes.Id_quizz, nomeQuizz, imagem, dificuldade, COUNT(avaliacao.Id_avaliacao) as numAvaliacoes, ROUND(AVG(avaliacao.nota),2) as mediaAvaliacoes FROM quizzes INNER JOIN avaliacao ON (quizzes.Id_quizz= avaliacao.Id_quizz) WHERE dificuldade != :dificuldade AND  dificuldade != :temporarioAdmin GROUP BY  quizzes.Id_quizz
-        ORDER BY ROUND(AVG(avaliacao.nota),2) DESC");
+        ORDER BY ROUND(AVG(avaliacao.nota),2) DESC LIMIT 5");
         $stmt->execute(array(':dificuldade' => "temporario", ':temporarioAdmin' => "temporarioAdmin"));
         $dataMediaAvaliacoesQuizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -891,9 +935,13 @@ class Quizz {
         $stmt->execute(array(':Id_quizz' => $Id_quizz));
         $dadosNumMediaAvaliacoes = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $stmt = $conexao->runQuery('SELECT avaliacao.Id_avaliacao, avaliacao.textoAvaliacao, avaliacao.textoAvaliacao, avaliacao.nota, avaliacao.gosto, avaliacao.naoGosto, utilizadores.Id_utilizador, utilizadores.nomeUnico FROM avaliacao INNER JOIN utilizadores ON (avaliacao.Id_utilizador= utilizadores.Id_utilizador) WHERE avaliacao.Id_quizz= :Id_quizz');
-        $stmt->execute(array(':Id_quizz' => $Id_quizz));
+        $stmt = $conexao->runQuery('SELECT avaliacao.Id_avaliacao, avaliacao.Id_utilizador, avaliacao.textoAvaliacao, avaliacao.textoAvaliacao, avaliacao.nota, avaliacao.gosto, avaliacao.naoGosto, utilizadores.Id_utilizador, utilizadores.nomeUnico FROM avaliacao INNER JOIN utilizadores ON (avaliacao.Id_utilizador= utilizadores.Id_utilizador) WHERE avaliacao.Id_quizz= :Id_quizz AND avaliacao.Id_utilizador != :Id_utilizador');
+        $stmt->execute(array(':Id_quizz' => $Id_quizz, ':Id_utilizador' => $Id_utilizador));
         $dadosAvaliacoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $stmt = $conexao->runQuery('SELECT avaliacao.Id_avaliacao, avaliacao.Id_utilizador, avaliacao.textoAvaliacao, avaliacao.textoAvaliacao, avaliacao.nota, avaliacao.gosto, avaliacao.naoGosto, utilizadores.Id_utilizador, utilizadores.nomeUnico FROM avaliacao INNER JOIN utilizadores ON (avaliacao.Id_utilizador= utilizadores.Id_utilizador) WHERE avaliacao.Id_quizz= :Id_quizz AND avaliacao.Id_utilizador = :Id_utilizador');
+        $stmt->execute(array(':Id_quizz' => $Id_quizz, ':Id_utilizador' => $Id_utilizador));
+        $dadosAvaliacaoUtilizador = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         $stmt = $conexao->runQuery('SELECT utilizadores.nomeUnico, utilizadores.imagemPerfil, utilizadores.Id_utilizador FROM quizzes INNER JOIN utilizadores ON (quizzes.Id_utilizador= utilizadores.Id_utilizador) WHERE quizzes.Id_quizz= :Id_quizz');
         $stmt->execute(array(':Id_quizz' => $Id_quizz));
@@ -902,10 +950,22 @@ class Quizz {
         $filtrarDados = array(  'dadosCriadorQuizz'=> $dadosCriadorQuizz, 
                                 'dadosQuizz'=> $dadosQuizz, 
                                 'dadosNumMediaAvaliacoes' => $dadosNumMediaAvaliacoes, 
-                                'dadosAvaliacoes' => $dadosAvaliacoes
+                                'dadosAvaliacoes' => $dadosAvaliacoes,
+                                'dadosAvaliacaoUtilizador' => $dadosAvaliacaoUtilizador
                             );
 
         return $filtrarDados;
+    }
+
+    function EliminarAvaliacao($Id_avaliacao){
+        $conexao = new Conexao();
+
+        $sql = 'DELETE FROM avaliacao WHERE Id_avaliacao = :Id_avaliacao';
+        $stmt= $conexao->runQuery($sql);
+        $stmt->bindParam(':Id_avaliacao', $Id_avaliacao);
+        $stmt->execute();
+        
+        return "avaliacaoEliminada";
     }
 
     function PrepararEdicaoQuizz($Id_quizz){
@@ -942,6 +1002,10 @@ class Quizz {
         $stmt->execute(array(':Id_quizz' => $Id_quizz));
         $dadosQuestoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
+        $stmt = $conexao->runQuery('SELECT Id_questao FROM questoes WHERE Id_quizz = :Id_quizz');
+        $stmt->execute(array(':Id_quizz' => $Id_quizz));
+        $dadosQuestoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
         $numeroQuestoes= count($dadosQuestoes);
 
         $filtrarDados = array(  'dadosQuestoes'=> $dadosQuestoes, 
@@ -951,39 +1015,174 @@ class Quizz {
         return $filtrarDados;
     }
     
-    function PesquisarQuizzes($textoAPesquisar){
+    function ObterEGuardarDadosJogo($Id_quizz, $Id_utilizador){
         $conexao = new Conexao();
 
-        $stmt = $conexao->runQuery("SELECT Id_quizz, Id_utilizador, DataCriacao, dificuldade, nomeQuizz, imagem  FROM quizzes WHERE dificuldade != :dificuldade AND  dificuldade != :temporarioAdmin AND nomeQuizz LIKE :nomeQuizz");
-        $stmt->execute(array(':dificuldade' => "temporario", ':temporarioAdmin' => "temporarioAdmin", ':nomeQuizz' => "%".$textoAPesquisar."%"));
-        $dataQuizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = $conexao->runQuery('SELECT nomeQuizz FROM quizzes WHERE Id_quizz = :Id_quizz');
+        $stmt->execute(array(':Id_quizz' => $Id_quizz));
+        $nomeQuizz = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $dataCriacaoQuizzDescendente = array();
-        $i=0;
+        $stmt = $conexao->runQuery('SELECT textoAvaliacao, nota FROM avaliacao WHERE Id_utilizador = :Id_utilizador AND Id_quizz = :Id_quizz');
+        $stmt->execute(array(':Id_utilizador' => $Id_utilizador, ':Id_quizz' => $Id_quizz));
+        $dadosAvaliacao = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        foreach ($dataQuizzes as $dataQuizzesTamanho) {
+        $filtrarDados = array(  'nomeQuizz'=> $nomeQuizz, 
+                                'dadosAvaliacao' => $dadosAvaliacao
+                            );
 
-            $caminhoImagem= '../BaseDados/Utilizadores/Utilizador_'.$dataQuizzesTamanho['Id_utilizador'].'/Quizzes/Quizz'.$dataQuizzesTamanho['Id_quizz'].'/ImagemQuizzTemporaria';
+        return $filtrarDados;
+    }
 
-            $stmt = $conexao->runQuery("SELECT  COUNT(avaliacao.Id_avaliacao) as numAvaliacoes, ROUND(AVG(avaliacao.nota),2) as mediaAvaliacoes FROM quizzes INNER JOIN avaliacao ON (quizzes.Id_quizz= avaliacao.Id_quizz) WHERE avaliacao.Id_quizz= :Id_quizz");
-            $stmt->execute(array(':Id_quizz' => $dataQuizzesTamanho['Id_quizz']));
-            $dataCriacaoQuizzDescendente[$i] = $stmt->fetch(PDO::FETCH_ASSOC);      //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50"}
-            $dataCriacaoQuizzDescendente[$i]['nomeQuizz']= $dataQuizzesTamanho['nomeQuizz'];    //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50","nomeQuizz":"Nascimento de Jesus"}
-            $dataCriacaoQuizzDescendente[$i]['imagem']= $dataQuizzesTamanho['imagem'];      //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50","nomeQuizz":"Nascimento de Jesus","imagem":"/imagem.png"}
-            $dataCriacaoQuizzDescendente[$i]['dificuldade']= $dataQuizzesTamanho['dificuldade'];      //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50","nomeQuizz":"Nascimento de Jesus","imagem":"/imagem.png","escolaridade":"1ºano"}
-            $dataCriacaoQuizzDescendente[$i]['Id_quizz']= $dataQuizzesTamanho['Id_quizz'];      //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50","nomeQuizz":"Nascimento de Jesus","imagem":"/imagem.png","escolaridade":"1ºano","Id_quizz":"24"}
+    function GuardarPontuacaoUtilizador($Id_quizz, $Id_utilizador, $totalPontosAcumulados){
+        $conexao = new Conexao();
 
-            if(empty($dataCriacaoQuizzDescendente[$i]['numAvaliacoes'])){
-                $dataCriacaoQuizzDescendente[$i]['numAvaliacoes']= 0;
+        $stmt = $conexao->runQuery('SELECT valorAdquirido FROM quizzes_respondidos WHERE Id_quizz = :Id_quizz AND 	Id_utilizador = :Id_utilizador');
+        $stmt->execute(array(':Id_quizz' => $Id_quizz, ':Id_utilizador' => $Id_utilizador));
+        $verificarQuizzResolvido = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $stmt = $conexao->runQuery('SELECT pontuacao FROM utilizadores WHERE Id_utilizador = :Id_utilizador');
+        $stmt->execute(array(':Id_utilizador' => $Id_utilizador));
+        $pontuacaoUtilizadorAtual = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if(empty($verificarQuizzResolvido)){
+            $stmt = $conexao->runQuery('INSERT INTO quizzes_respondidos (Id_utilizador, Id_quizz, valorAdquirido) VALUES (:Id_utilizador, :Id_quizz, :valorAdquirido)');
+            $stmt-> execute(array(':Id_utilizador' => $Id_utilizador, ':Id_quizz' => $Id_quizz, ':valorAdquirido' => $totalPontosAcumulados));
+        }else{
+            $valorAGuardar = $verificarQuizzResolvido['valorAdquirido'] + $totalPontosAcumulados;
+            
+            // verificar valor a adicionar tendo em conta que o máximo é 100
+            if($valorAGuardar >= 100){
+                $valorAGuardar = 100 - $verificarQuizzResolvido['valorAdquirido'];
+                $novaPontuacaoUtilizador = $pontuacaoUtilizadorAtual['pontuacao'] + $valorAGuardar;
+                $valorAGuardar = 100;
+            }else{
+                $novaPontuacaoUtilizador = $pontuacaoUtilizadorAtual['pontuacao'] + $totalPontosAcumulados;
             }
 
-            if(empty($dataCriacaoQuizzDescendente[$i]['mediaAvaliacoes'])){
-                $dataCriacaoQuizzDescendente[$i]['mediaAvaliacoes']= 0;
+
+            if($pontuacaoUtilizadorAtual['pontuacao'] >= 700){
+                $novaPontuacaoUtilizador = 700;
             }
 
-            $i +=1;
+            $sql = 'UPDATE utilizadores SET pontuacao = :pontuacao WHERE Id_utilizador = :Id_utilizador';
+            $stmt = $conexao->runQuery($sql);
+            $stmt->bindParam(':Id_utilizador', $Id_utilizador, PDO::PARAM_INT);
+            $stmt->bindParam(':pontuacao', $novaPontuacaoUtilizador);
+            $execute = $stmt->execute();
+
+            $sql = 'UPDATE quizzes_respondidos SET valorAdquirido = :valorAdquirido WHERE Id_utilizador = :Id_utilizador AND Id_quizz = :Id_quizz';
+            $stmt = $conexao->runQuery($sql);
+            $stmt->bindParam(':Id_utilizador', $Id_utilizador, PDO::PARAM_INT);
+            $stmt->bindParam(':Id_quizz', $Id_quizz, PDO::PARAM_INT);
+            $stmt->bindParam(':valorAdquirido', $valorAGuardar);
+            $execute = $stmt->execute();
+
+        }
+    }
+
+    function PesquisarQuizzes($Id_utilizador, $textoAPesquisar, $tipoPesquisa){
+        $conexao = new Conexao();
+        $adicionarDadosExtra= 0;
+
+        switch ($tipoPesquisa) {
+            case 'TodosOsQuizzes':
+                $stmt = $conexao->runQuery("SELECT Id_quizz, Id_utilizador, dificuldade, nomeQuizz, imagem  FROM quizzes WHERE dificuldade != :dificuldade AND  dificuldade != :temporarioAdmin AND nomeQuizz LIKE :nomeQuizz");
+                $stmt->execute(array(':dificuldade' => "temporario", ':temporarioAdmin' => "temporarioAdmin", ':nomeQuizz' => "%".$textoAPesquisar."%"));
+                $dataQuizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $adicionarDadosExtra= 1;
+            break;
+
+            case 'quizzesCriados':
+                $stmt = $conexao->runQuery("SELECT Id_quizz, Id_utilizador, dificuldade, nomeQuizz, imagem  FROM quizzes WHERE dificuldade != :dificuldade AND  dificuldade != :temporarioAdmin AND  Id_utilizador = :Id_utilizador");
+                $stmt->execute(array(':dificuldade' => "temporario", ':temporarioAdmin' => "temporarioAdmin", ':Id_utilizador' => $Id_utilizador));
+                $dataQuizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $adicionarDadosExtra= 1;
+            break;
+
+            case 'quizzesRealizados':
+                $stmt = $conexao->runQuery("SELECT  quizzes.Id_quizz, quizzes.Id_utilizador, dificuldade, nomeQuizz, imagem, quizzes_respondidos.valorAdquirido FROM quizzes INNER JOIN quizzes_respondidos ON (quizzes.Id_quizz= quizzes_respondidos.Id_quizz) WHERE dificuldade != :dificuldade AND  dificuldade != :temporarioAdmin AND  quizzes_respondidos.Id_utilizador = :Id_utilizador");
+                $stmt->execute(array(':dificuldade' => "temporario", ':temporarioAdmin' => "temporarioAdmin", ':Id_utilizador' => $Id_utilizador));
+                $dataQuizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $adicionarDadosExtra= 1;
+            break;
+
+            case 'quizzesAvaliados':
+                $stmt = $conexao->runQuery("SELECT  quizzes.Id_quizz, nomeQuizz, imagem, dificuldade, COUNT(avaliacao.Id_avaliacao) as numAvaliacoes, ROUND(AVG(avaliacao.nota),2) as mediaAvaliacoes FROM quizzes INNER JOIN avaliacao ON (quizzes.Id_quizz= avaliacao.Id_quizz) WHERE dificuldade != :dificuldade AND  dificuldade != :temporarioAdmin AND  avaliacao.Id_utilizador = :Id_utilizador GROUP BY  quizzes.Id_quizz
+                ORDER BY COUNT(avaliacao.Id_avaliacao) DESC");
+                $stmt->execute(array(':dificuldade' => "temporario", ':temporarioAdmin' => "temporarioAdmin", ':Id_utilizador' => $Id_utilizador));
+                $dataQuizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            break;
+            
+            default:
+                # code...
+                break;
         }
 
-        return  $dataCriacaoQuizzDescendente;
+        if($adicionarDadosExtra == 1){
+
+            $dataCriacaoQuizzDescendente = array();
+            $i=0;
+
+            foreach ($dataQuizzes as $dataQuizzesTamanho) {
+
+                $caminhoImagem= '../BaseDados/Utilizadores/Utilizador_'.$dataQuizzesTamanho['Id_utilizador'].'/Quizzes/Quizz'.$dataQuizzesTamanho['Id_quizz'].'/ImagemQuizzTemporaria';
+
+                $stmt = $conexao->runQuery("SELECT  COUNT(avaliacao.Id_avaliacao) as numAvaliacoes, ROUND(AVG(avaliacao.nota),2) as mediaAvaliacoes FROM quizzes INNER JOIN avaliacao ON (quizzes.Id_quizz= avaliacao.Id_quizz) WHERE avaliacao.Id_quizz= :Id_quizz");
+                $stmt->execute(array(':Id_quizz' => $dataQuizzesTamanho['Id_quizz']));
+                $dataCriacaoQuizzDescendente[$i] = $stmt->fetch(PDO::FETCH_ASSOC);      //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50"}
+                $dataCriacaoQuizzDescendente[$i]['nomeQuizz']= $dataQuizzesTamanho['nomeQuizz'];    //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50","nomeQuizz":"Nascimento de Jesus"}
+                $dataCriacaoQuizzDescendente[$i]['imagem']= $dataQuizzesTamanho['imagem'];      //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50","nomeQuizz":"Nascimento de Jesus","imagem":"/imagem.png"}
+                $dataCriacaoQuizzDescendente[$i]['dificuldade']= $dataQuizzesTamanho['dificuldade'];      //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50","nomeQuizz":"Nascimento de Jesus","imagem":"/imagem.png","escolaridade":"1ºano"}
+                $dataCriacaoQuizzDescendente[$i]['Id_quizz']= $dataQuizzesTamanho['Id_quizz'];      //Exemplo de output : {"numAvaliacoes":"2","mediaAvaliacoes":"4.50","nomeQuizz":"Nascimento de Jesus","imagem":"/imagem.png","escolaridade":"1ºano","Id_quizz":"24"}
+                if ($tipoPesquisa == "quizzesRealizados") {
+                    $dataCriacaoQuizzDescendente[$i]['valorAdquirido']= $dataQuizzesTamanho['valorAdquirido'];
+                }
+
+                if(empty($dataCriacaoQuizzDescendente[$i]['numAvaliacoes'])){
+                    $dataCriacaoQuizzDescendente[$i]['numAvaliacoes']= 0;
+                }
+
+                if(empty($dataCriacaoQuizzDescendente[$i]['mediaAvaliacoes'])){
+                    $dataCriacaoQuizzDescendente[$i]['mediaAvaliacoes']= 0;
+                }
+
+                $i +=1;
+            }
+            return  $dataCriacaoQuizzDescendente;
+
+        }else{
+            return  $dataQuizzes;
+        }
     }
+
+    function GuardarDadosAvaliacao($Id_utilizador, $Id_quizz, $textoAvaliacao, $notaAvaliacao){
+        $conexao = new Conexao();
+        
+        if (empty($textoAvaliacao) ) {
+            return "textoVazio";
+        }
+        if (empty($notaAvaliacao) ) {
+            return "notaVazia";
+        }
+
+        $stmt = $conexao->runQuery('SELECT `Id_avaliacao` FROM avaliacao WHERE Id_utilizador = :Id_utilizador AND Id_quizz = :Id_quizz');
+        $stmt->execute(array(':Id_utilizador' => $Id_utilizador,':Id_quizz' => $Id_quizz));
+        $dadosAvaliacao = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if(empty($dadosAvaliacao)){
+            $stmt = $conexao->runQuery('INSERT INTO avaliacao (Id_utilizador, Id_quizz, textoAvaliacao, nota) VALUES (:Id_utilizador, :Id_quizz, :textoAvaliacao, :notaAvaliacao)');
+            $stmt-> execute(array(':Id_utilizador' => $Id_utilizador, ':Id_quizz' => $Id_quizz, ':textoAvaliacao' => $textoAvaliacao, ':notaAvaliacao' => $notaAvaliacao));
+        }else{
+            $sql = 'UPDATE avaliacao SET textoAvaliacao = :textoAvaliacao, nota = :notaAvaliacao WHERE Id_utilizador = :Id_utilizador AND Id_quizz = :Id_quizz';
+            $stmt = $conexao->runQuery($sql);
+            $stmt->bindParam(':Id_utilizador', $Id_utilizador, PDO::PARAM_INT);
+            $stmt->bindParam(':Id_quizz', $Id_quizz, PDO::PARAM_INT);
+            $stmt->bindParam(':textoAvaliacao', $textoAvaliacao);
+            $stmt->bindParam(':notaAvaliacao', $notaAvaliacao);
+            $execute = $stmt->execute();
+        }
+
+        return "dadosGuardadosComSucesso";
+    }
+
 }

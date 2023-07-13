@@ -3,6 +3,7 @@
 <head>
     <title>Language Quizz- Jogar Quizz</title>
     <meta charset="utf-8" http-equiv="pt-pt" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -38,12 +39,12 @@ include "menuFooter/menu.php";
         </div>
     </div>
 
-    <!-- O que aparece quando o Tipo da questão é; mostrar resposta, não mostrar resposta ou enquete -->
+    <!-- O que aparece quando o Tipo da questão é; selecionar resposta -->
     
     <center>
-        <div class="w3-light-grey">
+        <div id="progressbarNumeroRespostas" class="w3-light-grey">
            <div class="progress" style="height: 25px; width: 70%;">
-           <div class="progress-bar progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b id="resultadoProgresso">25%</b></div>
+           <div id="valorprogressBar" class="progress-bar progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><b id="resultadoProgresso"></b></div>
         </div>
     </center>
 
@@ -75,7 +76,7 @@ include "menuFooter/menu.php";
             </div>
     </div>
 
-    <!-- O que aparece quando o Tipo da questão é;  escrever resposta -->
+    <!-- O que aparece quando o Tipo da questão é;  texto livre -->
 
     <div id="escreverResposta">
         <div id="containerEscreverResposta" class="containerEscreverResposta container">

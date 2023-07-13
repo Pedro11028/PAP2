@@ -33,9 +33,8 @@ $(document).ready(function() {
                     document.getElementById('password').value = "";
                     document.getElementById('confirmarPass').value = "";
                 }
-
-                if (resposta == "true") {
-                    location.href="Logout.html";
+                if (resposta == "dadosEliminadosComSucesso") {
+                    window.location.href="sair.html";
                 }
 
                 }

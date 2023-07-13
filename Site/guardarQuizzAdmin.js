@@ -81,6 +81,7 @@ $(document).ready(function(){
         var formData = new FormData(this);
         formData.append('accao', "mostrarImg");
         formData.append('Id_utilizador', Id_utilizador);
+        formData.append('tipoTemporario', tipoTemporario);
 
         $.ajax({
             method:"POST",
@@ -114,7 +115,8 @@ $(document).ready(function(){
             data:{
                 accao:"guardarImg",
                 Id_utilizador:Id_utilizador,
-                imagem:imagem
+                imagem:imagem,
+                tipoTemporario:tipoTemporario
             },
             cache: false,
             success: function(resposta) {

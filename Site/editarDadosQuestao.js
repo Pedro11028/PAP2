@@ -14,12 +14,27 @@ $(document).ready(function(){
     //Embora o botão tenha o id "menuAdicionarQuestao" nesta página ele servirá para eliminar a mesma
     document.getElementById("menuAdicionarQuestao").style.display="inline";
     document.getElementById("menuAdicionarQuestao").innerHTML="Remover Questão <i class='fa-solid fa-right-from-bracket'></i>";
-    document.getElementById("menuAdicionarQuestao").style.position= "absolute";
-    document.getElementById("menuAdicionarQuestao").style.right= "190px";
+
     
     document.getElementById("logotipoSite").innerHTML="";
     document.getElementById("eliminarResposta1").style.display = "none";
-   
+    
+    function tamanhoDaJanela(media) {
+        if (media.matches) {
+            document.getElementById("menuAdicionarQuestao").style.position= "relative";
+            document.getElementById("menuAdicionarQuestao").style.right= "0px";
+            document.getElementById("menuCancelarQuestao").className = 'btn btn-secondary my-2 my-sm-0 ';
+
+        } else {
+            document.getElementById("menuAdicionarQuestao").style.position= "absolute";
+            document.getElementById("menuAdicionarQuestao").style.right= "190px";
+        }
+    }
+      
+    const media = window.matchMedia("(max-width: 700px)");
+    tamanhoDaJanela(media);
+    media.addListener(tamanhoDaJanela);
+
     // obter o Tipo de questão e com isso determinar o formato da página
     const Id_questao = getIdquestaoCookie();
     const Id_utilizador = localStorage.getItem("Id_utilizador");
@@ -53,7 +68,7 @@ $(document).ready(function(){
     });
 
     function descobrirTipoquestao(dadosQuestao){
-        if(dadosQuestao['dadosQuestao']['tipoQuestao'] == 'escreverResposta'){
+        if(dadosQuestao['dadosQuestao']['tipoQuestao'] == 'textoLivre'){
             document.getElementById("selecionarResposta").remove();
             inserirDadosDoTipoEscreverResposta(dadosQuestao);
         }else{
@@ -201,32 +216,34 @@ $(document).ready(function(){
 
     
     $("#menuAdicionarQuestao").click(function() {
-        var imagem= document.getElementById("imagemQuestao").src;
-        caminhoDiretorio= imagem.substr(0, imagem.lastIndexOf("/"));
-        const tipoTemporario= "temporario";
+        if (window.confirm("Tens a certesa que queres eliminar a questão atual?")) {
+            var imagem= document.getElementById("imagemQuestao").src;
+            caminhoDiretorio= imagem.substr(0, imagem.lastIndexOf("/"));
+            const tipoTemporario= "temporario";
 
-        $.ajax({
-            type:"POST",
-            url: "../API/eliminarQuestaoApi.php",
-            data:{
-                accao:"eliminarQuestao",
-                Id_utilizador:Id_utilizador,
-                Id_questao:Id_questao,
-                imagem:imagem,
-                caminhoDiretorio:caminhoDiretorio,
-                tipoTemporario:tipoTemporario
-            },
-            cache: false,
-            dataType: 'json',
-            success: function(resposta) {
-                if(resposta == 'dadosEliminadosComSucesso'){
-                    location.href="editarDadosQuizz.php";
+            $.ajax({
+                type:"POST",
+                url: "../API/eliminarQuestaoApi.php",
+                data:{
+                    accao:"eliminarQuestao",
+                    Id_utilizador:Id_utilizador,
+                    Id_questao:Id_questao,
+                    imagem:imagem,
+                    caminhoDiretorio:caminhoDiretorio,
+                    tipoTemporario:tipoTemporario
+                },
+                cache: false,
+                dataType: 'json',
+                success: function(resposta) {
+                    if(resposta == 'dadosEliminadosComSucesso'){
+                        location.href="editarDadosQuizz.php";
+                    }
+                    if(resposta == 'quizzNaoExiste'){
+                        location.href="index.php";
+                    }
                 }
-                if(resposta == 'quizzNaoExiste'){
-                    location.href="index.php";
-                }
-            }
-        });
+            });
+        }
         return false;
     });
 
@@ -243,7 +260,7 @@ $(document).ready(function(){
         ordemGuardarDados = 0;
         respostasCorretas = [];
 
-        if(tipoQuestao === "escreverResposta"){
+        if(tipoQuestao === "textoLivre"){
             for (let i = 1; i <= 15; i++) {
                 if(document.getElementById("digitarResposta"+i)){
                     respostasCorretas[ordemGuardarDados]= 'true';
@@ -348,7 +365,7 @@ function eliminarImagemQuestao(){
         },
         error: function (xhr, ajaxOptions, thrownError) {
           toastr.warning('Parece ter ocorrido um erro com a ligação á base de dados!', 'Woops!!!');
-      }
+        }
     });
 }
 

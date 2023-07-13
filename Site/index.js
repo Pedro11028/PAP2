@@ -1,10 +1,34 @@
 $(document).ready(function(){
    
     const permissao= localStorage.getItem("permissaoUtilizador");
-    
+
     if(permissao == "admin"){
-        document.getElementById("linkPermissao").href= "painelAdminUtilizadores.php";
-        document.getElementById("linkPermissao").innerHTML= "Painel Admin";
+        const tipoTemporario= "temporarioAdmin";
+
+        $.ajax({
+            type:"POST",
+            url: "../API/verificarJaCriouQuizzTempApi.php",
+            data:{
+                accao:"verificarExistenciaQuizzAdmin",
+                tipoTemporario:tipoTemporario
+            },
+            cache: false,
+            dataType: 'json',
+            success: function(resposta) {
+                if(resposta == 'existe'){
+                    document.getElementById("linkPermissao").href= "painelAdminUtilizadores.php";
+                    document.getElementById("linkPermissao").innerHTML= "Painel Admin <i class='fa-solid fa-exclamation' style='color: #ff0000;'></i>";
+                }else{
+                    document.getElementById("linkPermissao").href= "painelAdminUtilizadores.php";
+                    document.getElementById("linkPermissao").innerHTML= "Painel Admin";
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                toastr.warning('Parece ter ocorrido um erro com a ligação á base de dados!', 'Woops!!!');
+            }
+        });
+
+
     }
     
     $.ajax({

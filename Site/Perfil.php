@@ -74,21 +74,21 @@ include "menuFooter/menu.php";
         </div>
         <div class="row py-2">
             <div class="container">
-               <a href="quizzesCriados.php"><span class="label label-info">Quizzes Criados</span></a>
+               <a onclick="definirTipoPesquisa('quizzesCriados')" href="javascript:void(0);"><span class="label label-info">Quizzes Criados</span></a>
                 <br>
                 <label id="quizzesCriados"></label>
             </div>
         </div> 
         <div class="row py-2">
             <div class="container">
-                <span class="label label-info">Quizzes Realizados</span>
+            <a onclick="definirTipoPesquisa('quizzesRealizados')" href="javascript:void(0);"><span class="label label-info">Quizzes Realizados</span></a>
                 <br>
                 <label id="quizzesRealizados"></label>
             </div>
         </div>
         <div id="separarInformacoesUtilizadorDeLinks" class="row py-2 border-bottom">
             <div class="container">
-                <span class="label label-info">Quizzes Avaliados</span>
+            <a onclick="definirTipoPesquisa('quizzesAvaliados')" href="javascript:void(0);"><span class="label label-info">Quizzes Avaliados</span></a>
                 <br>
                 <label id="avaliacoesFeitas"></label>
             </div>
@@ -100,7 +100,7 @@ include "menuFooter/menu.php";
                 <a class="outUtilizador" href="eliminarConta.html"> <i class="fa-solid fa-trash"></i> Excluir conta </a>
             </div>
             <div class="py-1">
-                <a class="outUtilizador" href="Logout.html"> <i class="fa-solid fa-arrow-right-from-bracket"></i> Sair </a>
+                <a class="outUtilizador" href="sair.html"> <i class="fa-solid fa-arrow-right-from-bracket"></i> Sair </a>
             </div>
 
             

@@ -4,7 +4,7 @@ $(document).ready(function(){
         const Id_utilizador = localStorage.getItem("Id_utilizador");
         const tipoTemporario = "temporario";
 
-        //Verificar se é a primeira questão
+        //Verificar se já existe uma questão a ser editada
         $.ajax({
             type:"POST",
             url: "../API/verificarJaCriouQuizzTempApi.php",
