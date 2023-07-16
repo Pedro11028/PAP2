@@ -37,6 +37,21 @@ class Utilizador {
         }
     }
 
+    function AlterarDadosUtilizador($Id_utilizador,$nomeCompleto,$nomeUnico,$imagem,$pontuacao,$permissao){
+        $conexao = new Conexao();
+        
+        $sql = 'UPDATE utilizadores SET nomeCompleto = :nomeCompleto, nomeUnico = :nomeUnico, pontuacao = :pontuacao, permissao = :permissao WHERE Id_utilizador = :Id_utilizador';
+        $stmt = $conexao->runQuery($sql);    
+        $stmt->bindParam(':Id_utilizador', $Id_utilizador, PDO::PARAM_INT);
+        $stmt->bindParam(':nomeCompleto', $nomeCompleto);
+        $stmt->bindParam(':nomeUnico', $nomeUnico);
+        $stmt->bindParam(':pontuacao', $pontuacao);
+        $stmt->bindParam(':permissao', $permissao);
+        $execute = $stmt->execute();
+        
+        return "dadosGuardadosComSucesso";
+    }
+
     function Guardar($nomeCompleto, $nomeUnico, $email, $password){
         $false = array(0 => "false");
         $erroConexao = array(0 => "erro na conexao com a base de dados");
@@ -138,7 +153,6 @@ class Utilizador {
             if (file_exists($caminhoImagensQuestoes)) {
                 rmdir($caminhoImagensQuestoes);
             }
-        
 
             $sql = 'DELETE FROM questoes WHERE Id_quizz = :Id_quizz';
             $stmt= $conexao->runQuery($sql);
@@ -150,16 +164,30 @@ class Utilizador {
             $stmt->bindParam(':Id_quizz', $dadosDataQuizzes['Id_quizz']);
             $stmt->execute();
 
-            $sql = 'DELETE FROM quizzes_respondidos WHERE Id_quizz = :Id_quizz';
-            $stmt= $conexao->runQuery($sql);
-            $stmt->bindParam(':Id_quizz', $dadosDataQuizzes['Id_quizz']);
-            $stmt->execute();
-
             $sql = 'DELETE FROM quizzes WHERE Id_quizz = :Id_quizz';
             $stmt= $conexao->runQuery($sql);
             $stmt->bindParam(':Id_quizz', $dadosDataQuizzes['Id_quizz']);
             $stmt->execute();
         }
+
+            $liminarPastaQuizzes= '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/Quizzes';
+            $liminarPastaImagemTemporaria= '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador.'/ImagemTemporaria';
+            $liminarPastaUtilizadores= '../BaseDados/Utilizadores/Utilizador_'.$Id_utilizador;
+
+            if (file_exists($liminarPastaQuizzes)) {
+                rmdir($liminarPastaQuizzes);
+            }
+            if (file_exists($liminarPastaImagemTemporaria)) {
+                rmdir($liminarPastaImagemTemporaria);
+            }
+            if (file_exists($liminarPastaUtilizadores)) {
+                rmdir($liminarPastaUtilizadores);
+            }
+            
+            $sql = 'DELETE FROM quizzes_respondidos WHERE Id_utilizador = :Id_utilizador';
+            $stmt= $conexao->runQuery($sql);
+            $stmt->bindParam(':Id_utilizador', $Id_utilizador);
+            $stmt->execute();
 
             $sql = 'DELETE FROM utilizadores WHERE Id_utilizador = :Id_utilizador';
             $stmt= $conexao->runQuery($sql);

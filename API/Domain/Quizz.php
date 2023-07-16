@@ -204,20 +204,12 @@ class Quizz {
             $dataRespostas[$i] = $stmt->fetch(PDO::FETCH_ASSOC);
 
             switch ($dadosDataQuestoes['tipoQuestao']) {
-                case 'mostrarAcerto':
-                    $dataQuestoes[$i]['tipoQuestao']= 'Mostrar resposta';
-                    break;
-                
-                case 'naoMostrarAcerto':
-                    $dataQuestoes[$i]['tipoQuestao']= 'Não mostrar acerto';
+                case 'selecionarResposta':
+                    $dataQuestoes[$i]['tipoQuestao']= 'Selecionar Resposta';
                     break;
 
                 case 'textoLivre':
                     $dataQuestoes[$i]['tipoQuestao']= 'Texto Livre';
-                    break;
-
-                case 'enquete':
-                    $dataQuestoes[$i]['tipoQuestao']= 'Enquete';
                     break;
             }
 
@@ -264,20 +256,12 @@ class Quizz {
             $dataRespostas[$i] = $stmt->fetch(PDO::FETCH_ASSOC);
 
             switch ($dadosDataQuestoes['tipoQuestao']) {
-                case 'mostrarAcerto':
-                    $dataQuestoes[$i]['tipoQuestao']= 'Mostrar resposta';
-                    break;
-                
-                case 'naoMostrarAcerto':
-                    $dataQuestoes[$i]['tipoQuestao']= 'Não mostrar acerto';
+                case 'selecionarResposta':
+                    $dataQuestoes[$i]['tipoQuestao']= 'Selecionar Resposta';
                     break;
 
                 case 'textoLivre':
                     $dataQuestoes[$i]['tipoQuestao']= 'Texto Livre';
-                    break;
-
-                case 'enquete':
-                    $dataQuestoes[$i]['tipoQuestao']= 'Enquete';
                     break;
             }
 
@@ -547,24 +531,6 @@ class Quizz {
         return $dataRespostas;
     }
 
-    function AlterarDadosUtilizador($Id_utilizador,$nomeCompleto,$nomeUnico,$email,$password,$Imagem,$pontuacao,$permissao){
-        $conexao = new Conexao();
-        
-        $sql = 'UPDATE utilizadores SET nomeCompleto = :nomeCompleto, nomeUnico = :nomeUnico, email = :email, password = :password, Imagem = :Imagem, pontuacao = :pontuacao, permissao = :permissao WHERE Id_utilizador = :Id_utilizador';
-        $stmt = $conexao->runQuery($sql);    
-        $stmt->bindParam(':Id_utilizador', $Id_utilizador, PDO::PARAM_INT);
-        $stmt->bindParam(':nomeCompleto', $nomeCompleto);
-        $stmt->bindParam(':nomeUnico', $nomeUnico);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':password', $password);
-        $stmt->bindParam(':Imagem', $Imagem);
-        $stmt->bindParam(':pontuacao', $pontuacao);
-        $stmt->bindParam(':permissao', $permissao);
-        $execute = $stmt->execute();
-        
-        return "dadosGuardadosComSucesso";
-    }
-
     function EliminarQuestao($Id_utilizador, $Id_questao, $imagem, $caminhoDiretorio, $tipoTemporario){
         $conexao = new Conexao();
         
@@ -711,6 +677,11 @@ class Quizz {
         $stmt->execute();
 
         $sql = 'DELETE FROM avaliacao WHERE Id_quizz = :Id_quizz';
+        $stmt= $conexao->runQuery($sql);
+        $stmt->bindParam(':Id_quizz', $dataQuizzes['Id_quizz']);
+        $stmt->execute();
+
+        $sql = 'DELETE FROM quizzes_respondidos WHERE Id_quizz = :Id_quizz';
         $stmt= $conexao->runQuery($sql);
         $stmt->bindParam(':Id_quizz', $dataQuizzes['Id_quizz']);
         $stmt->execute();
@@ -943,7 +914,7 @@ class Quizz {
         $stmt->execute(array(':Id_quizz' => $Id_quizz, ':Id_utilizador' => $Id_utilizador));
         $dadosAvaliacaoUtilizador = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $stmt = $conexao->runQuery('SELECT utilizadores.nomeUnico, utilizadores.imagemPerfil, utilizadores.Id_utilizador FROM quizzes INNER JOIN utilizadores ON (quizzes.Id_utilizador= utilizadores.Id_utilizador) WHERE quizzes.Id_quizz= :Id_quizz');
+        $stmt = $conexao->runQuery('SELECT utilizadores.nomeUnico, utilizadores.imagemPerfil, utilizadores.Id_utilizador, permissao FROM quizzes INNER JOIN utilizadores ON (quizzes.Id_utilizador= utilizadores.Id_utilizador) WHERE quizzes.Id_quizz= :Id_quizz');
         $stmt->execute(array(':Id_quizz' => $Id_quizz));
         $dadosCriadorQuizz = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -1047,6 +1018,12 @@ class Quizz {
         if(empty($verificarQuizzResolvido)){
             $stmt = $conexao->runQuery('INSERT INTO quizzes_respondidos (Id_utilizador, Id_quizz, valorAdquirido) VALUES (:Id_utilizador, :Id_quizz, :valorAdquirido)');
             $stmt-> execute(array(':Id_utilizador' => $Id_utilizador, ':Id_quizz' => $Id_quizz, ':valorAdquirido' => $totalPontosAcumulados));
+
+            $sql = 'UPDATE utilizadores SET pontuacao = :pontuacao WHERE Id_utilizador = :Id_utilizador';
+            $stmt = $conexao->runQuery($sql);
+            $stmt->bindParam(':Id_utilizador', $Id_utilizador, PDO::PARAM_INT);
+            $stmt->bindParam(':pontuacao', $totalPontosAcumulados);
+            $execute = $stmt->execute();
         }else{
             $valorAGuardar = $verificarQuizzResolvido['valorAdquirido'] + $totalPontosAcumulados;
             
@@ -1078,6 +1055,7 @@ class Quizz {
             $execute = $stmt->execute();
 
         }
+        return $totalPontosAcumulados;
     }
 
     function PesquisarQuizzes($Id_utilizador, $textoAPesquisar, $tipoPesquisa){

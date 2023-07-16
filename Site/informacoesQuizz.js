@@ -36,7 +36,7 @@ $(document).ready(function(){
         }
 
 
-        if(localStorage.getItem("permissaoUtilizador") != "admin"){
+        if(localStorage.getItem("permissaoUtilizador") != "admin" || dadosCriadorQuizz['permissao'] == "admin"){
             document.getElementById('editarComoAdmin').remove();
         }else{
             document.getElementById('editarComoAdmin').innerHTML= "<b>Editar como Administrador</b>";
@@ -196,6 +196,7 @@ function prepararQuizzParaEdicao(permissao){
             cache: false,
             dataType: 'json',
             success: function(resposta){
+                    localStorage.setItem("Id_utilizadorAEditarQuizzAdmin", localStorage.getItem("Id_criadorQuizz"));   
                     window.location.href= "editarDadosQuizzAdmin.php";
             },
             error: function (xhr, ajaxOptions, thrownError) {
@@ -203,8 +204,6 @@ function prepararQuizzParaEdicao(permissao){
             }
         });
 
-        localStorage.setItem("Id_utilizadorAEditarQuizzAdmin", localStorage.getItem("Id_criadorQuizz"));
-        window.location.href="";
     }else{
         $.ajax({
             type:"POST",
@@ -223,7 +222,6 @@ function prepararQuizzParaEdicao(permissao){
             }
         });
     }
-    return false;
 }
 
 function iniciarJogoQuizz(){
@@ -243,7 +241,7 @@ function iniciarJogoQuizz(){
             cache: false,
             dataType: 'json',
             success: function(resposta){
-                const pontosPorQuestao = 100/parseInt(resposta['numeroQuestoes']);
+                const pontosPorQuestao = 100 / parseInt(resposta['numeroQuestoes']);
 
                 localStorage.setItem("dadosQuestoesDoQuizz", JSON.stringify(resposta['dadosQuestoes']));
                 localStorage.setItem("numeroQuestoes", resposta['numeroQuestoes']);

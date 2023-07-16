@@ -18,6 +18,10 @@ $(document).ready(function(){
     
     document.getElementById("logotipoSite").innerHTML="";
     
+    document.getElementById("email").disabled = true;
+    document.getElementById("password").disabled = true;
+
+
     const Id_utilizador= localStorage.getItem('Id_utilizadorAVerificarPeloAdmin');
     
     $.ajax({
@@ -73,8 +77,6 @@ $(document).ready(function(){
         const Id_utilizador = document.getElementById('Id_utilizador').value;
         const nomeCompleto = document.getElementById('nomeCompleto').value;
         const nomeUnico = document.getElementById('nomeUnico').value;
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
         const Imagem = document.getElementById('Imagem').value;
         const pontuacao = document.getElementById('pontuacao').value;
         const permissao = document.getElementById('permissao').value;
@@ -98,7 +100,7 @@ $(document).ready(function(){
                 dataType: 'json',
                 success: function(resposta) {
                     if(resposta == "dadosGuardadosComSucesso"){
-                        toastr.warning('Dados guardados com sucesso!', 'Woops!!!');
+                        toastr.success('Dados guardados com sucesso!', 'Sucesso!!!');
                     }
                 },
                 error: function (xhr, ajaxOptions, thrownError) {

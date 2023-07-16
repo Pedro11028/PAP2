@@ -111,7 +111,7 @@ $(document).ready(function(){
 
         totalDeVezesRespondidas = 0;
         for (let i = 0; i < dadosQuestao['dadosRespostas'].length; i++) {
-            totalDeVezesRespondidas += dadosQuestao['dadosRespostas'][i]['vezesSelecionada'];
+            totalDeVezesRespondidas += parseInt(dadosQuestao['dadosRespostas'][i]['vezesSelecionada']);
             
         }
         console.log(totalDeVezesRespondidas);
@@ -156,7 +156,7 @@ function confirmarEscolhaSelecionada(numeroQuestao){
     const mostrarPercentagemEscolhas = localStorage.getItem('mostrarPercentagemEscolhas');
     const mostrarRespostaCorreta = localStorage.getItem('mostrarRespostaCorreta');
 
-    var vezesQueARespostaFoiSelecionada = dadosRespostas[numeroQuestao]['vezesSelecionada']+1;
+    localStorage.setItem('vezesQueARespostaFoiSelecionada', dadosRespostas[numeroQuestao]['vezesSelecionada']);
     
         $.ajax({
             type:"POST",
@@ -164,21 +164,24 @@ function confirmarEscolhaSelecionada(numeroQuestao){
             data:{
                 accao:"guardarNumeroRespostasDadas",
                 Id_resposta:Id_resposta,
-                vezesQueARespostaFoiSelecionada:vezesQueARespostaFoiSelecionada
+                vezesQueARespostaFoiSelecionada:localStorage.getItem('vezesQueARespostaFoiSelecionada')
             },
             cache: false,
             dataType: 'json',
             success: function(resposta) {
-                vezesQueARespostaFoiSelecionada += 1;
             }
         });
 
     if(mostrarPercentagemEscolhas == "sim"){
         document.getElementById("progressbarNumeroRespostas").style.display = "inline";
         
-        const totalDeVezesRespondidas = localStorage.getItem('totalDeVezesRespondidas');
-        const percentagemNumeroRespostas= (vezesQueARespostaFoiSelecionada / totalDeVezesRespondidas) * 100;
-        
+        const totalDeVezesRespondidas = parseInt(localStorage.getItem('totalDeVezesRespondidas')) + 1;
+        const vezesQueARespostaFoiSelecionada = parseInt(localStorage.getItem('vezesQueARespostaFoiSelecionada')) + 1;
+        const percentagemNumeroRespostas= ((parseInt(vezesQueARespostaFoiSelecionada)) / parseInt(totalDeVezesRespondidas)) * 100;
+        console.log(totalDeVezesRespondidas);
+        console.log(vezesQueARespostaFoiSelecionada);
+        console.log(percentagemNumeroRespostas);
+
         if(localStorage.getItem("totalDeVezesRespondidas") == '0') {
             document.getElementById("resultadoProgresso").innerHTML = "100%";
             $(".progress-bar").animate({
@@ -290,6 +293,9 @@ function confirmarProximasQuestoes(){
     const Id_utilizador= localStorage.getItem("Id_utilizador");
     const totalPontosAcumulados = localStorage.getItem("totalPontosAcumulados");
 
+    console.log('sdfsdf: '+totalPontosAcumulados);
+    console.log('sdfsdf: '+localStorage.getItem("pontosPorQuestao"));
+    
         $.ajax({
             type:"POST",
             url: "../API/obterDadosJogoQuizzApi.php",
@@ -302,7 +308,6 @@ function confirmarProximasQuestoes(){
             cache: false,
             dataType: 'json',
             success: function(resposta) {
-
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 toastr.warning('Parece ter ocorrido um erro com a ligação á base de dados!', 'Woops!!!');
