@@ -1,6 +1,10 @@
 $(document).ready(function(){
    
     const permissao= localStorage.getItem("permissaoUtilizador");
+    
+    if (document.cookie.indexOf('aceitarCookies') > -1 ) {
+        document.getElementById("containerAceitarCookies").remove();
+    }
 
     if(permissao == "admin"){
         const tipoTemporario= "temporarioAdmin";
@@ -94,9 +98,18 @@ $(document).ready(function(){
 
 });
 
+function aceitarCookies(){
+    var hoje = new Date();
+    var tempo = hoje.getTime();
+    var expirarCookie = tempo + 3600000*24*15;       
+    hoje.setTime(expirarCookie);
+  
+    document.cookie = "aceitarCookies= true"+';expires='+hoje.toUTCString()+"; secure=true"+';path=/';
+    window.location.reload();
+}
+
 function abrirQuizz(Id_quizz){
 
     localStorage.setItem("Id_quizzAJogar", Id_quizz);
-
     location.href= "informacoesQuizz.php";
 }

@@ -44,19 +44,18 @@ include "menuFooter/menu.php";
 	</div>
 </div>
 
-<!-- 
-<div class="d-flex container mt-5 fixed-bottom">
-        <div class="row">
-            <div class="col-md-10">
-                <div class="d-flex flex-row justify-content-between align-items-center card cookie p-3 border border-primary">
-                    <div class="d-flex flex-row align-items-center"><img src="https://i.imgur.com/Tl8ZBUe.png" width="40">
-                        <div class="ml-2 mr-2"><span>Nós usamos cookies para permitir com que o site funcione corretamente.<br></span></div>
-                    </div>
-                    <div><button class="btn btn-dark" type="button">Ok</button></div>
-                </div>
-            </div>
-        </div>
-    </div> -->
+<div id="containerAceitarCookies" class="d-flex container mt-5 fixed-bottom">
+	<div class="row">
+		<div class="col-md-10">
+			<div class="d-flex flex-row justify-content-between align-items-center card cookie p-3 border border-primary">
+				<div class="d-flex flex-row align-items-center"><img src="https://i.imgur.com/Tl8ZBUe.png" width="40">
+					<div class="ml-2 mr-2"><span>Nós usamos cookies para permitir com que o site funcione corretamente.<br></span></div>
+				</div>
+				<div><button class="btn btn-dark" type="button" onclick="aceitarCookies()">Ok</button></div>
+			</div>
+		</div>
+	</div>
+</div>
 
 <script  src="index.js"></script>
 <script  src="verificarCriacaoQuizz.js"></script>
